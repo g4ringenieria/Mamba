@@ -17,6 +17,11 @@ class ReportType
      */
     private $description;
     
+    function __construct($id=null) 
+    {
+        $this->id = $id;
+    }
+    
     public function getId ()
     {
         return $this->id;
@@ -35,6 +40,11 @@ class ReportType
     public function setDescription ($description)
     {
         $this->description = $description;
+    }
+    
+    public function __toString() 
+    {
+        return strval($this->description);
     }
 }
 

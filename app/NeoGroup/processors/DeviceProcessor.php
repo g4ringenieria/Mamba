@@ -4,6 +4,7 @@ namespace NeoGroup\processors;
 
 use Exception;
 use NeoGroup\models\Holder;
+use NeoGroup\models\PositionReport;
 use NeoGroup\models\Report;
 use NeoPHP\app\Processor;
 use NeoPHP\connection\Connection;
@@ -78,22 +79,27 @@ abstract class DeviceProcessor extends Processor implements ConnectionListener
         try 
         {
             $doReport = $database->getDataObject ("report");
+            $doReport->date = $report->getDate();
+            $doReport->inputDate = $report->getInputDate();
             $doReport->deviceid = $report->getDevice()->getId();
             if ($report->getHolder() != null)
                 $doReport->holderid = $report->getHolder()->getId();
-            $doReport->eventid = $report->getEvent()->getId();
-            $doReport->longitude = $report->getLongitude();
-            $doReport->latitude = $report->getLatitude();
-            $doReport->speed = $report->getSpeed();
-            $doReport->course = $report->getCourse();
-            $doReport->date = $report->getDate();
-            $doReport->inputDate = $report->getInputDate();
-            $location = $report->getLocation(); 
-            if (!empty($location))
-                $doReport->location = $location;
-            $doReport->odometer = $report->getOdometer();
-            $doReport->insert();
+            $doReport->reporttypeid = $report->getReportType()->getId();
             
+            if ($report instanceof PositionReport)
+            {
+                $doReport->reportclasstypeid = Report::CLASSTYPE_POSITION;
+                $doReport->longitude = $report->getLongitude();
+                $doReport->latitude = $report->getLatitude();
+                $doReport->speed = $report->getSpeed();
+                $doReport->course = $report->getCourse();
+                $location = $report->getLocation(); 
+                if (!empty($location))
+                    $doReport->location = $location;
+                $doReport->odometer = $report->getOdometer();
+            }
+            
+            $doReport->insert();
             $reportId = intval($database->getLastInsertedId("report_reportid_seq"));
             if (empty($reportId))
                 throw new Exception ("Id for new report inserted could not be retrieved");

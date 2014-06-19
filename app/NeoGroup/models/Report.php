@@ -9,6 +9,8 @@ use NeoPHP\mvc\Model;
  */
 abstract class Report extends Model
 {
+    const CLASSTYPE_POSITION = 1;
+    
     /**
      * @Column (columnName="reportid", id=true)
      */
@@ -18,11 +20,6 @@ abstract class Report extends Model
      * @Column (columnName="reporttypeid", relatedTableName="reporttype")
      */
     private $reportType;
-    
-    /**
-     * @Column (columnName="reportclasstypeid", relatedTableName="reportclasstype")
-     */
-    private $reportClassType;
     
     /**
      * @Column (columnName="inputdate")
@@ -64,16 +61,6 @@ abstract class Report extends Model
         $this->reportType = $reportType;
     }
     
-    public function getReportClassType ()
-    {
-        return $this->reportClassType;
-    }
-
-    public function setReportClassType (ReportClassType $reportClassType)
-    {
-        $this->reportClassType = $reportClassType;
-    }
-
     public function getInputDate ()
     {
         return $this->inputDate;

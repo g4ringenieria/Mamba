@@ -3,10 +3,10 @@
 namespace NeoGroup\processors;
 
 use DateTime;
-use NeoPHP\connection\Connection;
 use NeoGroup\models\Device;
-use NeoGroup\models\Event;
-use NeoGroup\models\Report;
+use NeoGroup\models\PositionReport;
+use NeoGroup\models\ReportType;
+use NeoPHP\connection\Connection;
 
 class TT8750DeviceProcessor extends DeviceProcessor
 {
@@ -44,9 +44,9 @@ class TT8750DeviceProcessor extends DeviceProcessor
                     $date = new DateTime();
                     $date->setDate(ord($datagram{45})+2000, ord($datagram{46}), ord($datagram{47}));
                     $date->setTime(ord($datagram{48}), ord($datagram{49}), ord($datagram{50}));
-                    $report = new Report();
+                    $report = new PositionReport();
                     $report->setDevice(new Device($deviceId));
-                    $report->setEvent(new Event($eventId));
+                    $report->setReportType(new ReportType($eventId));
                     $report->setLongitude($longitude);
                     $report->setLatitude($latitude);
                     $report->setSpeed($speed);
@@ -79,9 +79,9 @@ class TT8750DeviceProcessor extends DeviceProcessor
                 $date = new DateTime();
                 $date->setDate(ord($datagram{45})+2000, ord($datagram{46}), ord($datagram{47}));
                 $date->setTime(ord($datagram{48}), ord($datagram{49}), ord($datagram{50}));
-                $report = new Report();
+                $report = new PositionReport();
                 $report->setDevice(new Device($deviceId));
-                $report->setEvent(new Event($eventId));
+                $report->setReportType(new ReportType($eventId));
                 $report->setLongitude($longitude);
                 $report->setLatitude($latitude);
                 $report->setSpeed($speed);
