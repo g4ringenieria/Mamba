@@ -3,11 +3,11 @@
 namespace NeoGroup\processors;
 
 use Exception;
+use NeoGroup\models\Holder;
+use NeoGroup\models\Report;
 use NeoPHP\app\Processor;
 use NeoPHP\connection\Connection;
 use NeoPHP\connection\ConnectionListener;
-use NeoGroup\models\Holder;
-use NeoGroup\models\Report;
 
 abstract class DeviceProcessor extends Processor implements ConnectionListener
 {
