@@ -12,12 +12,16 @@ class PortalController extends WebController
         return true;
     }
     
-    public function indexAction ($message=null)
+    public function indexAction ()
     {
-        $view = $this->createView('site/portal');
-        if (!empty($message))
-            $view->setMessage($message);
-        $view->render();
+        $this->createView('site/portal')->render();
+    }
+    
+    public function onActionError ($action, $error)
+    {
+        $errorView = $this->createView("site/error");
+        $errorView->setException ($error);
+        $errorView->render();
     }
 }
 
