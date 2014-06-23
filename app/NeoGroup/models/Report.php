@@ -53,7 +53,7 @@ abstract class Report extends Model
 
     public function getReportType ()
     {
-        return $this->event;
+        return $this->reportType;
     }
 
     public function setReportType (ReportType $reportType)
