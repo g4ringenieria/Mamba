@@ -15,6 +15,11 @@ class PositionReport extends Report
     private $longitude;
     
     /**
+     * @Column (columnName="altitude")
+     */
+    private $altitude;
+    
+    /**
      * @Column (columnName="location")
      */
     private $location;
@@ -52,6 +57,16 @@ class PositionReport extends Report
     public function setLongitude ($longitude)
     {
         $this->longitude = $longitude;
+    }
+    
+    public function getAltitude ()
+    {
+        return $this->altitude;
+    }
+    
+    public function setAltitude ($altitude)
+    {
+        $this->altitude = $altitude;
     }
 
     public function getLocation ()
