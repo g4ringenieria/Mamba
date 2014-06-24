@@ -89,11 +89,12 @@ abstract class DeviceProcessor extends Processor implements ConnectionListener
             if ($report instanceof PositionReport)
             {
                 $location = $report->getLocation(); 
+                $altitude = $report->getAltitude();
                 $doReport->reportclasstypeid = Report::CLASSTYPE_POSITION;
                 $deReport->data = array(
                     strval($report->getLongitude()), 
                     strval($report->getLatitude()), 
-                    strval($report->getAltitude()),
+                    (!empty($altitude))? strval($altitude) : "",
                     strval($report->getSpeed()),
                     strval($report->getCourse()),
                     (!empty($location))? strval($location) : "",

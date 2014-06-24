@@ -84,6 +84,7 @@ class TT8750DeviceProcessor extends DeviceProcessor
                 $report->setReportType(new ReportType($eventId));
                 $report->setLongitude($longitude);
                 $report->setLatitude($latitude);
+                $report->setAltitude($altitude);
                 $report->setSpeed($speed);
                 $report->setCourse($course);
                 $report->setDate($date);
