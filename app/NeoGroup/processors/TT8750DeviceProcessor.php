@@ -46,9 +46,10 @@ class TT8750DeviceProcessor extends DeviceProcessor
                     $date->setTime(ord($datagram{48}), ord($datagram{49}), ord($datagram{50}));
                     $report = new PositionReport();
                     $report->setDevice(new Device($deviceId));
-                    $report->setReportType(new ReportType($eventId));
+                    $report->setReportType(new ReportType($this->getReportTypeByEvent($eventId)));
                     $report->setLongitude($longitude);
                     $report->setLatitude($latitude);
+                    $report->setAltitude($altitude);
                     $report->setSpeed($speed);
                     $report->setCourse($course);
                     $report->setDate($date);
@@ -81,7 +82,7 @@ class TT8750DeviceProcessor extends DeviceProcessor
                 $date->setTime(ord($datagram{48}), ord($datagram{49}), ord($datagram{50}));
                 $report = new PositionReport();
                 $report->setDevice(new Device($deviceId));
-                $report->setReportType(new ReportType($eventId));
+                $report->setReportType(new ReportType($this->getReportTypeByEvent($eventId)));
                 $report->setLongitude($longitude);
                 $report->setLatitude($latitude);
                 $report->setAltitude($altitude);
@@ -115,6 +116,16 @@ class TT8750DeviceProcessor extends DeviceProcessor
         $minutes = floatval(substr($decimalCoordinate, -6)) / 10000;
         $coordinateDegrees = $degrees + ($minutes/60);
         return ($isNegative)? -$coordinateDegrees : $coordinateDegrees;
+    }
+    
+    private function getReportTypeByEvent ($eventId)
+    {
+        $reportType = 0;
+        switch ($eventId)
+        {
+            case 21: $reportType = ReportType::REPORTTYPE_TIMEREPORT; break;
+        }
+        return $reportType;
     }
 }
 

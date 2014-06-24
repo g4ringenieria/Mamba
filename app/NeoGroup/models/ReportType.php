@@ -7,6 +7,10 @@ namespace NeoGroup\models;
  */
 class ReportType
 {
+    const REPORTTYPE_POLL = 1;
+    const REPORTTYPE_TIMEREPORT = 2;
+    const REPORTTYPE_DISTANCEREPORT = 3;
+    
     /**
      * @Column (columnName="reporttypeid", id=true)
      */
