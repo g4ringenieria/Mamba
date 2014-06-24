@@ -104,7 +104,7 @@ abstract class DeviceProcessor extends Processor implements ConnectionListener
                 $doReport->holderid = $report->getHolder()->getId();
             $doReport->reporttypeid = $report->getReportType()->getId();
             $doReport->reportclasstypeid = $reportClassType;
-            $deReport->data = $reportData;
+            $doReport->data = $reportData;
             $doReport->insert();
             
             $reportId = intval($database->getLastInsertedId("report_reportid_seq"));
