@@ -5,37 +5,37 @@ namespace NeoGroup\models;
 class PositionReport extends Report
 {
     /**
-     * @Column (columnName="latitude")
+     * @Column (columnName="data", dataIndex=0)
      */
     private $latitude;
     
     /**
-     * @Column (columnName="longitude")
+     * @Column (columnName="data", dataIndex=1)
      */
     private $longitude;
     
     /**
-     * @Column (columnName="altitude")
+     * @Column (columnName="data", dataIndex=2)
      */
     private $altitude;
     
     /**
-     * @Column (columnName="location")
-     */
-    private $location;
-    
-    /**
-     * @Column (columnName="course")
-     */
-    private $course;
-    
-    /**
-     * @Column (columnName="speed")
+     * @Column (columnName="data", dataIndex=3)
      */
     private $speed;
     
     /**
-     * @Column (columnName="odometer")
+     * @Column (columnName="data", dataIndex=4)
+     */
+    private $course;
+    
+    /**
+     * @Column (columnName="data", dataIndex=5)
+     */
+    private $location;
+    
+    /**
+     * @Column (columnName="data", dataIndex=6)
      */
     private $odometer;
     

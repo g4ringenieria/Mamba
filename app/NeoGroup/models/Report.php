@@ -14,32 +14,32 @@ abstract class Report extends Model
     /**
      * @Column (columnName="reportid", id=true)
      */
-    private $id;
+    protected $id;
     
     /**
      * @Column (columnName="reporttypeid", relatedTableName="reporttype")
      */
-    private $reportType;
+    protected $reportType;
     
     /**
      * @Column (columnName="inputdate")
      */
-    private $inputDate;
+    protected $inputDate;
     
     /**
      * @Column (columnName="date")
      */
-    private $date;
+    protected $date;
     
     /**
      * @Column (columnName="holderid", relatedTableName="holder")
      */
-    private $holder;
+    protected $holder;
     
     /**
      * @Column (columnName="deviceid", relatedTableName="device")
      */
-    private $device;
+    protected $device;
     
     public function getId ()
     {
