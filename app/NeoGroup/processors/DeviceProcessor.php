@@ -78,20 +78,14 @@ abstract class DeviceProcessor extends Processor implements ConnectionListener
         $database->beginTransaction();
         try 
         {
-            $doReport = $database->getDataObject ("report");
-            $doReport->date = $report->getDate();
-            $doReport->inputDate = $report->getInputDate();
-            $doReport->deviceid = $report->getDevice()->getId();
-            if ($report->getHolder() != null)
-                $doReport->holderid = $report->getHolder()->getId();
-            $doReport->reporttypeid = $report->getReportType()->getId();
-            
+            $reportClassType = 0;
+            $reportData = array();
             if ($report instanceof PositionReport)
             {
                 $location = $report->getLocation(); 
                 $altitude = $report->getAltitude();
-                $doReport->reportclasstypeid = Report::CLASSTYPE_POSITION;
-                $deReport->data = array(
+                $reportClassType = Report::CLASSTYPE_POSITION;
+                $reportData = array(
                     strval($report->getLongitude()), 
                     strval($report->getLatitude()), 
                     (!empty($altitude))? strval($altitude) : "",
@@ -102,23 +96,40 @@ abstract class DeviceProcessor extends Processor implements ConnectionListener
                 );
             }
             
+            $doReport = $database->getDataObject ("report");
+            $doReport->date = $report->getDate();
+            $doReport->inputDate = $report->getInputDate();
+            $doReport->deviceid = $report->getDevice()->getId();
+            if ($report->getHolder() != null)
+                $doReport->holderid = $report->getHolder()->getId();
+            $doReport->reporttypeid = $report->getReportType()->getId();
+            $doReport->reportclasstypeid = $reportClassType;
+            $deReport->data = $reportData;
             $doReport->insert();
+            
             $reportId = intval($database->getLastInsertedId("report_reportid_seq"));
             if (empty($reportId))
                 throw new Exception ("Id for new report inserted could not be retrieved");
             
             if ($report->getHolder() != null)
             {   
-                $doHolderStatus = $database->getDataObject ("holderstatus");
-                $doHolderStatus->reportid = $reportId;
-                $doHolderStatus->addWhereCondition("holderid = " . $report->getHolder()->getId());
-                $affectedRows = $doHolderStatus->update();
+                $doLastReport = $database->getDataObject ("lastreport");
+                $doLastReport->date = $doReport->date;
+                $doLastReport->inputDate = $doReport->inputDate;
+                $doLastReport->deviceid = $doReport->deviceid;
+                $doLastReport->holderid = $doReport->holderid;
+                $doLastReport->reporttypeid = $doReport->reporttypeid;
+                $doLastReport->reportclasstypeid = $doReport->reportclasstypeid;
+                $doLastReport->data = $doReport->data;
+                $doLastReport->addWhereCondition("holderid = " . $doReport->holderid);
+                $doLastReport->addWhereCondition("reportclasstypeid = " . $doReport->reportclasstypeid);
+                $affectedRows = $doLastReport->update();
                 if ($affectedRows == 0)
                 {
-                    $doHolderStatus->resetSqlData ();
-                    $doHolderStatus->reportid = $reportId;
-                    $doHolderStatus->holderid = $report->getHolder()->getId();
-                    $doHolderStatus->insert();
+                    $doLastReport->resetSqlData ();
+                    $doLastReport->holderid = $doReport->holderid;
+                    $doLastReport->reportclasstypeid = $doReport->reportclasstypeid;
+                    $doLastReport->insert();
                 }
             }
             $database->commitTransaction();
