@@ -114,6 +114,7 @@ abstract class DeviceProcessor extends Processor implements ConnectionListener
             if ($report->getHolder() != null)
             {   
                 $doLastReport = $database->getDataObject ("lastreport");
+                $doLastReport->reportid = $reportId;
                 $doLastReport->date = $doReport->date;
                 $doLastReport->inputDate = $doReport->inputDate;
                 $doLastReport->deviceid = $doReport->deviceid;
