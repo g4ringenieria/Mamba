@@ -65,7 +65,7 @@ abstract class DeviceProcessor extends Processor implements ConnectionListener
     
     public function insertReport (Report $report)
     {
-        $database = $this->getApplication()->getDefaultDatabase();
+        $database = $this->getApplication()->getDatabase();
         if ($report->getHolder() == null)
         {
             $doDevice = $database->getDataObject ("device");

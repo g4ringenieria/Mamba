@@ -54,7 +54,7 @@ class SessionController extends EntityController
     private function getUserForUsernameAndPassword ($username, $password)
     {
         $user = null;
-        $database = $this->getApplication()->getDefaultDatabase ();
+        $database = $this->getApplication()->getDatabase ();
         $doUser = $database->getDataObject ("user");
         $doUser->addWhereCondition("username = '" . $username . "'");
         $doUser->addWhereCondition("password = '" . $password . "'");

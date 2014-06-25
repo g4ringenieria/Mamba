@@ -36,7 +36,7 @@ class ReportsController extends SiteController
     private function getReports ($holderId=null, $dateFrom=null, $dateTo=null, $page=1, $pageSize=300)
     {
         $reports = array();
-        $database = $this->getApplication()->getDefaultDatabase();
+        $database = $this->getApplication()->getDatabase();
         $doReport = $database->getDataObject("report");
         $doHolder = $database->getDataObject("holder");
         $doReportType = $database->getDataObject("reporttype");

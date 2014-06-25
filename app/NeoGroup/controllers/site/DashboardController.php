@@ -23,7 +23,7 @@ class DashboardController extends SiteController
     {
         $holders = array();
         
-        $database = $this->getApplication()->getDefaultDatabase();
+        $database = $this->getApplication()->getDatabase();
         $doHolder = $database->getDataObject("holder");
         $doDevice = $database->getDataObject("device");
         $doClientHolder = $database->getDataObject ("clientholder");

@@ -10,7 +10,7 @@ class HoldersController extends EntityController
     public function getResourceAction ($id=null, $query=null)
     {
         $holders = array();
-        $database = $this->getApplication()->getDefaultDatabase();
+        $database = $this->getApplication()->getDatabase();
         $doHolder = $database->getDataObject("holder");
         $doHolder->addSelectField("holder.*");
         $doClientHolder = $database->getDataObject ("clientholder");
