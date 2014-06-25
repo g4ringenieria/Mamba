@@ -4,10 +4,12 @@ namespace NeoGroup;
 
 class WebApplication extends \NeoPHP\web\WebApplication
 {
-    public function __construct ()
+    public function initialize ()
     {
-        parent::__construct("NeoGroup", true);
+        parent::initialize();
+        $this->setName ("NeoGroup");
         $this->setDefaultControllerName("site");
+        $this->setRestfull (true);
     }
     
     /**

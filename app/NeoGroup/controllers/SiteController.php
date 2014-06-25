@@ -2,7 +2,7 @@
 
 namespace NeoGroup\controllers;
 
-use Exception;
+use NeoGroup\views\site\ErrorView;
 use NeoPHP\web\WebController;
 
 class SiteController extends WebController
@@ -29,7 +29,7 @@ class SiteController extends WebController
     
     public function onActionError ($action, $error)
     {
-        $errorView = $this->createView("site/error");
+        $errorView = new ErrorView(); 
         $errorView->setException ($error);
         $errorView->render();
     }

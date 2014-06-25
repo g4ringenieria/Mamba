@@ -2,23 +2,23 @@
 
 namespace NeoGroup\controllers\site;
 
-use NeoPHP\data\DataObject;
 use NeoGroup\controllers\SiteController;
-use NeoGroup\models\Report;
 use NeoGroup\models\PositionReport;
 use NeoGroup\views\site\ReportsView;
+use NeoPHP\data\DataObject;
 
 class ReportsController extends SiteController
 {
     public function indexAction ()
     {
-        $this->createView("site/reports")->render();
+        $reportsView = new ReportsView();
+        $reportsView->render();
     }
     
     public function showReportsInTableAction ($holderId=null, $dateFrom=null, $dateTo=null)
     {
         $reports = $this->getReports($holderId, $dateFrom, $dateTo);
-        $reportsView = $this->createView("site/reports");
+        $reportsView = new ReportsView();
         $reportsView->setReports($reports);
         $reportsView->setOutputType(ReportsView::OUTPUTTYPE_GRID);
         $reportsView->render();
@@ -27,7 +27,7 @@ class ReportsController extends SiteController
     public function showReportsInMapAction ($holderId=null, $dateFrom=null, $dateTo=null)
     {
         $reports = $this->getReports($holderId, $dateFrom, $dateTo);
-        $reportsView = $this->createView("site/reports");
+        $reportsView = new ReportsView();
         $reportsView->setReports($reports);
         $reportsView->setOutputType(ReportsView::OUTPUTTYPE_MAP);
         $reportsView->render();

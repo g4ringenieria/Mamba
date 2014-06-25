@@ -2,18 +2,19 @@
 
 namespace NeoGroup\controllers\site;
 
-use NeoPHP\data\DataObject;
 use NeoGroup\controllers\SiteController;
 use NeoGroup\models\Holder;
-use NeoGroup\models\Report;
 use NeoGroup\models\PositionReport;
+use NeoGroup\models\Report;
+use NeoGroup\views\site\DashboardView;
+use NeoPHP\data\DataObject;
 
 class DashboardController extends SiteController
 {
     public function indexAction ()
     {
         $holders = $this->getHolders();
-        $dashboardView = $this->createView("site/dashboard");
+        $dashboardView = new DashboardView();
         $dashboardView->setHolders($holders);
         $dashboardView->render();
     }

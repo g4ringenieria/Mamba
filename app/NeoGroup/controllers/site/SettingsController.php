@@ -3,13 +3,14 @@
 namespace NeoGroup\controllers\site;
 
 use NeoGroup\controllers\SiteController;
+use NeoGroup\views\site\SettingsView;
 
 class SettingsController extends SiteController
 {
     public function indexAction ()
     {
-        $view = $this->createView("site/settings");        
-        $view->render();
+        $settingsView = new SettingsView();
+        $settingsView->render();
     }
 }
 
