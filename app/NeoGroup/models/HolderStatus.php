@@ -9,19 +9,6 @@ use NeoPHP\mvc\Model;
  */
 class HolderStatus extends Model
 {
-    /**
-     * @Column (columnName="lastReportId", relatedTableName="report")
-     */
-    private $lastReport;
 
-    public function getLastReport ()
-    {
-        return $this->lastReport;
-    }
-
-    public function setLastReport (Report $lastReport)
-    {
-        $this->lastReport = $lastReport;
-    }
 }
 

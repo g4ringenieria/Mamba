@@ -5,6 +5,7 @@ namespace NeoGroup\controllers\site;
 use NeoPHP\data\DataObject;
 use NeoGroup\controllers\SiteController;
 use NeoGroup\models\Report;
+use NeoGroup\models\PositionReport;
 use NeoGroup\views\site\ReportsView;
 
 class ReportsController extends SiteController
@@ -38,12 +39,12 @@ class ReportsController extends SiteController
         $database = $this->getApplication()->getDefaultDatabase();
         $doReport = $database->getDataObject("report");
         $doHolder = $database->getDataObject("holder");
-        $doEvent = $database->getDataObject("event");
+        $doReportType = $database->getDataObject("reporttype");
         $doReport->addJoin($doHolder);
-        $doReport->addJoin($doEvent);
+        $doReport->addJoin($doReportType);
         $doReport->addSelectField("report.*");
         $doReport->addSelectFields(array("holderid", "name", "domain"), "holder_%s", "holder");
-        $doReport->addSelectFields(array("eventid", "description"), "event_%s", "event");
+        $doReport->addSelectFields(array("reporttypeid", "description"), "reporttype_%s", "reporttype");
         if (isset($holderId))
             $doReport->addWhereCondition("report.holderid = " . $holderId);
         if (isset($dateFrom))
@@ -55,11 +56,12 @@ class ReportsController extends SiteController
         $doReport->setLimit($pageSize);
         $doReport->find();
         while ($doReport->fetch())
-        {
-            $report = new Report();
+        { 
+            $report = new PositionReport();
             $report->completeFromFieldsArray($doReport->getFields());
             $reports[] = $report;
         }
+
         return $reports;
     }
 }

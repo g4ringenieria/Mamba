@@ -7,12 +7,12 @@ class PositionReport extends Report
     /**
      * @Column (columnName="data", dataIndex=0)
      */
-    private $latitude;
+    private $longitude;
     
     /**
      * @Column (columnName="data", dataIndex=1)
      */
-    private $longitude;
+    private $latitude;
     
     /**
      * @Column (columnName="data", dataIndex=2)

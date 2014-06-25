@@ -53,7 +53,12 @@ class Holder extends Model
      * @Column (columnName="image")
      */
     private $image;
-
+    
+    /**
+     *
+     */
+    private $lastReport;
+    
     public function __construct($id=null)
     {
         $this->id = $id;
@@ -149,6 +154,16 @@ class Holder extends Model
         return $this->status;
     }
     
+    public function setLastReport ( $lastReport )
+    {
+        $this->lastReport = $lastReport;
+    }
+    
+    public function getLastReport ()
+    {
+        return $this->lastReport;
+    }
+        
     public function __toString() 
     {
         return $this->name . " - " . $this->domain;

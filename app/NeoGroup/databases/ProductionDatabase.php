@@ -8,7 +8,7 @@ class ProductionDatabase extends Database
 {
     public function getDsn ()
     {
-        return "pgsql:host=localhost; dbname=neogroup";
+        return "pgsql:host=www.neogroup-solutions.com; dbname=neogroup";
     }
     
     public function getUsername ()

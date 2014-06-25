@@ -87,7 +87,7 @@ class ReportsView extends SiteView
         $grid = new EntityTable();
         $grid->addColumn ("Holder", "holder");
         $grid->addColumn ("Equipo", "device_id");
-        $grid->addColumn ("Evento", "event_description");
+        $grid->addColumn ("Reporte", "reporttype_description");
         $grid->addColumn ("Fecha", "date", function ($date) { return DateUtils::formatDate($date, $this->getSession()->userDateFormat, $this->getSession()->userTimeZone); } );
         $grid->addColumn ("Velocidad", "speed");
         $grid->addColumn ("Curso", "course", function ($course) { return GeoUtils::getCourseString($course); });
