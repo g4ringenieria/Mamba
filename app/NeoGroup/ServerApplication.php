@@ -14,9 +14,10 @@ class ServerApplication extends FrameworkServerApplication
 {
     const SERVER_PORT = 8000;
     
-    public function __construct ($port=0)
+    public function initialize ()
     {   
-        parent::__construct(($port==0)? ServerApplication::SERVER_PORT : $port);
+        parent::initialize();
+        $this->setPort(8000);
         $this->addProcessor(new ConnectionsDebugProcessor($this));
         $this->addProcessor(new TT8750DeviceProcessor($this));
         $this->addProcessor(new STD900DeviceProcessor($this));
