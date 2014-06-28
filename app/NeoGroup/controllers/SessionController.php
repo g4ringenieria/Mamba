@@ -3,9 +3,7 @@
 namespace NeoGroup\controllers;
 
 use Exception;
-use NeoPHP\data\DataObject;
-use NeoGroup\models\Tool;
-use NeoGroup\models\User;
+use NeoGroup\models\UserPeer;
 
 class SessionController extends EntityController
 {
@@ -23,7 +21,7 @@ class SessionController extends EntityController
     {
         $this->getSession()->destroy();
         $sessionId = false;
-        $user = $this->getUserForUsernameAndPassword($username, $password);
+        $user = UserPeer::getUserForUsernameAndPassword($username, $password);
         if ($user != null)
         {
             $this->getSession()->start();
@@ -49,39 +47,6 @@ class SessionController extends EntityController
     public function deleteResourceAction ()
     {
         $this->getSession()->destroy();
-    }
-    
-    private function getUserForUsernameAndPassword ($username, $password)
-    {
-        $user = null;
-        $database = $this->getApplication()->getDatabase ();
-        $doUser = $database->getDataObject ("user");
-        $doUser->addWhereCondition("username = '" . $username . "'");
-        $doUser->addWhereCondition("password = '" . $password . "'");
-        $doProfile = $database->getDataObject ("profile");
-        $doUser->addJoin ($doProfile);
-        $doTimezone = $database->getDataObject ("timezone");
-        $doUser->addJoin ($doTimezone);
-        $doUser->addSelectField("\"user\".*");
-        $doUser->addSelectFields(array("timezoneid", "description", "timezone"), "timezone_%s", "timezone");
-        
-        if ($doUser->find(true))
-        {
-            $user = new User();
-            $user->completeFromFieldsArray($doUser->getFields());
-            $doTool = $database->getDataObject ("tool");
-            $doProfileTool = $database->getDataObject ("profiletool");
-            $doTool->addJoin ($doProfileTool, DataObject::JOINTYPE_INNER, "toolid");
-            $doTool->addWhereCondition("profileid = " . $user->getProfile()->getId());
-            $doTool->find();
-            while ($doTool->fetch ()) 
-            {
-                $tool = new Tool();
-                $tool->completeFromFieldsArray($doTool->getFields());
-                $user->getProfile()->addTool($tool);
-            }
-        }
-        return $user;
     }
 }
 
