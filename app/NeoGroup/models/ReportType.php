@@ -2,12 +2,12 @@
 
 namespace NeoGroup\models;
 
-use NeoPHP\mvc\Model;
+use NeoPHP\mvc\DatabaseModel;
 
 /**
  * @Table (tableName="reporttype")
  */
-class ReportType extends Model
+class ReportType extends DatabaseModel
 {
     const REPORTTYPE_POLL = 1;
     const REPORTTYPE_TIMEREPORT = 2;

@@ -2,12 +2,12 @@
 
 namespace NeoGroup\models;
 
-use NeoPHP\mvc\Model;
+use NeoPHP\mvc\DatabaseModel;
 
 /**
  * @Table (tableName="timezone")
  */
-class TimeZone extends Model
+class TimeZone extends DatabaseModel
 {
     /**
      * @Column (columnName="timezoneid", id=true)

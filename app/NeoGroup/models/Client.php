@@ -2,12 +2,12 @@
 
 namespace NeoGroup\models;
 
-use NeoPHP\mvc\Model;
+use NeoPHP\mvc\DatabaseModel;
 
 /**
  * @Table (tableName="client")
  */
-class Client extends Model
+class Client extends DatabaseModel
 {
     /**
      * @Column (columnName="clientid", id=true)

@@ -2,12 +2,12 @@
 
 namespace NeoGroup\models;
 
-use NeoPHP\mvc\Model;
+use NeoPHP\mvc\DatabaseModel;
 
 /**
  * @Table (tableName="tool")
  */
-class Tool extends Model
+class Tool extends DatabaseModel
 {
     /**
      * @Column (columnName="toolid", id=true)

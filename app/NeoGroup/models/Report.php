@@ -2,12 +2,12 @@
 
 namespace NeoGroup\models;
 
-use NeoPHP\mvc\Model;
+use NeoPHP\mvc\DatabaseModel;
 
 /**
  * @Table (tableName="report")
  */
-abstract class Report extends Model
+abstract class Report extends DatabaseModel
 {
     const CLASSTYPE_POSITION = 1;
     
