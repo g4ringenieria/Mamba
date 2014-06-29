@@ -119,7 +119,51 @@ abstract class Report extends DatabaseModel
     public function setDevice (Device $device)
     {
         $this->device = $device;
-    }    
+    }
+    
+    public function insert()
+    {
+        if ($this->getHolder() == null && $this->getDevice() != null)
+        {
+            if ($this->getDevice()->getHolder() == null)
+                $this->getDevice()->find();
+            $this->setHolder ($this->getDevice()->getHolder());
+        }
+        
+        self::getDatabase()->beginTransaction();
+        try 
+        {
+            parent::insert();
+            $reportId = intval(self::getDatabase()->getLastInsertedId("report_reportid_seq"));
+            if (empty($reportId))
+                throw new Exception ("Id for new report inserted could not be retrieved");
+            
+            if ($this->getHolder() != null)
+            {   
+                $fieldValues = $this->getFieldValues();
+                $fieldValues["reportid"] = $reportId;
+                $doLastReport = self::getDataObject ("lastreport");
+                foreach ($fieldValues as $field=>$value)
+                    $doLastReport->$field = $value;
+                $doLastReport->addWhereCondition("holderid = " . $this->getHolder()->getId());
+                $doLastReport->addWhereCondition("reportclasstypeid = " . $this->getReportClassType());
+                $affectedRows = $doLastReport->update();
+                if ($affectedRows == 0)
+                {
+                    $doLastReport->resetSqlData ();
+                    $doLastReport->holderid = $this->getHolder()->getId();
+                    $doLastReport->reportclasstypeid = $this->getReportClassType();
+                    $doLastReport->insert();
+                }
+            }
+            self::getDatabase()->commitTransaction();
+        }
+        catch (Exception $ex)
+        {
+            self::getDatabase()->rollbackTransaction();
+            throw $ex;
+        }
+    }
 }
 
 ?>

@@ -15,7 +15,7 @@ class Device extends DatabaseModel
     private $id;
     
     /**
-     * @Column (columnName="holderid", relatedTableName"holder")
+     * @Column (columnName="holderid", relatedTableName="holder")
      */
     private $holder;
     

@@ -2,7 +2,6 @@
 
 namespace NeoGroup;
 
-use NeoGroup\databases\ProductionDatabase;
 use NeoGroup\processors\CommandsProcessor;
 use NeoGroup\processors\ConnectionsCommandsProcessor;
 use NeoGroup\processors\ConnectionsDebugProcessor;
@@ -21,17 +20,6 @@ class ServerApplication extends FrameworkServerApplication
         $this->addProcessor(new STD900DeviceProcessor());
         $this->addProcessor(new CommandsProcessor());
         $this->addProcessor(new ConnectionsCommandsProcessor());
-    }
-    
-    /**
-     * Retorna la base de datos por defecto de la aplicación 
-     * @return NeoGroup\databases\ProductionDatabase
-     */
-    public function getDatabase ()
-    {
-        if (empty($this->database))
-            $this->database = new ProductionDatabase ();
-        return $this->database;
     }
 }
 

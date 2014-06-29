@@ -55,7 +55,7 @@ class TT8750DeviceProcessor extends DeviceProcessor
                     $report->setDate($date);
                     $report->setInputDate(new DateTime());
                     $report->setOdometer($odometer);
-                    $this->insertReport($report);
+                    $report->insert();
                 }
                 break;
             case self::DATAGRAMTYPE_ICAN:
@@ -91,7 +91,7 @@ class TT8750DeviceProcessor extends DeviceProcessor
                 $report->setDate($date);
                 $report->setInputDate(new DateTime());
                 $report->setOdometer($odometer);
-                $this->insertReport($report);
+                $report->insert();
                 break;
         }
     }
