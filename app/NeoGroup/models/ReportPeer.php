@@ -33,7 +33,7 @@ class ReportPeer extends DatabaseModel
         while ($doReport->fetch())
         { 
             $report = new PositionReport();
-            $report->completeFromFieldsArray($doReport->getFields());
+            $report->setFieldValues($doReport->getFields());
             $reports[] = $report;
         }
 

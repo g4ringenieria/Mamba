@@ -24,7 +24,7 @@ class UserPeer extends DatabaseModel
         if ($doUser->find(true))
         {
             $user = new User();
-            $user->completeFromFieldsArray($doUser->getFields());
+            $user->setFieldValues($doUser->getFields());
             $doTool = $database->getDataObject ("tool");
             $doProfileTool = $database->getDataObject ("profiletool");
             $doTool->addJoin ($doProfileTool, DataObject::JOINTYPE_INNER, "toolid");
@@ -33,7 +33,7 @@ class UserPeer extends DatabaseModel
             while ($doTool->fetch ()) 
             {
                 $tool = new Tool();
-                $tool->completeFromFieldsArray($doTool->getFields());
+                $tool->setFieldValues($doTool->getFields());
                 $user->getProfile()->addTool($tool);
             }
         }

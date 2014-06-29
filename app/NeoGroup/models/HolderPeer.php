@@ -29,7 +29,7 @@ class HolderPeer extends DatabaseModel
         while ($doHolder->fetch())
         {
             $holder = new Holder();
-            $holder->completeFromFieldsArray($doHolder->getFields());
+            $holder->setFieldValues($doHolder->getFields());
             $holders[] = $holder;
         }
         return $holders;
@@ -59,7 +59,7 @@ class HolderPeer extends DatabaseModel
         while ($doHolder->fetch())
         {
             $holder = new Holder();
-            $holder->completeFromFieldsArray($doHolder->getFields());
+            $holder->setFieldValues($doHolder->getFields());
             switch ( $doHolder->reportclasstypeid ) 
             {
                 case Report::CLASSTYPE_POSITION:
@@ -67,7 +67,7 @@ class HolderPeer extends DatabaseModel
                     break;
             }
             
-            $lastReport->completeFromFieldsArray($doHolder->getFields());
+            $lastReport->setFieldValues($doHolder->getFields());
             $holder->setLastReport($lastReport);
             $holders[] = $holder;
         }
