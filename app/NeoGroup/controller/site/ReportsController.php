@@ -4,7 +4,7 @@ namespace NeoGroup\controller\site;
 
 use NeoGroup\controller\SiteController;
 use NeoGroup\model\ReportPeer;
-use NeoGroup\view\site\ReportsView;
+use NeoGroup\view\ReportsView;
 
 class ReportsController extends SiteController
 {

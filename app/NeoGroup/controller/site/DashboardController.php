@@ -4,7 +4,7 @@ namespace NeoGroup\controller\site;
 
 use NeoGroup\controller\SiteController;
 use NeoGroup\model\HolderPeer;
-use NeoGroup\view\site\DashboardView;
+use NeoGroup\view\DashboardView;
 
 class DashboardController extends SiteController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace NeoGroup\component;
+namespace NeoGroup\view\component;
 
 use NeoPHP\web\html\HTMLComponent;
 use NeoPHP\web\html\HTMLView;

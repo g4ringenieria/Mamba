@@ -1,11 +1,11 @@
 <?php
 
-namespace NeoGroup\view\site;
+namespace NeoGroup\view;
 
 use stdClass;
-use NeoGroup\component\EntityTable;
-use NeoGroup\component\Map;
-use NeoGroup\component\Panel;
+use NeoGroup\view\component\EntityTable;
+use NeoGroup\view\component\Map;
+use NeoGroup\view\component\Panel;
 use NeoGroup\util\DateUtils;
 use NeoGroup\util\GeoUtils;
 

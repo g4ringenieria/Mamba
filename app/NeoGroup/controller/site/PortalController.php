@@ -2,7 +2,7 @@
 
 namespace NeoGroup\controller\site;
 
-use NeoGroup\view\site\ErrorView;
+use NeoGroup\view\ErrorView;
 use NeoPHP\web\WebController;
 use NeoPHP\web\WebScriptView;
 

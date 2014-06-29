@@ -2,7 +2,7 @@
 
 namespace NeoGroup\controller;
 
-use NeoGroup\view\site\ErrorView;
+use NeoGroup\view\ErrorView;
 use NeoPHP\web\WebController;
 
 class SiteController extends WebController

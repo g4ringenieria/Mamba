@@ -1,6 +1,6 @@
 <?php
 
-namespace NeoGroup\component;
+namespace NeoGroup\view\component;
 
 use NeoPHP\util\IntrospectionUtils;
 use NeoPHP\web\html\HTMLComponent;

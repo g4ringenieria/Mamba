@@ -1,8 +1,8 @@
 <?php
 
-namespace NeoGroup\view\site;
+namespace NeoGroup\view;
 
-use NeoGroup\component\Button;
+use NeoGroup\view\component\Button;
 
 class PortalView extends BootstrapView
 {

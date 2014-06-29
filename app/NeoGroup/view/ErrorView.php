@@ -1,6 +1,6 @@
 <?php
 
-namespace NeoGroup\view\site;
+namespace NeoGroup\view;
 
 use Exception;
 use NeoPHP\web\html\HTMLView;

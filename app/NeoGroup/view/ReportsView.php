@@ -1,15 +1,15 @@
 <?php
 
-namespace NeoGroup\view\site;
+namespace NeoGroup\view;
 
 use NeoPHP\web\html\Tag;
 use NeoPHP\web\http\Parameters;
 use stdClass;
-use NeoGroup\component\Button;
-use NeoGroup\component\DatetimePicker;
-use NeoGroup\component\EntityTable;
-use NeoGroup\component\Map;
-use NeoGroup\component\Selector;
+use NeoGroup\view\component\Button;
+use NeoGroup\view\component\DatetimePicker;
+use NeoGroup\view\component\EntityTable;
+use NeoGroup\view\component\Map;
+use NeoGroup\view\component\Selector;
 use NeoGroup\util\DateUtils;
 use NeoGroup\util\GeoUtils;
 

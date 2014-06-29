@@ -1,6 +1,6 @@
 <?php
 
-namespace NeoGroup\view\site;
+namespace NeoGroup\view;
 
 class AccountView extends SiteView
 {
