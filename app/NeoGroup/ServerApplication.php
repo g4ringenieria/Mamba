@@ -2,11 +2,11 @@
 
 namespace NeoGroup;
 
-use NeoGroup\processors\CommandsProcessor;
-use NeoGroup\processors\ConnectionsCommandsProcessor;
-use NeoGroup\processors\ConnectionsDebugProcessor;
-use NeoGroup\processors\STD900DeviceProcessor;
-use NeoGroup\processors\TT8750DeviceProcessor;
+use NeoGroup\processor\CommandsProcessor;
+use NeoGroup\processor\ConnectionsCommandsProcessor;
+use NeoGroup\processor\ConnectionsDebugProcessor;
+use NeoGroup\processor\STD900DeviceProcessor;
+use NeoGroup\processor\TT8750DeviceProcessor;
 use NeoPHP\server\ServerApplication as FrameworkServerApplication;
 
 class ServerApplication extends FrameworkServerApplication
