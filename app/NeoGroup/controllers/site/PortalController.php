@@ -16,7 +16,7 @@ class PortalController extends WebController
     
     public function indexAction ()
     {
-        $view = new WebScriptView("site/Zerif");
+        $view = new WebScriptView("scripts/site/Portal");
         $view->render();
     }
     
