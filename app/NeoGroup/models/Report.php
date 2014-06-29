@@ -41,6 +41,16 @@ abstract class Report extends DatabaseModel
      */
     protected $device;
     
+    /**
+     * @Column (columnName="reportclasstypeid")
+     */
+    protected $reportClassType;
+    
+    public function __construct($reportClassType)
+    {
+        $this->reportClassType = $reportClassType;
+    }
+    
     public function getId ()
     {
         return $this->id;
@@ -59,6 +69,16 @@ abstract class Report extends DatabaseModel
     public function setReportType (ReportType $reportType)
     {
         $this->reportType = $reportType;
+    }
+    
+    public function setReportClassType ($reportClassType)
+    {
+        $this->reportClassType = $reportClassType;
+    }
+    
+    public function getReportClassType ()
+    {
+        return $this->reportClassType;
     }
     
     public function getInputDate ()

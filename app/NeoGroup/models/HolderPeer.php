@@ -10,10 +10,9 @@ class HolderPeer extends DatabaseModel
     public static function getHolders ($clientId, $query=null)
     {
         $holders = array();
-        $database = self::getDatabase();
-        $doHolder = $database->getDataObject("holder");
+        $doHolder = self::getDataObject("holder");
         $doHolder->addSelectField("holder.*");
-        $doClientHolder = $database->getDataObject ("clientholder");
+        $doClientHolder = self::getDataObject ("clientholder");
         $doHolder->addJoin ($doClientHolder, DataObject::JOINTYPE_INNER, "holderid");
         $doHolder->addWhereCondition ("clientholder.clientid = " . $clientId);
         if (isset($query))
@@ -38,12 +37,11 @@ class HolderPeer extends DatabaseModel
     public static function getHoldersWithLastReport ($clientId)
     {
         $holders = array();
-        $database = self::getDatabase();
-        $doHolder = $database->getDataObject("holder");
-        $doDevice = $database->getDataObject("device");
-        $doClientHolder = $database->getDataObject ("clientholder");
-        $doLastReport = $database->getDataObject ("lastreport");
-        $doReportType = $database->getDataObject ("reporttype");
+        $doHolder = self::getDataObject("holder");
+        $doDevice = self::getDataObject("device");
+        $doClientHolder = self::getDataObject ("clientholder");
+        $doLastReport = self::getDataObject ("lastreport");
+        $doReportType = self::getDataObject ("reporttype");
         $doHolder->addJoin ($doDevice, DataObject::JOINTYPE_INNER, "holderid");
         $doHolder->addJoin ($doClientHolder, DataObject::JOINTYPE_INNER, "holderid");
         $doLastReport->addJoin ($doReportType, DataObject::JOINTYPE_LEFT);

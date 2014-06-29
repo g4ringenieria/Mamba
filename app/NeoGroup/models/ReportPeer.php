@@ -11,10 +11,9 @@ class ReportPeer extends DatabaseModel
     public static function getReports ($holderId=null, $dateFrom=null, $dateTo=null, $page=1, $pageSize=300)
     {
         $reports = array();
-        $database = self::getDatabase();
-        $doReport = $database->getDataObject("report");
-        $doHolder = $database->getDataObject("holder");
-        $doReportType = $database->getDataObject("reporttype");
+        $doReport = self::getDataObject("report");
+        $doHolder = self::getDataObject("holder");
+        $doReportType = self::getDataObject("reporttype");
         $doReport->addJoin($doHolder);
         $doReport->addJoin($doReportType);
         $doReport->addSelectField("report.*");

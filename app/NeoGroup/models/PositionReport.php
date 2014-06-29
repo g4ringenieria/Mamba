@@ -39,6 +39,11 @@ class PositionReport extends Report
      */
     private $odometer;
     
+    public function __construct()
+    {
+        parent::__construct(Report::CLASSTYPE_POSITION);
+    }
+    
     public function getLatitude ()
     {
         return $this->latitude;
