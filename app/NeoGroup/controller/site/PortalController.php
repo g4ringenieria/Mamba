@@ -20,7 +20,7 @@ class PortalController extends WebController
 //        $view = new WebScriptView("scripts/Portal");
 //        $view->render();
         
-        $view = new PortalView;
+        $view = new PortalView();
         $view->render();
     }
     

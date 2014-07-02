@@ -5,7 +5,7 @@ namespace NeoGroup\model;
 use NeoPHP\data\DataObject;
 use NeoPHP\mvc\DatabaseModel;
 
-class ContactPeer extends DatabaseModel
+abstract class ContactPeer extends DatabaseModel
 {
     public static function getContactsForUserId ($userId)
     {

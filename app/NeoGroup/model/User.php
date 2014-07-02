@@ -9,7 +9,6 @@ use NeoPHP\mvc\DatabaseModel;
  */
 class User extends DatabaseModel
 {
-
     /**
      * @Column (columnName="userid", id=true)
      */
@@ -60,6 +59,11 @@ class User extends DatabaseModel
      */
     private $contacts;
 
+    public function __construct ($id)
+    {
+        $this->id = $id;
+    }
+    
     public function getId ()
     {
         return $this->id;
@@ -157,8 +161,10 @@ class User extends DatabaseModel
 
     public function setContacts ( $contacts )
     {
-        if ( !empty ( $contacts ) ) {
-            foreach ( $contacts as $contact ) {
+        if ( !empty ( $contacts ) ) 
+        {
+            foreach ( $contacts as $contact ) 
+            {
                 $this->addContact ( $contact );
             }
         }
@@ -168,7 +174,6 @@ class User extends DatabaseModel
     {
         $this->contacts[] = $contact;
     }
-
 }
 
 ?>
