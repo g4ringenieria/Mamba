@@ -15,9 +15,9 @@ class Client extends DatabaseModel
     private $id;
     
     /**
-     * @Column (columnName="description")
+     * @Column (columnName="name")
      */
-    private $description;
+    private $name;
 
     public function __construct($id=null) 
     {
@@ -34,14 +34,14 @@ class Client extends DatabaseModel
         $this->id = $id;
     }
 
-    public function getDescription() 
+    public function getName() 
     {
-        return $this->description;
+        return $this->name;
     }
 
-    public function setDescription($description) 
+    public function setName($name) 
     {
-        $this->description = $description;
+        $this->name = $name;
     }
 }
 

@@ -49,6 +49,16 @@ class User extends DatabaseModel
      */
     private $timeZone;
     
+    /**
+     * @Column (columnName="languageid", relatedTableName="language")
+     */
+    private $language;
+    
+    /**
+     *
+     */
+    private $contacts;
+    
     public function getId() 
     {
         return $this->id;
@@ -128,6 +138,28 @@ class User extends DatabaseModel
     {
         $this->timeZone = $timeZone;
     }
+    
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(Language $language)
+    {
+        $this->language = $language;
+    }
+
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    public function setContacts($contacts)
+    {
+        $this->contacts = $contacts;
+    }
+
+
 }
 
 ?>

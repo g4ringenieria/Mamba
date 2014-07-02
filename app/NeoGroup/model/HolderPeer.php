@@ -44,8 +44,8 @@ class HolderPeer extends DatabaseModel
         $doReportType = self::getDataObject ("reporttype");
         $doHolder->addJoin ($doDevice, DataObject::JOINTYPE_INNER, "holderid");
         $doHolder->addJoin ($doClientHolder, DataObject::JOINTYPE_INNER, "holderid");
-        $doLastReport->addJoin ($doReportType, DataObject::JOINTYPE_LEFT);
-        $doHolder->addJoin ($doLastReport, DataObject::JOINTYPE_LEFT, "holderid");
+        $doLastReport->addJoin ($doReportType, DataObject::JOINTYPE_INNER);
+        $doHolder->addJoin ($doLastReport, DataObject::JOINTYPE_INNER, "holderid");
         $doHolder->addSelectField("holder.*");
         $doHolder->addSelectField("device.deviceid", "deviceid");
         $doHolder->addSelectField("clientholder.owner", "ownerid");
