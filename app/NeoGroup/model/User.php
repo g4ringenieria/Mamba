@@ -59,7 +59,7 @@ class User extends DatabaseModel
      */
     private $contacts;
 
-    public function __construct ($id)
+    public function __construct ($id = null)
     {
         $this->id = $id;
     }
@@ -173,6 +173,18 @@ class User extends DatabaseModel
     public function addContact ( Contact $contact )
     {
         $this->contacts[] = $contact;
+    }
+    
+    public function find ($complete = null)
+    {
+        parent::find($complete);
+        if (isset($complete))
+        {
+            if ($complete === true || (is_int($complete) && $complete > 0) || (is_array($complete) && isset($complete["contacts"])))
+            {
+                $this->setContacts(ContactPeer::getContactsForUserId($this->getId()));
+            }
+        }
     }
 }
 
