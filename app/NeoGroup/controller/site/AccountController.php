@@ -10,10 +10,8 @@ class AccountController extends SiteController
 {
     public function indexAction ()
     {
-        $user = new User($this->getSession()->userId);
-        $user->find(true);
         $accountView = new AccountView();
-        $accountView->setUser($user);
+        $accountView->setUser(User::findById($this->getSession()->userId, true));
         $accountView->render();
     }
 }
