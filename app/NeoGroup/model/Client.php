@@ -18,6 +18,16 @@ class Client extends DatabaseModel
      * @Column (columnName="name")
      */
     private $name;
+    
+    /**
+     * @Column (columnName="clienttypeid", relatedTableName="clienttype")
+     */
+    private $clientType;
+    
+    /**
+     * @Column (columnName="clientstateid", relatedTableName="clientstate")
+     */
+    private $clientState;
 
     public function __construct($id=null) 
     {
@@ -42,6 +52,26 @@ class Client extends DatabaseModel
     public function setName($name) 
     {
         $this->name = $name;
+    }
+    
+    public function getClientType()
+    {
+        return $this->clientType;
+    }
+
+    public function setClientType(ClientType $clientType)
+    {
+        $this->clientType = $clientType;
+    }
+
+    public function getClientState()
+    {
+        return $this->clientState;
+    }
+
+    public function setClientState(ClientState $clientState)
+    {
+        $this->clientState = $clientState;
     }
 }
 
