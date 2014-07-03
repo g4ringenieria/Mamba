@@ -57,7 +57,7 @@ class User extends DatabaseModel
     /**
      *
      */
-    private $contacts;
+    private $contacts = array();
 
     public function __construct ($id = null)
     {

@@ -2,11 +2,13 @@
 
 namespace NeoGroup\view;
 
+use NeoGroup\model\User;
+
 class AccountView extends SiteView
 {
     private $user;
     
-    public function setUser($user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }
