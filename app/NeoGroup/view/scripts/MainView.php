@@ -16,17 +16,6 @@
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/smartadmin-production.min.css">
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/smartadmin-skins.min.css">
 
-        <!-- SmartAdmin RTL Support is under construction
-                 This RTL CSS will be released in version 1.5
-        <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css"> -->
-
-        <!-- We recommend you use "your_style.css" to override SmartAdmin
-             specific styles this will also ensure you retrain your customization with each SmartAdmin update.
-        <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
-
-        <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
-        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/demo.min.css">
-
         <!-- #FAVICONS -->
         <link rel="shortcut icon" href="<?php echo $this->getBaseUrl(); ?>images/favicon/favicon.ico" type="image/x-icon">
         <link rel="icon" href="<?php echo $this->getBaseUrl(); ?>images/favicon/favicon.ico" type="image/x-icon">
@@ -58,44 +47,13 @@
 <!--                <span id="logo"> <img src="img/logo.png" alt="SmartAdmin"> </span>-->
                 <!-- END LOGO PLACEHOLDER -->
             </div>
+            
             <div class="pull-right">
-
                 <!-- collapse menu button -->
                 <div id="hide-menu" class="btn-header pull-right">
                     <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
                 </div>
                 <!-- end collapse menu -->
-
-                <!-- #MOBILE -->
-                <!-- Top menu profile link : this shows only when top menu is active -->
-                <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
-                    <li class="">
-                        <a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown"> 
-                            <img src="img/avatars/sunny.png" alt="John Doe" class="online" />  
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0"><i class="fa fa-cog"></i> Setting</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#ajax/profile.html" class="padding-10 padding-top-0 padding-bottom-0"> <i class="fa fa-user"></i> <u>P</u>rofile</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="toggleShortcut"><i class="fa fa-arrow-down"></i> <u>S</u>hortcut</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i> Full <u>S</u>creen</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="login.html" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
 
                 <!-- logout button -->
                 <div id="logout" class="btn-header transparent pull-right">
@@ -126,14 +84,10 @@
                 </div>
                 <!-- end fullscreen button -->
             </div>
-            <!-- end pulled right: nav area -->
-
         </header>
         <!-- END HEADER -->
 
         <!-- #NAVIGATION -->
-        <!-- Left panel : Navigation area -->
-        <!-- Note: This width of the aside area can be adjusted through LESS variables -->
         <aside id="left-panel">
 
             <!-- User info -->
@@ -412,18 +366,6 @@
                     <!-- This is auto generated -->
                 </ol>
                 <!-- end breadcrumb -->
-
-                <!-- You can also add more buttons to the
-                ribbon for further usability
-
-                Example below:
-
-                <span class="ribbon-button-alignment pull-right" style="margin-right:25px">
-                        <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa fa-grid"></i> Change Grid</span>
-                        <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa fa-plus"></i> Add</span>
-                        <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa fa-search"></i> <span class="hidden-mobile">Search</span></span>
-                </span> -->
-
             </div>
             <!-- END RIBBON -->
 
@@ -431,13 +373,10 @@
             <div id="content">
 
             </div>
-
             <!-- END #MAIN CONTENT -->
-
         </div>
         <!-- END #MAIN PANEL -->
         
-        <!-- #PLUGINS -->
         <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script>
@@ -456,35 +395,8 @@
         <!-- IMPORTANT: APP CONFIG -->
         <script src="<?php echo $this->getBaseUrl(); ?>js/app.config.js"></script>
 
-        <!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/jquery.ui.touch-punch.min.js"></script> 
-
         <!-- BOOTSTRAP JS -->
         <script src="<?php echo $this->getBaseUrl(); ?>assets/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-
-        <!-- CUSTOM NOTIFICATION -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/SmartNotification.min.js"></script>
-
-        <!-- JARVIS WIDGETS -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/jarvis.widget.min.js"></script>
-
-        <!-- EASY PIE CHARTS -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/jquery.easy-pie-chart.min.js"></script>
-
-        <!-- SPARKLINES -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/jquery.sparkline.min.js"></script>
-
-        <!-- JQUERY VALIDATE -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/jquery.validate.min.js"></script>
-
-        <!-- JQUERY MASKED INPUT -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/jquery.maskedinput.min.js"></script>
-
-        <!-- JQUERY SELECT2 INPUT -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/select2.min.js"></script>
-
-        <!-- JQUERY UI + Bootstrap Slider -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/bootstrap-slider.min.js"></script>
 
         <!-- browser msie issue fix -->
         <script src="<?php echo $this->getBaseUrl(); ?>js/jquery.mb.browser.min.js"></script>
@@ -492,34 +404,19 @@
         <!-- FastClick: For mobile devices: you can disable this in app.js -->
         <script src="<?php echo $this->getBaseUrl(); ?>js/fastclick.min.js"></script>
 
-        <!--[if IE 8]>
-                <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
-        <![endif]-->
-
-        <!-- Demo purpose only -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/demo.min.js"></script>
-
         <!-- MAIN APP JS FILE -->
         <script src="<?php echo $this->getBaseUrl(); ?>js/app.min.js"></script>
 
-        <!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
-        <!-- Voice command : plugin -->
-        <script src="<?php echo $this->getBaseUrl(); ?>js/voicecommand.min.js"></script>
-
         <!-- Your GOOGLE ANALYTICS CODE Below -->
         <script type="text/javascript">
-		
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-43548732-3']);
             _gaq.push(['_trackPageview']);
-		
             (function() {
                 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
                 ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
-		
         </script>
-
     </body>
 </html>
