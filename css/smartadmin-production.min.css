@@ -5603,6 +5603,7 @@ html {
     min-height: 100%;
     background: url(../img/mybg.png) #fff;
     position: relative;
+    overflow: hidden;
 }
 body {
     margin: 0;
@@ -5988,8 +5989,6 @@ aside {
 #main {
     margin-left: 220px;
     padding: 0;
-    padding-bottom: 52px;
-    min-height: 500px;
 }
 #ribbon {
     min-height: 40px;

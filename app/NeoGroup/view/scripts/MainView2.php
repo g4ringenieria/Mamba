@@ -89,4 +89,15 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="<?php echo $this->getBaseUrl(); ?>assets/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script src="<?php echo $this->getBaseUrl(); ?>js/admin.js"></script>
+    <script>
+        $(function() 
+        {
+            $(window).bind("load resize", function() 
+            {
+                var windowHeight = $(this).height();
+                var headerHeight = $("#header").height();
+                $("#content").css("height", windowHeight - headerHeight - 1);
+            });
+        })
+    </script>
 </html>
