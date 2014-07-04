@@ -50,7 +50,7 @@
         <link rel="apple-touch-startup-image" href="<?php echo $this->getBaseUrl(); ?>images/splash/iphone.png" media="screen and (max-device-width: 320px)">
     </head>
     
-    <body class="">
+    <body class="smart-style-3">
         <!-- #HEADER -->
         <header id="header">
             <div id="logo-group">
