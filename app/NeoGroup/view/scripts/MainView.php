@@ -10,7 +10,7 @@
         <!-- #CSS Links -->
         <!-- Basic Styles -->
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>assets/bootstrap-3.1.0/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>assets/font-awesome-4.0.3/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>assets/font-awesome-4.1.0/css/font-awesome.min.css">
 
         <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/smartadmin-production.min.css">
