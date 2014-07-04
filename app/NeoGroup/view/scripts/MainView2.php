@@ -37,7 +37,7 @@
                     <a href="javascript:void(0);" id="cancel-search-js" title="Cancel Search"><i class="fa fa-times"></i></a>
                 </form>
                 <div id="fullscreen" class="btn-header transparent pull-right">
-                    <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+                    <span> <a href="javascript:void(0);" data-action="toggleFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
                 </div>
             </div>
         </header>
@@ -45,12 +45,7 @@
         <aside id="left-panel">
             <div class="login-info">
                 <span>
-                    <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
-                        <span>
-                            john.doe 
-                        </span>
-                        <i class="fa fa-angle-down"></i>
-                    </a> 
+                    <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut"><span>john.doe</span></a> 
                 </span>
             </div>
             <nav>
@@ -86,21 +81,12 @@
         </aside>
         
         <div id="main" role="main">
-            <div id="ribbon">
-                <span class="ribbon-button-alignment"> 
-                    <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh" rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true" data-reset-msg="Would you like to RESET all your saved widgets and clear LocalStorage?"><i class="fa fa-refresh"></i></span> 
-                </span>
-                <ol class="breadcrumb"></ol>
-            </div>
             <div id="content"></div>
         </div>
     </body>
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script src="<?php echo $this->getBaseUrl(); ?>js/app.config.js"></script>
     <script src="<?php echo $this->getBaseUrl(); ?>assets/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script src="<?php echo $this->getBaseUrl(); ?>js/jquery.mb.browser.min.js"></script>
-    <script src="<?php echo $this->getBaseUrl(); ?>js/fastclick.min.js"></script>
-    <script src="<?php echo $this->getBaseUrl(); ?>js/app.min.js"></script>
+    <script src="<?php echo $this->getBaseUrl(); ?>js/admin.js"></script>
 </html>
