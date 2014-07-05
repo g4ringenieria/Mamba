@@ -5678,9 +5678,12 @@ a, button, input {
     padding-right: 0;
     padding-left: 0;
 }
-#content {
-    padding: 10px 14px;
+#content { 
     position: relative;
+    border-style: none;
+    border-width: 0;
+    padding: 0;
+    margin: 0;
 }
 body.container {
     position: absolute;
@@ -6020,9 +6023,6 @@ aside {
 .container.fixed-ribbon #ribbon {
     width: 944px;
     left: 590px;
-}
-.fixed-ribbon #content {
-    padding-top: 50px;
 }
 .minified.fixed-ribbon #ribbon {
     left: 45px;
@@ -9933,10 +9933,6 @@ body.container {
     padding-left: 10px!important;
     padding-right: 10px!important;
 }
-#content, #ribbon {
-    padding-left: 5px;
-    padding-right: 5px;
-}
 #header {
     padding-right: 5px;
 }
@@ -10001,9 +9997,7 @@ body.container {
 body.fixed-navigation.hidden-menu {
     overflow: hidden!important;
 }
-.fixed-ribbon #content {
-    padding-top: 52px;
-}
+
 .header-search {
     display: none;
 }
@@ -10064,10 +10058,7 @@ body.fixed-navigation.hidden-menu {
     padding-left: 10px!important;
     padding-right: 10px!important;
 }
-#content, #ribbon {
-    padding-left: 5px;
-    padding-right: 5px;
-}
+
 #header {
     padding-right: 5px;
 }
@@ -10224,10 +10215,7 @@ body.fixed-navigation.hidden-menu {
     padding-left: 10px!important;
     padding-right: 10px!important;
 }
-#content, #ribbon {
-    padding-left: 5px;
-    padding-right: 5px;
-}
+
 #header {
     padding-right: 5px;
 }

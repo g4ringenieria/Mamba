@@ -13,15 +13,6 @@
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/smartadmin-production.min.css">
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/smartadmin-skins.min.css">
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
-        <style>
-            #content
-            {
-                border-style: none;
-                border-width: 0;
-                padding: 0;
-                margin: 0;
-            }
-        </style>
     </head>
     
     <body class="smart-style-3 fixed-header fixed-navigation">
