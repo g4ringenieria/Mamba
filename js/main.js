@@ -76,6 +76,11 @@ function adjustContentArea ()
     $content.width($window.width() - contentOffset.left);
 }
 
+function loadUrl (url)
+{
+    $("#content").attr('src', url);
+}
+
 function setupApplication ()
 {
     $.root_.on("click", '[data-action="toggleFullscreen"]', function (event) { toggleFullScreen(); event.preventDefault(); });
@@ -89,6 +94,11 @@ function setupApplication ()
     });
     $(window).bind("load resize", function() { adjustContentArea(); });
     $(document).ready(function () { adjustContentArea(); });
+    $('#left-panel nav a[href!="#"]').on ("click", function(event) 
+    {
+        loadUrl ($(this).attr("href"));
+        event.preventDefault();
+    });
 }
 
 setupApplication ();
