@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <meta charset="utf-8">
         <title>NeoGroup</title>
+        <meta charset="utf-8">
         <meta name="description" content="">
         <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
     </head>
     
-    <body class="smart-style-3 fixed-header fixed-navigation">
+    <body class="fixed-header fixed-navigation">
         <header id="header">
             <div id="logo-group"></div>
             <div class="pull-right">
