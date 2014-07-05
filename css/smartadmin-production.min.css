@@ -7806,13 +7806,8 @@ img.away {
     font-size: 14px;
 }
 #left-panel {
-    -webkit-transition: 250ms cubic-bezier(0.1, .57, .1, 1);
-    transition: 250ms cubic-bezier(0.1, .57, .1, 1);
-    -webkit-transform: translate(0px, 0) translateZ(0px);
 }
 #main {
-    -webkit-transition: all .2s ease-out;
-    transition: all .2s ease-out;
 }
 .chart-large, .chart-small, .chart-xl {
     overflow: hidden;

@@ -64,6 +64,16 @@ function toggleMenu ()
     $("html").toggleClass("hidden-menu-mobile-lock");
     $.root_.toggleClass("hidden-menu");
     $.root_.removeClass("minified");
+    adjustContentArea ();
+}
+
+function adjustContentArea ()
+{
+    var $window = $(window);
+    var $content = $("#content");
+    var contentOffset = $content.offset();
+    $content.height($window.height() - contentOffset.top);
+    $content.width($window.width() - contentOffset.left);
 }
 
 function setupApplication ()
@@ -77,6 +87,8 @@ function setupApplication ()
         closedSign: '<em class="fa fa-plus-square-o"></em>',
         openedSign: '<em class="fa fa-minus-square-o"></em>'
     });
+    $(window).bind("load resize", function() { adjustContentArea(); });
+    $(document).ready(function () { adjustContentArea(); });
 }
 
 setupApplication ();
