@@ -85,6 +85,8 @@ function setupApplication ()
 {
     $.root_.on("click", '[data-action="toggleFullscreen"]', function (event) { toggleFullScreen(); event.preventDefault(); });
     $.root_.on("click", '[data-action="toggleMenu"]', function (event) { toggleMenu(); event.preventDefault(); });
+    $("#search-mobile").click(function () { $.root_.addClass("search-mobile") });
+    $("#cancel-search-js").click(function () { $.root_.removeClass("search-mobile") });
     $("nav ul").jarvismenu(
     {
         accordion: true,

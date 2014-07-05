@@ -81,7 +81,7 @@
         </aside>
         
         <div id="main" role="main">
-            <iframe id="content" src="http://www.pepe.com"></iframe>
+            <iframe id="content" src=""></iframe>
         </div>
     </body>
     
