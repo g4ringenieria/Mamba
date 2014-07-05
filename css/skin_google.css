@@ -140,6 +140,7 @@
 }
  nav ul li.active>a {
     font-weight: 700;
+    color: #333!important;
 }
  nav ul li.active>a:before {
     color: #bbb;
@@ -226,63 +227,4 @@
 }
  #shortcut {
     background-color: rgba(25, 16, 6, .85);
-}
- .SmallBox span,  .bigBox span {
-    letter-spacing: 0;
-}
-.menu-on-top nav ul ul li>a {
-    color: inherit;
-}
-.menu-on-top aside {
-    background: inherit;
-}
-.menu-on-top aside#left-panel {
-    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
-    border-bottom: 1px solid #fff;
-    border-top: 1px solid #fff;
-}
-.menu-on-top aside#left-panel nav>ul>li {
-    border-right: 1px solid #E2E2E2;
-    border-left: 1px solid #FFF;
-}
-.menu-on-top nav ul ul, .menu-on-top nav ul ul ul {
-    border-color: #E2E2E2;
-}
-.menu-on-top nav ul>li>ul {
-    left: -2px;
-}
-.menu-on-top aside#left-panel nav>ul>li>a {
-    text-shadow: none!important;
-    font-size: 13px;
-    padding: 10px 9px!important;
-    border: none!important;
-}
-.menu-on-top nav ul ul li a {
-    padding-left: 10px!important;
-    font-size: 13px;
-}
-.menu-on-top nav>ul>li>a:hover {
-    background: #fff!important;
-}
-.menu-on-top nav ul ul li a:hover, .menu-on-top nav ul ul li:hover>a, .menu-on-top nav ul ul ul li a:hover {
-    background: rgba(0, 0, 0, .05);
-}
-.menu-on-top aside#left-panel nav>ul>li:hover {
-    background: #fff;
-}
-.menu-on-top nav ul ul li a, .menu-on-top nav ul ul ul li a {
-    color: #D8DEE5;
-}
-.menu-on-top nav ul ul li a:hover, .menu-on-top nav ul ul li:hover>a, .menu-on-top nav ul ul ul li a:hover {
-    color: #fff;
-}
-.menu-on-top nav>ul>li>a:after {
-    color: #8AA1B3!important;
-}
-.menu-on-top nav ul ul li:hover>a:after, .menu-on-top nav>ul ul>li a:after, .menu-on-top nav>ul ul>li a:hover:after, .menu-on-top nav>ul>li>a:after {
-    color: inherit;
-}
-.menu-on-top nav ul ul .active>a, .menu-on-top nav ul ul .active>a:hover, .menu-on-top nav ul ul li.active:hover>a {
-    color: #333!important;
 }

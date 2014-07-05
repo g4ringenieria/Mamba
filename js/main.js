@@ -79,6 +79,8 @@ function adjustContentArea ()
 function loadUrl (url)
 {
     $("#content").attr('src', url);
+    $("#left-panel nav li.active").removeClass("active");
+    $('#left-panel nav li:has(a[href="' + url + '"])').addClass("active");
 }
 
 function setupApplication ()
