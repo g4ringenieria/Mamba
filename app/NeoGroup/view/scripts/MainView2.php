@@ -10,8 +10,8 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>assets/bootstrap-3.1.0/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>assets/font-awesome-4.1.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/smartadmin-production.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/smartadmin-skins.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/main.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->getBaseUrl(); ?>css/skin_google.css">
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
     </head>
     
@@ -87,5 +87,5 @@
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="<?php echo $this->getBaseUrl(); ?>assets/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script src="<?php echo $this->getBaseUrl(); ?>js/admin.js"></script>
+    <script src="<?php echo $this->getBaseUrl(); ?>js/main.js"></script>
 </html>
