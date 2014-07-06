@@ -5606,7 +5606,7 @@ html {
 }
 body {
     margin: 0;
-    padding: 0;
+    padding: 10px;
     min-height: 100%;
     background: #fff;
     direction: ltr;
