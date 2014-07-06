@@ -2,7 +2,9 @@
 
 namespace NeoGroup\controller;
 
+use NeoGroup\model\ToolPeer;
 use NeoGroup\view\ErrorView;
+use NeoGroup\view\MainView;
 use NeoPHP\web\WebController;
 
 class SiteController extends WebController
@@ -10,7 +12,7 @@ class SiteController extends WebController
     public function onBeforeActionExecution ($action)
     {
         $this->getSession()->start();
-        $executeAction = ($action == "login" || $action == "logout" || $action == "error" || ($this->getSession()->isStarted() && isset($this->getSession()->sessionId)));
+        $executeAction = ($action == "logout" || ($this->getSession()->isStarted() && isset($this->getSession()->sessionId)));
         if (!$executeAction)
             $this->redirectAction("site/portal/");
         return $executeAction;
@@ -18,7 +20,9 @@ class SiteController extends WebController
     
     public function indexAction ()
     {
-        $this->executeAction("site/portal/");
+        $mainView = new MainView();
+        $mainView->setTools(ToolPeer::getToolsForProfileId($this->getSession()->profileId));
+        $mainView->render();
     }
     
     public function logoutAction ()

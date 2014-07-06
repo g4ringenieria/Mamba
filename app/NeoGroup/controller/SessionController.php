@@ -34,7 +34,7 @@ class SessionController extends EntityController
             $this->getSession()->lastName = $user->getLastname();
             $this->getSession()->clientId = $user->getClient()->getId();
             $this->getSession()->clientName = $user->getClient()->getName();
-            $this->getSession()->tools = serialize($user->getProfile()->getTools());
+            $this->getSession()->profileId = $user->getProfile()->getId();
             $sessionId = session_id();
         }
         else

@@ -5,7 +5,6 @@ namespace NeoGroup\controller\site;
 use NeoGroup\view\ErrorView;
 use NeoGroup\view\PortalView;
 use NeoPHP\web\WebController;
-use NeoPHP\web\WebScriptView;
 
 class PortalController extends WebController
 {   
@@ -17,9 +16,6 @@ class PortalController extends WebController
     
     public function indexAction ()
     {
-//        $view = new WebScriptView("scripts/Portal");
-//        $view->render();
-        
         $view = new PortalView();
         $view->render();
     }

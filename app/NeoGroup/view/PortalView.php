@@ -135,7 +135,7 @@ class PortalView extends BootstrapView
                     {
                         if (data.success)
                         {
-                            window.open("' . $this->getUrl("site/dashboard/") . '", "_self");
+                            window.open("' . $this->getUrl("site/") . '", "_self");
                         }
                         else
                         {
