@@ -5603,7 +5603,6 @@ html {
     min-height: 100%;
     background: #fff;
     position: relative;
-    overflow: hidden;
 }
 body {
     margin: 0;
