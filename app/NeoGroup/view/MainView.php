@@ -54,7 +54,7 @@ class MainView extends HTMLView
             <div id="logo-group"></div>
             <div class="pull-right">                
                 <div id="hide-menu" class="btn-header pull-right"><span><a href="#" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a></span></div>
-                <div id="logout" class="btn-header transparent pull-right"><span> <a href="' . $this->getUrl("site/logout")  . '" title="Cerrar sesión" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span></div>
+                <div id="logout" class="btn-header transparent pull-right"><span> <a href="logout" title="Cerrar sesión" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span></div>
                 <div id="search-mobile" class="btn-header transparent pull-right"><span> <a href="javascript:void(0)" title="Search"><i class="fa fa-search"></i></a> </span></div>
                 <form action="#ajax/search.html" class="header-search pull-right">
                     <input id="search-fld" type="text" name="param" placeholder="Buscar ...">

@@ -1,13 +1,13 @@
 <?php
 
-namespace NeoGroup\controller;
+namespace NeoGroup\controller\site;
 
 use NeoGroup\model\ToolPeer;
 use NeoGroup\view\ErrorView;
 use NeoGroup\view\MainView;
 use NeoPHP\web\WebController;
 
-class SiteController extends WebController
+class MainController extends WebController
 {   
     public function onBeforeActionExecution ($action)
     {
@@ -28,7 +28,7 @@ class SiteController extends WebController
     public function logoutAction ()
     {
         $this->executeAction("session/deleteResource");
-        $this->redirectAction();
+        $this->redirectAction("site/portal/");
     }
     
     public function onActionError ($action, $error)

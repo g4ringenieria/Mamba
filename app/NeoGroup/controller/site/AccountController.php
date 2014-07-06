@@ -2,7 +2,7 @@
 
 namespace NeoGroup\controller\site;
 
-use NeoGroup\controller\SiteController;
+use NeoGroup\controller\site\SiteController;
 use NeoGroup\model\User;
 use NeoGroup\view\AccountView;
 

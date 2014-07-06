@@ -2,7 +2,7 @@
 
 namespace NeoGroup\controller\site;
 
-use NeoGroup\controller\SiteController;
+use NeoGroup\controller\site\SiteController;
 use NeoGroup\view\SettingsView;
 
 class SettingsController extends SiteController
