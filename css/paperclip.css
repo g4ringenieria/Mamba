@@ -6644,14 +6644,14 @@ body {
   background-size: cover !important;
 }
 #item-1 {
-  background-image: url(../img/image-2.png);
+  background-image: url(../images/portal/image-5.png);
   background-position: bottom center;
 }
 #item-2 {
-  background-image: url(../img/image-3.png);
+  background-image: url(../images/portal/image-6.png);
 }
 #item-3 {
-  background-image: url(../img/image-4.png);
+  background-image: url(../images/portal/image-4.png);
 }
 /*** First Slider ***/
 .home-slider h3 {
@@ -6966,7 +6966,7 @@ body {
 .feedbacks {
   margin: 0 0 20px;
   padding: 20px 0 50px;
-  background: #f6f6f6 url(../img/image-1.png) no-repeat center center;
+  background: #f6f6f6 url(../images/portal/image-1.png) no-repeat center center;
   background-size: cover;
   border: 1px solid #ccc;
 }

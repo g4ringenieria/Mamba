@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="ico/favicon.ico">
 
-    <title>Pepech</title>
+    <title>neoGroup</title>
 
     <!-- Bootstrap core CSS -->
     <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
@@ -29,7 +29,6 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
   <body>
 
     <!-- Navigation -->
@@ -42,7 +41,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html"><img src="img/logo.png" alt="..."></a>
+          <a class="navbar-brand" href="<?php echo $this->getBaseUrl(); ?>index.php"><img src="<?php echo $this->getBaseUrl(); ?>images/portal/logo.png" alt="..."></a>
         </div>
         <div class="collapse navbar-collapse">
           <button class="navbar-btn btn btn-red pull-right hidden-sm hidden-xs">Sign In</button>
@@ -59,15 +58,6 @@
               <ul class="dropdown-menu">
                 <li><a href="about-us.html">About Us</a></li>
                 <li><a href="coming-soon.html">Coming Soon</a></li>
-                <li><a href="contact-us.html">Contact Us</a></li>
-                <li><a href="help-center.html">Help Center</a></li>
-                <li><a href="help-item.html">Help Item</a></li>
-                <li><a href="pricing-table.html">Pricing Table</a></li>
-                <li><a href="responsive-video.html">Responsive Video</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="sign-in.html">Sign In</a></li>
-                <li><a href="sign-up.html">Sign Up</a></li>
-                <li><a href="error-page.html">404 Error Page</a></li>
               </ul>
             </li>
             <li class="dropdown">
@@ -150,7 +140,7 @@
                     <a href="#" class="btn btn-lg btn-red animated fadeInUpBig delay-5">Purchase Now</a>
                   </div>
                   <div class="col-sm-6 hidden-xs">
-                    <img class="img-responsive" src="img/showcase.png" alt="...">
+                    <img class="img-responsive" src="<?php echo $this->getBaseUrl(); ?>images/portal/showcase.png" alt="...">
                   </div>
                 </div> <!-- / .row -->
               </div> <!-- / .container -->
@@ -172,7 +162,7 @@
                     </ul>
                   </div>
                   <div class="col-sm-6 hidden-xs">
-                    <img class="img-responsive" src="img/macbook.png" alt="...">
+                    <img class="img-responsive" src="<?php echo $this->getBaseUrl(); ?>images/portal/macbook.png" alt="...">
                   </div>
                 </div> <!-- / .row -->
               </div> <!-- / .container -->          
@@ -193,7 +183,7 @@
                     <a href="#" class="btn btn-lg btn-red animated fadeInUpBig delay-8">Purchase Now</a>
                   </div>
                   <div class="col-sm-6 hidden-xs">
-                    <img class="img-responsive" src="img/iphone.png" alt="...">
+                    <img class="img-responsive" src="<?php echo $this->getBaseUrl(); ?>images/portal/iphone.png" alt="...">
                   </div>
                 </div> <!-- / .row -->
               </div> <!-- / .container -->            
@@ -247,7 +237,7 @@
             <h2 class="first-child text-center">Paperclip: Multi-purpose Professional Theme</h2>
             <h4 class="text-blue text-center">Perfect for corporate websites and mobile apps.</h4>
             <div class="browser-showcase">
-              <img src="img/browsers.png" class="img-responsive" alt="...">
+              <img src="<?php echo $this->getBaseUrl(); ?>images/portal/browsers.png" class="img-responsive" alt="...">
             </div>
           </div>
         </div> <!-- / .row -->
@@ -347,10 +337,10 @@
                 </ul>
               </div>
               <div class="col-sm-6 hidden-xs">
-                <img class="img-responsive show" src="img/macbook.png" alt="..." id="macbook">
-                <img class="img-responsive hidden" src="img/imac.png" alt="..." id="imac">
-                <img class="img-responsive hidden" src="img/ipad.png" alt="..." id="ipad">
-                <img class="img-responsive hidden" src="img/iphone.png" alt="..." id="iphone">
+                <img class="img-responsive show" src="<?php echo $this->getBaseUrl(); ?>images/portal/macbook.png" alt="..." id="macbook">
+                <img class="img-responsive hidden" src="<?php echo $this->getBaseUrl(); ?>images/portal/imac.png" alt="..." id="imac">
+                <img class="img-responsive hidden" src="<?php echo $this->getBaseUrl(); ?>images/portal/ipad.png" alt="..." id="ipad">
+                <img class="img-responsive hidden" src="<?php echo $this->getBaseUrl(); ?>images/portal/iphone.png" alt="..." id="iphone">
               </div>
             </div> <!-- / .row -->
           </div> <!-- / .template-thumbnails -->
@@ -430,7 +420,7 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="blog">
-              <img src="img/photo-1.jpg" alt="...">
+              <img src="<?php echo $this->getBaseUrl(); ?>images/portal/photo-1.jpg" alt="...">
               <div class="blog-desc">
                 <h3>
                   <a href="blog-post.html">Sed lacinia suscipit lacus non sodales. Pellentesque lacinia ornare justo eu tincidunt.</a>
@@ -444,7 +434,7 @@
           </div>
           <div class="col-sm-6">
             <div class="blog">
-              <img src="img/photo-2.jpg" alt="...">
+              <img src="<?php echo $this->getBaseUrl(); ?>images/portal/photo-2.jpg" alt="...">
               <div class="blog-desc">
                 <h3>
                   <a href="blog-post.html">Nulla pretium libero interdum, tempus lorem non, rutrum diam. Lorem ipsum dolor sit amet.</a>
