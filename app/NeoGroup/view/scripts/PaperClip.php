@@ -17,7 +17,7 @@
     <link href="<?php echo $this->getBaseUrl(); ?>css/paperclip.css" rel="stylesheet">
 
     <!-- Resources -->
-    <link href="<?php echo $this->getBaseUrl(); ?>assets/font-awewome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="<?php echo $this->getBaseUrl(); ?>assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="<?php echo $this->getBaseUrl(); ?>css/animate.css" rel="stylesheet">
     <link href="<?php echo $this->getBaseUrl(); ?>css/lightbox.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
