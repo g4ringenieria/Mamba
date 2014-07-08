@@ -207,30 +207,33 @@
                                 <div class="service-item">
                                     <i class="fa fa-gear"></i>
                                     <div class="service-desc">
-                                        <h4>Built With Bootstrap 3</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
+                                        <h4>Desarrollos a medida</h4>
+                                        <p>Desarrollo de software a la medida de los requerimientos de nuestros clientes.</p>
+                                        <p>Instalación de equipos que técnicamente se ajustan al proyecto en particular.</p>
                                     </div>
                                 </div>
                             </div> <!-- / .services -->
                         </div>
-                        <div class="col-sm-4">
-                            <div class="services">
-                                <div class="service-item">
-                                    <i class="fa fa-arrows-alt"></i>
-                                    <div class="service-desc">
-                                        <h4>Responsive Design</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
-                                    </div>
-                                </div>
-                            </div> <!-- / .services -->
-                        </div>
+                        
                         <div class="col-sm-4">
                             <div class="services">
                                 <div class="service-item">
                                     <i class="fa fa-refresh"></i>
                                     <div class="service-desc">
-                                        <h4>Easy to Customize</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
+                                        <h4>Reportes</h4>
+                                        <p>Generación de herramientas para el control de la información, las cuales facilitan la monitorización automática y el registro de las mediciones.</p>
+                                    </div>
+                                </div>
+                            </div> <!-- / .services -->
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <div class="services">
+                                <div class="service-item">
+                                    <i class="fa fa-plus"></i>
+                                    <div class="service-desc">
+                                        <h4>Control</h4>
+                                        <p>Rastreo de la ubicación de vehículos, camiones de transporte y contenedores en cualquier lugar, en cualquier momento, incluso en zonas sin cobertura de señal celular.</p>
                                     </div>
                                 </div>
                             </div> <!-- / .services -->
@@ -240,21 +243,22 @@
                         <div class="col-sm-4">
                             <div class="services">
                                 <div class="service-item">
-                                    <i class="fa fa-plus"></i>
+                                    <i class="fa fa-arrows-alt"></i>
                                     <div class="service-desc">
-                                        <h4>20+ Templates Included</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
+                                        <h4>Supervisión</h4>
+                                        <p>Supervisión de las puertas de los contenedores para detectar robos y asegurarse de que la carga se mantenga segura desde su origen hasta su destino.</p>
                                     </div>
                                 </div>
                             </div> <!-- / .services -->
                         </div>
+                        
                         <div class="col-sm-4">
                             <div class="services">
                                 <div class="service-item">
                                     <i class="fa fa-envelope"></i>
                                     <div class="service-desc">
-                                        <h4>24/7 Support</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
+                                        <h4>Alertas / Mensajes</h4>
+                                        <p>Envío de alertas y alarmas a centros de control, garantizando operaciones seguras y eficientes. Envío y recepción de mensajes de texto al personal en campo.</p>
                                     </div>
                                 </div>
                             </div> <!-- / .services -->
@@ -264,8 +268,8 @@
                                 <div class="service-item">
                                     <i class="fa fa-picture-o"></i>
                                     <div class="service-desc">
-                                        <h4>Isotope Gallery</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
+                                        <h4>Automatización</h4>
+                                        <p>Generación de herramientas para el control de la información, las cuales facilitan la monitorización automática y el registro de las mediciones</p>
                                     </div>
                                 </div>
                             </div> <!-- / .services -->
