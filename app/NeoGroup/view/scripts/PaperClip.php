@@ -311,36 +311,17 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h2 class="text-center">What Clients Say About Us</h2>
+                            <h2 class="text-center">Quienes somos</h2>
                         </div>
                     </div> <!-- / .row -->
                     <div class="row">
-                        <div class="col-sm-6 col-md-4">
+                        
+                        <div class="col-sm-6 col-md-6">
                             <div class="feedback">
                                 <i class="fa fa-user fa-2x"></i>
                                 <div>
                                     <p>
-                                        In vitae sodales massa. Proin commodo nibh sed nisi placerat facilisis. Fusce fringilla elit ipsum, vitae viverra ligula hendrerit nec.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-4">
-                            <div class="feedback">
-                                <i class="fa fa-user fa-2x"></i>
-                                <div>
-                                    <p>
-                                        In vitae sodales massa. Proin commodo nibh sed nisi placerat facilisis. Fusce fringilla elit ipsum, vitae viverra ligula hendrerit nec.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hidden-sm col-md-4">
-                            <div class="feedback">
-                                <i class="fa fa-user fa-2x"></i>
-                                <div>
-                                    <p>
-                                        In vitae sodales massa. Proin commodo nibh sed nisi placerat facilisis. Fusce fringilla elit ipsum, vitae viverra ligula hendrerit nec.
+                                        NeoGroup esta formado por un grupo de Jóvenes Ingenieros especializados en las áreas de Electrónica, Computación y Sistemas. Nuestra sólida formación profesional y experiencia en desarrollos de sistemas integrales son la base para encontrar soluciones a su medida.
                                     </p>
                                 </div>
                             </div>
@@ -350,17 +331,39 @@
                                 <i class="fa fa-user fa-2x"></i>
                                 <div>
                                     <p>
-                                        Donec dignissim ipsum nec sagittis suscipit. Nullam nibh turpis, faucibus ultrices ullamcorper et, ornare sit amet quam. Etiam adipiscing justo massa, vel elementum felis aliquet quis. Nulla facilisis magna nulla, nec imperdiet felis lacinia et.
+                                        Estamos capacitados para proveer soluciones integrales con el objetivo de aumentar la productividad y rentabilidad de industrias y empresas.
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-6">
+                    </div>
+                    <div class="row">    
+                        <div class="col-sm-4 col-md-4">
                             <div class="feedback">
                                 <i class="fa fa-user fa-2x"></i>
                                 <div>
                                     <p>
-                                        Donec dignissim ipsum nec sagittis suscipit. Nullam nibh turpis, faucibus ultrices ullamcorper et, ornare sit amet quam. Etiam adipiscing justo massa, vel elementum felis aliquet quis. Nulla facilisis magna nulla, nec imperdiet felis lacinia et.
+                                        In vitae sodales massa. Proin commodo nibh sed nisi placerat facilisis. Fusce fringilla elit ipsum, vitae viverra ligula hendrerit nec.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="feedback">
+                                <i class="fa fa-user fa-2x"></i>
+                                <div>
+                                    <p>
+                                        In vitae sodales massa. Proin commodo nibh sed nisi placerat facilisis. Fusce fringilla elit ipsum, vitae viverra ligula hendrerit nec.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="feedback">
+                                <i class="fa fa-user fa-2x"></i>
+                                <div>
+                                    <p>
+                                        In vitae sodales massa. Proin commodo nibh sed nisi placerat facilisis. Fusce fringilla elit ipsum, vitae viverra ligula hendrerit nec.
                                     </p>
                                 </div>
                             </div>
