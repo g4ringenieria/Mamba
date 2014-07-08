@@ -127,15 +127,14 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <h1 class="first-child animated slideInDown delay-2">Fully Packed With Features</h1>
-                                        <h3 class="animated slideInDown delay-3">Look No Further</h3>
+                                        <h1 class="first-child animated slideInDown delay-2">Control de temperaturas</h1>
                                         <ul>
-                                            <li class="animated slideInLeft delay-4"><i class="fa fa-chevron-circle-right fa-fw"></i> Built With Bootstrap 3</li>
-                                            <li class="animated slideInLeft delay-5"><i class="fa fa-chevron-circle-right fa-fw"></i> Fully Responsive Design</li>
-                                            <li class="animated slideInLeft delay-6"><i class="fa fa-chevron-circle-right fa-fw"></i> Easy to Customize</li>
-                                            <li class="animated slideInLeft delay-7"><i class="fa fa-chevron-circle-right fa-fw"></i> 20+ HTML Templates</li>
+                                            <li class="animated slideInLeft delay-4"><i class="fa fa-chevron-circle-right fa-fw"></i> Control a distancia (internet, mail, móvil, etc)</li>
+                                            <li class="animated slideInLeft delay-5"><i class="fa fa-chevron-circle-right fa-fw"></i> Centralización de todos los datos de varios equipos y recintos</li>
+                                            <li class="animated slideInLeft delay-6"><i class="fa fa-chevron-circle-right fa-fw"></i> Almacenamiento y registro de datos históricos y con gran periodicidad</li>
+                                            <li class="animated slideInLeft delay-7"><i class="fa fa-chevron-circle-right fa-fw"></i> Configuración de alarmas por subidas de temperaturas</li>
+                                            <li class="animated slideInLeft delay-8"><i class="fa fa-chevron-circle-right fa-fw"></i> Descarga de informes y gráficas</li>
                                         </ul>
-                                        <a href="#" class="btn btn-lg btn-red animated fadeInUpBig delay-8">Purchase Now</a>
                                     </div>
                                     <div class="col-sm-6 hidden-xs">
                                         <img class="img-responsive" src="<?php echo $this->getBaseUrl(); ?>images/portal/iphone.png" alt="...">

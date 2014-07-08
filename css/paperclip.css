@@ -6644,15 +6644,24 @@ body {
   background-size: cover !important;
 }
 #item-1 {
-  background-image: url(../images/portal/image-5.png);
-  background-position: bottom center;
+  background-image: url(../images/portal/image-7.png);
 }
 #item-2 {
   background-image: url(../images/portal/image-6.png);
 }
 #item-3 {
-  background-image: url(../images/portal/image-7.png);
+  background-image: url(../images/portal/image-5.png);
+  background-position: bottom center;
 }
+
+#item-3 h1 {
+    color: black;
+}
+
+#item-3 ul {
+   color: black; 
+}
+
 /*** First Slider ***/
 .home-slider h3 {
   color: #ed3e49;
