@@ -119,16 +119,12 @@ class MainView extends HTMLView
     protected function createHeader ()
     {   
         return '
-        <nav class="navbar navbar-default navbar-fixed-top main-navbar" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" onclick="toggleSidebar();">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
                     <a href="' . $this->getUrl('site/main/') . '" class="navbar-brand"> ' . $this->getApplication()->getName() . '</a>
                 </div>
+
                 <ul class="nav navbar-nav pull-right hidden-xs">
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i></a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i></a></li>
