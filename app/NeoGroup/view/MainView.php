@@ -30,6 +30,13 @@ class MainView extends HTMLView
         $this->addScriptFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js");
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.1.0/js/bootstrap.min.js");
         
+        $this->addScript('
+            function toggleSidebar () 
+            {
+                $(body).toggleClass("collapsed");
+            }
+        ');
+        
         $this->addStyle('
             #side-container
             {
@@ -37,7 +44,6 @@ class MainView extends HTMLView
                 width: 200px;
                 height: 100%;
                 padding-top: 50px;
-                background: yellow;
                 z-index: 20;
             }
 
@@ -51,18 +57,28 @@ class MainView extends HTMLView
                 z-index: 10;
             }
             
+            .collapsed #side-container
+            {
+                visibility: hidden;
+            }
+            
+            .collapsed #main-container
+            {
+                padding-left:0px;
+            }
+            
             #sidebar
             {
                 width: 100%;
                 height: 100%;
                 overflow: auto;
+                padding-top: 10px;
             }
 
             #iframe
             {
                 width: 100%;
                 height: 100%;
-                background: blue;
                 border-style: none;
             }
         ');
@@ -134,7 +150,7 @@ class MainView extends HTMLView
     
     protected function createContent()
     {
-        return '<div id="main-container"><div id="iframe"></div></div>';
+        return '<div id="main-container"><iframe id="iframe" src="' . $this->getUrl(!empty($this->defaultAction)?$this->defaultAction:"site/dashboard/") . '"></iframe></div>';
     }
 }
 
