@@ -33,7 +33,7 @@ class MainView extends HTMLView
         $this->addScript('
             function toggleSidebar () 
             {
-                $(body).toggleClass("collapsed");
+                $("body").toggleClass("collapsed");
             }
         ');
         
@@ -81,6 +81,29 @@ class MainView extends HTMLView
                 height: 100%;
                 border-style: none;
             }
+            
+            @media (max-width:765px) 
+            {
+                #side-container
+                {
+                    visibility: hidden;
+                }
+
+                #main-container
+                {
+                    padding-left:0px;
+                }
+
+                .collapsed #side-container
+                {
+                    visibility: visible;
+                }
+
+                .collapsed #main-container
+                {
+                    padding-left:200px;
+                }
+            }
         ');
         $this->buildBody();
     }
@@ -99,7 +122,7 @@ class MainView extends HTMLView
         <nav class="navbar navbar-default navbar-fixed-top main-navbar" role="navigation" style="margin-bottom: 0">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" onclick="toggleSideBar();">
+                    <button class="navbar-toggle" type="button" onclick="toggleSidebar();">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
