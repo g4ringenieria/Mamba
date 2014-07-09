@@ -132,7 +132,7 @@ class MainView extends HTMLView
                             <li><a href="' . $this->getUrl("site/account/") . '"><i class="fa fa-user"></i> Mi Cuenta</a></li>
                             <li><a href="' . $this->getUrl("site/settings/") . '"><i class="fa fa-gear"></i> Configuración</a></li>
                             <li class="divider"></li>
-                            <li><a href="' . $this->getUrl("site/logout") . '"><i class="fa fa-power-off"></i> Salir</a></li>
+                            <li><a href="' . $this->getUrl("site/main/logout") . '"><i class="fa fa-power-off"></i> Salir</a></li>
                         </ul>
                     </li>
                 </ul>
