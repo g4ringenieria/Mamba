@@ -3,88 +3,138 @@
 namespace NeoGroup\view;
 
 use NeoPHP\web\html\HTMLView;
-use NeoPHP\web\html\Tag;
 
 class MainView extends HTMLView
 {
     private $defaultAction = null;
     private $tools = array();
-    
-    public function setDefaultAction ($defaultAction)
+
+    public function setDefaultAction($defaultAction)
     {
         $this->defaultAction = $defaultAction;
     }
-    
-    public function setTools (array $tools)
+
+    public function setTools(array $tools)
     {
         $this->tools = $tools;
     }
-    
+
     protected function build()
     {
         parent::build();
         $this->setTitle($this->getApplication()->getName());
-        $this->addMeta(array("charset"=>"utf-8"));
-        $this->addMeta(array("name"=>"viewport", "content"=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));
-        $this->addMeta(array("name"=>"apple-mobile-web-app-capable", "content"=>"yes"));
-        $this->addMeta(array("name"=>"apple-mobile-web-app-status-bar-style", "content"=>"black"));
+        $this->addMeta(array("charset" => "utf-8"));
+        $this->addMeta(array("name" => "viewport", "content" => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));
         $this->addStyleFile($this->getBaseUrl() . "assets/bootstrap-3.1.0/css/bootstrap.min.css");
         $this->addStyleFile($this->getBaseUrl() . "assets/font-awesome-4.1.0/css/font-awesome.min.css");
-        $this->addStyleFile($this->getBaseUrl() . "css/main.css");
-        $this->addStyleFile($this->getBaseUrl() . "css/skin_google.css");
-        $this->addStyleFile("http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700");
         $this->addScriptFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js");
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.1.0/js/bootstrap.min.js");
-        $this->addScriptFile($this->getBaseUrl() . "js/main.js");
+        
+        $this->addStyle('
+            #side-container
+            {
+                position:fixed;
+                width: 200px;
+                height: 100%;
+                padding-top: 50px;
+                background: yellow;
+                z-index: 20;
+            }
+
+            #main-container
+            {
+                position:fixed;
+                width: 100%;
+                height: 100%;
+                padding-left: 200px;
+                padding-top: 50px;
+                z-index: 10;
+            }
+            
+            #sidebar
+            {
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+            }
+
+            #iframe
+            {
+                width: 100%;
+                height: 100%;
+                background: blue;
+                border-style: none;
+            }
+        ');
         $this->buildBody();
     }
-    
+
     protected function buildBody()
     {
-        $this->getBodyTag()->setAttribute("class", "fixed-header fixed-navigation");
         $this->getBodyTag()->add($this->createHeader());
-        $this->getBodyTag()->add($this->createNavigationPanel());
-        $this->getBodyTag()->add($this->createMainPanel());
+        $this->getBodyTag()->add($this->createSidebar());
+        $this->getBodyTag()->add($this->createContent());
     }
-    
+
     protected function createHeader()
     {
         return '
-        <header id="header">
-            <div id="logo-group"></div>
-            <div class="pull-right">                
-                <div id="hide-menu" class="btn-header pull-right"><span><a href="#" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a></span></div>
-                <div id="logout" class="btn-header transparent pull-right"><span> <a href="logout" title="Cerrar sesión" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span></div>
-                <div id="search-mobile" class="btn-header transparent pull-right"><span> <a href="javascript:void(0)" title="Search"><i class="fa fa-search"></i></a> </span></div>
-                <form action="#ajax/search.html" class="header-search pull-right">
-                    <input id="search-fld" type="text" name="param" placeholder="Buscar ...">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                    <a href="#" id="cancel-search-js" title="Cancel Search"><i class="fa fa-times"></i></a>
-                </form>
-                <div id="fullscreen" class="btn-header transparent pull-right"><span><a href="#" data-action="toggleFullscreen" title="Pantalla completa"><i class="fa fa-arrows-alt"></i></a></span></div>
+        <div id="header" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Settings</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+              <input type="text" class="form-control" placeholder="Search...">
+            </form>
+          </div>
+        </div>
+      </div>';
+    }
+    
+    protected function createSidebar()
+    {
+        return '
+        <div id="side-container">
+            <div id="sidebar">
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="#">Overview</a></li>
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#">Analytics</a></li>
+                    <li><a href="#">Export</a></li>
+                </ul>
+                <ul class="nav nav-sidebar">
+                    <li><a href="">Nav item</a></li>
+                    <li><a href="">Nav item again</a></li>
+                    <li><a href="">One more nav</a></li>
+                    <li><a href="">Another nav item</a></li>
+                    <li><a href="">More navigation</a></li>
+                </ul>
+                <ul class="nav nav-sidebar">
+                    <li><a href="">Nav item again</a></li>
+                    <li><a href="">One more nav</a></li>
+                    <li><a href="">Another nav item</a></li>
+                </ul>
             </div>
-        </header>';
+        </div>';
     }
     
-    protected function createNavigationPanel()
+    protected function createContent()
     {
-        $list = new Tag("ul");
-        foreach ($this->tools as $tool)
-        {
-            $anchor = new Tag("a", array("href"=>$this->getUrl($tool->getAction())));
-            $anchor->add (new Tag("i", array("class"=>"fa fa-lg fa-fw fa-" . $tool->getIcon()),""));
-            $anchor->add (new Tag("span", array("class"=>"menu-item-parent"), $tool->getDescription()));
-            $list->add (new Tag("li", $anchor));
-        }
-        $panel = new Tag("aside", array("id"=>"left-panel"));
-        $panel->add ('<div class="login-info"><span><a href="#" id="show-shortcut" data-action="toggleShortcut"><span>john.doe</span></a></span></div>');
-        $panel->add (new Tag("nav", $list));
-        return $panel;
-    }
-    
-    protected function createMainPanel()
-    {
-        return '<div id="main" role="main"><iframe id="content" src="' . $this->getUrl(!empty($this->defaultAction)?$this->defaultAction:"site/dashboard/") . '"></iframe></div>';
+        return '<div id="main-container"><div id="iframe"></div></div>';
     }
 }
 
