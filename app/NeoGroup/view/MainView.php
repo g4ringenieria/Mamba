@@ -3,6 +3,7 @@
 namespace NeoGroup\view;
 
 use NeoPHP\web\html\HTMLView;
+use NeoPHP\web\html\Tag;
 
 class MainView extends HTMLView
 {
@@ -142,29 +143,16 @@ class MainView extends HTMLView
     
     protected function createSidebar()
     {
-        return '
-        <div id="side-container">
-            <div id="sidebar">
-                <ul class="nav nav-sidebar">
-                    <li class="active"><a href="#">Overview</a></li>
-                    <li><a href="#">Reports</a></li>
-                    <li><a href="#">Analytics</a></li>
-                    <li><a href="#">Export</a></li>
-                </ul>
-                <ul class="nav nav-sidebar">
-                    <li><a href="">Nav item</a></li>
-                    <li><a href="">Nav item again</a></li>
-                    <li><a href="">One more nav</a></li>
-                    <li><a href="">Another nav item</a></li>
-                    <li><a href="">More navigation</a></li>
-                </ul>
-                <ul class="nav nav-sidebar">
-                    <li><a href="">Nav item again</a></li>
-                    <li><a href="">One more nav</a></li>
-                    <li><a href="">Another nav item</a></li>
-                </ul>
-            </div>
-        </div>';
+        $list = new Tag("ul", array("class"=>"nav nav-sidebar"));
+        foreach ($this->tools as $tool)
+        {
+            $anchor = new Tag("a", array("href"=>$this->getUrl($tool->getAction())));
+            $anchor->add (new Tag("i", array("class"=>"fa fa-" . $tool->getIcon()),""));
+            $anchor->add ("&nbsp;" . $tool->getDescription());
+            $list->add (new Tag("li", $anchor));
+        }
+        $sidebar = new Tag("div", array("id"=>"sidebar"), $list);
+        return new Tag("div", array("id"=>"side-container"), $sidebar);
     }
     
     protected function createContent()
