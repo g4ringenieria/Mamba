@@ -121,10 +121,7 @@ class MainView extends HTMLView
         return '
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
-                <div class="navbar-header">
-                    <a href="' . $this->getUrl('site/main/') . '" class="navbar-brand"> ' . $this->getApplication()->getName() . '</a>
-                </div>
-
+                <a href="#" onclick="toggleSidebar();" class="navbar-brand"><i class="fa fa-bars"></i>&nbsp;&nbsp;' . $this->getApplication()->getName() . '</a>
                 <ul class="nav navbar-nav pull-right hidden-xs">
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i></a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i></a></li>
