@@ -36,6 +36,13 @@ class MainView extends HTMLView
             {
                 $("body").toggleClass("collapsed");
             }
+            
+            function loadUrl (url)
+            {
+                $("#iframe").attr("src", url);
+                $("#left-panel nav li.active").removeClass("active");
+                $("#left-panel nav li:has(a[href=\"" + url + "\"])").addClass("active");
+            }
         ');
         
         $this->addStyle('
