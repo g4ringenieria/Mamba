@@ -31,74 +31,7 @@ class MainView extends HTMLView
         $this->addScriptFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js");
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.1.0/js/bootstrap.min.js");
         $this->addScriptFile($this->getBaseUrl() . "js/main.js");
-        $this->addStyle('
-            #side-container
-            {
-                position:fixed;
-                width: 200px;
-                height: 100%;
-                padding-top: 50px;
-                z-index: 20;
-            }
-
-            #main-container
-            {
-                position:fixed;
-                width: 100%;
-                height: 100%;
-                padding-left: 200px;
-                padding-top: 50px;
-                z-index: 10;
-            }
-            
-            .collapsed #side-container
-            {
-                visibility: hidden;
-            }
-            
-            .collapsed #main-container
-            {
-                padding-left:0px;
-            }
-            
-            #sidebar
-            {
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                padding-top: 10px;
-            }
-
-            #iframe
-            {
-                width: 100%;
-                height: 100%;
-                border-style: none;
-            }
-            
-            @media (max-width:765px) 
-            {
-                #side-container
-                {
-                    visibility: hidden;
-                }
-
-                #main-container
-                {
-                    padding-left:0px;
-                }
-
-                .collapsed #side-container
-                {
-                    visibility: visible;
-                }
-
-                .collapsed #main-container
-                {
-                    padding-left:200px;
-                }
-            }
-        ');
+        $this->addStyleFile($this->getBaseUrl() . "css/main.css");
         $this->buildBody();
     }
 
