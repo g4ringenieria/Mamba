@@ -53,8 +53,8 @@ class MainView extends HTMLView
                     <li class="dropdown">            
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-user"></i> ' . $this->getSession()->firstName . ' ' . $this->getSession()->lastName . ' <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="' . $this->getUrl("site/account/") . '"><i class="fa fa-user"></i> Mi Cuenta</a></li>
-                            <li><a href="' . $this->getUrl("site/settings/") . '"><i class="fa fa-gear"></i> Configuración</a></li>
+                            <li><a href="#" onclick="loadUrl(\'' . $this->getUrl("site/account/") . '\')"><i class="fa fa-user"></i> Mi Cuenta</a></li>
+                            <li><a href="#" onclick="loadUrl(\'' . $this->getUrl("site/settings/") . '\')"><i class="fa fa-gear"></i> Configuración</a></li>
                             <li class="divider"></li>
                             <li><a href="' . $this->getUrl("site/main/logout") . '"><i class="fa fa-power-off"></i> Salir</a></li>
                         </ul>
