@@ -4,7 +4,7 @@ namespace NeoGroup;
 
 class WebApplication extends \NeoPHP\web\WebApplication
 {
-    public function initialize ()
+    protected function initialize ()
     {
         parent::initialize();
         $this->setName ("NeoGroup");
