@@ -30,21 +30,7 @@ class MainView extends HTMLView
         $this->addStyleFile($this->getBaseUrl() . "assets/font-awesome-4.1.0/css/font-awesome.min.css");
         $this->addScriptFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js");
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.1.0/js/bootstrap.min.js");
-        
-        $this->addScript('
-            function toggleSidebar () 
-            {
-                $("body").toggleClass("collapsed");
-            }
-            
-            function loadUrl (url)
-            {
-                $("#iframe").attr("src", url);
-                $("#left-panel nav li.active").removeClass("active");
-                $("#left-panel nav li:has(a[href=\"" + url + "\"])").addClass("active");
-            }
-        ');
-        
+        $this->addScriptFile($this->getBaseUrl() . "js/main.js");
         $this->addStyle('
             #side-container
             {
