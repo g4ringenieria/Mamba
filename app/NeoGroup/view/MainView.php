@@ -65,14 +65,20 @@ class MainView extends HTMLView
     }
     
     protected function createSidebar()
-    {
+    {        
         $list = new Tag("ul", array("class"=>"nav nav-sidebar"));
         foreach ($this->tools as $tool)
         {
             $anchor = new Tag("a", array("href"=>$this->getUrl($tool->getAction())));
             $anchor->add (new Tag("i", array("class"=>"fa fa-" . $tool->getIcon()),""));
             $anchor->add ("&nbsp;" . $tool->getDescription());
-            $list->add (new Tag("li", $anchor));
+            $listItem = new Tag("li", $anchor);
+            if (empty($this->defaultAction))
+            {
+                $this->defaultAction = $tool->getAction();
+                $listItem->setAttribute("class", "active");
+            }
+            $list->add ($listItem);
         }
         $sidebar = new Tag("div", array("id"=>"sidebar"), $list);
         return new Tag("div", array("id"=>"side-container"), $sidebar);
@@ -80,7 +86,7 @@ class MainView extends HTMLView
     
     protected function createContent()
     {
-        return '<div id="main-container"><iframe id="iframe" src="' . $this->getUrl(!empty($this->defaultAction)?$this->defaultAction:"site/dashboard/") . '"></iframe></div>';
+        return '<div id="main-container"><iframe id="iframe" src="' . $this->getUrl($this->defaultAction) . '"></iframe></div>';
     }
 }
 
