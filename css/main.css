@@ -58,6 +58,16 @@
     color: white;
 }
 
+#header .open > a
+{
+    background: #bd0e19;
+}
+
+#header .dropdown-menu a
+{
+    color: black;
+}
+
 #sidebar ul>li {
     background-color: #f2f2f2;
     background-image: -moz-linear-gradient(top, #f9f9f9, #f2f2f2);
