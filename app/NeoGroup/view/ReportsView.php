@@ -70,15 +70,15 @@ class ReportsView extends SiteView
         $dateToPicker->setAttributes(array("placeholder"=>"Fecha hasta ...", "name"=>"dateTo"));
         $dateToPicker->setValue(isset($parameters->dateTo)? $parameters->dateTo : (date("Y/m/d") . " 23:59:59"));
         $button = new Button();
-        $button->setType("primary");
+        $button->setType("danger");
         $button->setText("Buscar");
         $button->addAction("Tabla", array(), "showReportsInTable");
         $button->addAction("Mapa", array(), "showReportsInMap");
         $container = new Tag("div", array("class"=>"row"));
-        $container->add (new Tag("div", array("class"=>"col-md-3"), $holderSelector));
-        $container->add (new Tag("div", array("class"=>"col-md-3"), $dateFromPicker));
-        $container->add (new Tag("div", array("class"=>"col-md-3"), $dateToPicker));
-        $container->add (new Tag("div", array("class"=>"col-md-3"), $button));
+        $container->add (new Tag("div", array("class"=>"col-sm-3"), $holderSelector));
+        $container->add (new Tag("div", array("class"=>"col-sm-3"), $dateFromPicker));
+        $container->add (new Tag("div", array("class"=>"col-sm-3"), $dateToPicker));
+        $container->add (new Tag("div", array("class"=>"col-sm-3"), $button));
         return new Tag("form", array("style"=>"margin-bottom: 10px", "method"=>"POST"), $container);
     }
     

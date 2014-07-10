@@ -3,7 +3,7 @@
 namespace NeoGroup\processor;
 
 use Exception;
-use NeoPHP\app\Processor;
+use NeoPHP\processor\Processor;
 use NeoPHP\connection\Connection;
 
 class ConnectionsCommandsProcessor extends Processor

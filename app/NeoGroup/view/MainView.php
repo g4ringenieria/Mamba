@@ -9,82 +9,84 @@ class MainView extends HTMLView
 {
     private $defaultAction = null;
     private $tools = array();
-    
-    public function setDefaultAction ($defaultAction)
+
+    public function setDefaultAction($defaultAction)
     {
         $this->defaultAction = $defaultAction;
     }
-    
-    public function setTools (array $tools)
+
+    public function setTools(array $tools)
     {
         $this->tools = $tools;
     }
-    
+
     protected function build()
     {
         parent::build();
         $this->setTitle($this->getApplication()->getName());
-        $this->addMeta(array("charset"=>"utf-8"));
-        $this->addMeta(array("name"=>"viewport", "content"=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));
-        $this->addMeta(array("name"=>"apple-mobile-web-app-capable", "content"=>"yes"));
-        $this->addMeta(array("name"=>"apple-mobile-web-app-status-bar-style", "content"=>"black"));
+        $this->addMeta(array("charset" => "utf-8"));
+        $this->addMeta(array("name" => "viewport", "content" => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));
         $this->addStyleFile($this->getBaseUrl() . "assets/bootstrap-3.1.0/css/bootstrap.min.css");
         $this->addStyleFile($this->getBaseUrl() . "assets/font-awesome-4.1.0/css/font-awesome.min.css");
-        $this->addStyleFile($this->getBaseUrl() . "css/main.css");
-        $this->addStyleFile($this->getBaseUrl() . "css/skin_google.css");
-        $this->addStyleFile("http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700");
         $this->addScriptFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js");
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.1.0/js/bootstrap.min.js");
         $this->addScriptFile($this->getBaseUrl() . "js/main.js");
+        $this->addStyleFile($this->getBaseUrl() . "css/main.css");
         $this->buildBody();
     }
-    
+
     protected function buildBody()
     {
-        $this->getBodyTag()->setAttribute("class", "fixed-header fixed-navigation");
         $this->getBodyTag()->add($this->createHeader());
-        $this->getBodyTag()->add($this->createNavigationPanel());
-        $this->getBodyTag()->add($this->createMainPanel());
+        $this->getBodyTag()->add($this->createSidebar());
+        $this->getBodyTag()->add($this->createContent());
     }
+
     
-    protected function createHeader()
-    {
+    protected function createHeader ()
+    {   
         return '
-        <header id="header">
-            <div id="logo-group"></div>
-            <div class="pull-right">                
-                <div id="hide-menu" class="btn-header pull-right"><span><a href="#" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a></span></div>
-                <div id="logout" class="btn-header transparent pull-right"><span> <a href="logout" title="Cerrar sesión" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span></div>
-                <div id="search-mobile" class="btn-header transparent pull-right"><span> <a href="javascript:void(0)" title="Search"><i class="fa fa-search"></i></a> </span></div>
-                <form action="#ajax/search.html" class="header-search pull-right">
-                    <input id="search-fld" type="text" name="param" placeholder="Buscar ...">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                    <a href="#" id="cancel-search-js" title="Cancel Search"><i class="fa fa-times"></i></a>
-                </form>
-                <div id="fullscreen" class="btn-header transparent pull-right"><span><a href="#" data-action="toggleFullscreen" title="Pantalla completa"><i class="fa fa-arrows-alt"></i></a></span></div>
+        <nav id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <a href="#" onclick="toggleSidebar();" class="navbar-brand"><i class="fa fa-bars"></i>&nbsp;&nbsp;' . $this->getApplication()->getName() . '</a>
+                <ul class="nav navbar-nav pull-right hidden-xs">
+                    <li class="dropdown">            
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-user"></i> ' . $this->getSession()->firstName . ' ' . $this->getSession()->lastName . ' <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="loadUrl(\'' . $this->getUrl("site/account/") . '\')"><i class="fa fa-user"></i> Mi Cuenta</a></li>
+                            <li><a href="#" onclick="loadUrl(\'' . $this->getUrl("site/settings/") . '\')"><i class="fa fa-gear"></i> Configuración</a></li>
+                            <li class="divider"></li>
+                            <li><a href="' . $this->getUrl("site/main/logout") . '"><i class="fa fa-power-off"></i> Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-        </header>';
+        </nav>';
     }
     
-    protected function createNavigationPanel()
-    {
-        $list = new Tag("ul");
+    protected function createSidebar()
+    {        
+        $list = new Tag("ul", array("class"=>"nav nav-sidebar"));
         foreach ($this->tools as $tool)
         {
             $anchor = new Tag("a", array("href"=>$this->getUrl($tool->getAction())));
-            $anchor->add (new Tag("i", array("class"=>"fa fa-lg fa-fw fa-" . $tool->getIcon()),""));
-            $anchor->add (new Tag("span", array("class"=>"menu-item-parent"), $tool->getDescription()));
-            $list->add (new Tag("li", $anchor));
+            $anchor->add (new Tag("i", array("class"=>"fa fa-" . $tool->getIcon()),""));
+            $anchor->add ("&nbsp;" . $tool->getDescription());
+            $listItem = new Tag("li", $anchor);
+            if (empty($this->defaultAction))
+            {
+                $this->defaultAction = $tool->getAction();
+                $listItem->setAttribute("class", "active");
+            }
+            $list->add ($listItem);
         }
-        $panel = new Tag("aside", array("id"=>"left-panel"));
-        $panel->add ('<div class="login-info"><span><a href="#" id="show-shortcut" data-action="toggleShortcut"><span>john.doe</span></a></span></div>');
-        $panel->add (new Tag("nav", $list));
-        return $panel;
+        $sidebar = new Tag("div", array("id"=>"sidebar"), $list);
+        return new Tag("div", array("id"=>"side-container"), $sidebar);
     }
     
-    protected function createMainPanel()
+    protected function createContent()
     {
-        return '<div id="main" role="main"><iframe id="content" src="' . $this->getUrl(!empty($this->defaultAction)?$this->defaultAction:"site/dashboard/") . '"></iframe></div>';
+        return '<div id="main-container"><iframe id="iframe" src="' . $this->getUrl($this->defaultAction) . '"></iframe></div>';
     }
 }
 

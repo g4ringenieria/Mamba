@@ -11,7 +11,7 @@ use NeoPHP\server\ServerApplication as FrameworkServerApplication;
 
 class ServerApplication extends FrameworkServerApplication
 {
-    public function initialize ()
+    protected function initialize ()
     {   
         parent::initialize();
         $this->setPort(8000);

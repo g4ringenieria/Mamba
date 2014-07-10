@@ -14,6 +14,7 @@ class ToolPeer extends DatabaseModel
         $doProfileTool = self::getDataObject ("profiletool");
         $doTool->addJoin ($doProfileTool, DataObject::JOINTYPE_INNER, "toolid");
         $doTool->addWhereCondition("profileid = " . $profileId);
+        $doTool->addOrderByField("tool.toolid", DataObject::ORDERBYTYPE_ASC);
         $doTool->find();
         while ($doTool->fetch ()) 
         {
