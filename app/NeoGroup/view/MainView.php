@@ -46,13 +46,10 @@ class MainView extends HTMLView
     protected function createHeader ()
     {   
         return '
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <a href="#" onclick="toggleSidebar();" class="navbar-brand"><i class="fa fa-bars"></i>&nbsp;&nbsp;' . $this->getApplication()->getName() . '</a>
                 <ul class="nav navbar-nav pull-right hidden-xs">
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i></a></li>
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i></a></li>
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i></a></li>
                     <li class="dropdown">            
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-user"></i> ' . $this->getSession()->firstName . ' ' . $this->getSession()->lastName . ' <b class="caret"></b></a>
                         <ul class="dropdown-menu">
