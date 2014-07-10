@@ -64,7 +64,7 @@ class TT8750DeviceProcessor extends DeviceProcessor
                 $datagram = hex2bin($datagram);
                 $deviceId = intval((substr($datagram, 15, 8)));
                 $eventId = ord($datagram{14}) + (ord($datagram{13}) << 8);
-                $this->getLogger()->debug("Serial port package => equipo: " + $deviceId + "; evento: " + $eventId);
+                $this->getLogger()->debug("Serial port package => equipo: " . $deviceId . "; evento: " . $eventId);
                 
 //                $ios = ord($datagram{24}) + (ord($datagram{23}) << 8);
 //                $validity = ord($datagram{25});
