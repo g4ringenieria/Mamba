@@ -11,7 +11,7 @@ use NeoPHP\connection\Connection;
 class TT8750DeviceProcessor extends DeviceProcessor
 {
     const DATAGRAMTYPE_DEFAULT = 8;
-    const DATAGRAMTYPE_ICAN = 2;
+    const DATAGRAMTYPE_SERIALPORT = 2;
     
     protected function checkDatagramValidity ($datagram)
     {
@@ -58,40 +58,37 @@ class TT8750DeviceProcessor extends DeviceProcessor
                     $report->insert();
                 }
                 break;
-            case self::DATAGRAMTYPE_ICAN:
+            case self::DATAGRAMTYPE_SERIALPORT:
                 $datagram = substr($datagram, 7);
-
 		$datagram = "0035000a08100418e0be4f" . $datagram;
-		$this->getLogger()->debug("ICANp: " . $datagram);
                 $datagram = hex2bin($datagram);
-
-		$this->getLogger()->debug("ICANpackage: " . $datagram);
-
                 $deviceId = intval((substr($datagram, 15, 8)));
                 $eventId = ord($datagram{14}) + (ord($datagram{13}) << 8);
-                $ios = ord($datagram{24}) + (ord($datagram{23}) << 8);
-                $validity = ord($datagram{25});
-                $latitude = $this->getCoordinate(substr($datagram, 26, 4));
-                $longitude = $this->getCoordinate(substr($datagram, 30, 4));
-                $speed = (intval(ord($datagram{35}) + (ord($datagram{34}) << 8))/10) * 1.8;
-                $course = (intval(ord($datagram{37}) + (ord($datagram{36}) << 8))/10);
-                $altitude = (ord($datagram{40}) + (ord($datagram{39}) << 8) + (ord($datagram{38}) << 16)) / 10;
-                $odometer = ord($datagram{44}) + (ord($datagram{43}) << 8) + (ord($datagram{42}) << 16) + (ord($datagram{41}) << 24);
-                $date = new DateTime();
-                $date->setDate(ord($datagram{45})+2000, ord($datagram{46}), ord($datagram{47}));
-                $date->setTime(ord($datagram{48}), ord($datagram{49}), ord($datagram{50}));
-                $report = new PositionReport();
-                $report->setDevice(new Device($deviceId));
-                $report->setReportType(new ReportType($this->getReportTypeByEvent($eventId)));
-                $report->setLongitude($longitude);
-                $report->setLatitude($latitude);
-                $report->setAltitude($altitude);
-                $report->setSpeed($speed);
-                $report->setCourse($course);
-                $report->setDate($date);
-                $report->setInputDate(new DateTime());
-                $report->setOdometer($odometer);
-                $report->insert();
+                $this->getLogger()->debug("Serial port package => equipo: " + $deviceId + "; evento: " + $eventId);
+                
+//                $ios = ord($datagram{24}) + (ord($datagram{23}) << 8);
+//                $validity = ord($datagram{25});
+//                $latitude = $this->getCoordinate(substr($datagram, 26, 4));
+//                $longitude = $this->getCoordinate(substr($datagram, 30, 4));
+//                $speed = (intval(ord($datagram{35}) + (ord($datagram{34}) << 8))/10) * 1.8;
+//                $course = (intval(ord($datagram{37}) + (ord($datagram{36}) << 8))/10);
+//                $altitude = (ord($datagram{40}) + (ord($datagram{39}) << 8) + (ord($datagram{38}) << 16)) / 10;
+//                $odometer = ord($datagram{44}) + (ord($datagram{43}) << 8) + (ord($datagram{42}) << 16) + (ord($datagram{41}) << 24);
+//                $date = new DateTime();
+//                $date->setDate(ord($datagram{45})+2000, ord($datagram{46}), ord($datagram{47}));
+//                $date->setTime(ord($datagram{48}), ord($datagram{49}), ord($datagram{50}));
+//                $report = new PositionReport();
+//                $report->setDevice(new Device($deviceId));
+//                $report->setReportType(new ReportType($this->getReportTypeByEvent($eventId)));
+//                $report->setLongitude($longitude);
+//                $report->setLatitude($latitude);
+//                $report->setAltitude($altitude);
+//                $report->setSpeed($speed);
+//                $report->setCourse($course);
+//                $report->setDate($date);
+//                $report->setInputDate(new DateTime());
+//                $report->setOdometer($odometer);
+//                $report->insert();
                 break;
         }
     }
