@@ -12,14 +12,13 @@ class ReportsController extends EntityController
 {
     public function createResourceAction ($resource)
     {
-        echo "<pre>";
-        print_r ($resource);
-        echo "</pre>";
+        $this->getApplication()->getLogger()->debug(print_r ($resource, true));
 //        $resource->insert();
     }
     
     protected function convertInputToResource ($content)
     {
+        $this->getApplication()->getLogger()->debug($content);
         $report = null;
         $decodedContent = json_decode($content);
         if (isset($decodedContent->reportClassType))
