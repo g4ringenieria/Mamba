@@ -7,7 +7,7 @@ use NeoGroup\model\UserPeer;
 
 class SessionController extends EntityController
 {
-    public function onBeforeActionExecution ($action)
+    public function onBeforeActionExecution ($action, &$params)
     {
         return true;
     }

@@ -9,7 +9,7 @@ use NeoPHP\web\WebController;
 
 class MainController extends WebController
 {   
-    public function onBeforeActionExecution ($action)
+    public function onBeforeActionExecution ($action, &$params)
     {
         $this->getSession()->start();
         $executeAction = ($action == "logout" || ($this->getSession()->isStarted() && isset($this->getSession()->sessionId)));

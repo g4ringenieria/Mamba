@@ -8,23 +8,32 @@ use stdClass;
 
 abstract class EntityController extends WebRestController
 {   
-    public function onBeforeActionExecution ($action)
+    public function onBeforeActionExecution ($action, &$params)
     {
-        $execute = $this->getSession()->isStarted() && isset($this->getSession()->sessionId);
-        if ($execute)
+        $execute = true;
+        if (php_sapi_name() == "cli")
         {
-            $content = $this->getRequest()->getContent();
-            if ($content != null)
-                $_REQUEST["resource"] = $this->convertInputToResouce($content);
+            if (sizeof($params) > 0)
+                $params["resource"] = $this->convertInputToResource($params[0]);
         }
         else
         {
-            $this->onActionError($action, new Exception ("No Session"));
+            $execute = $this->getSession()->isStarted() && isset($this->getSession()->sessionId);
+            if ($execute)
+            {
+                $content = $this->getRequest()->getContent();
+                if ($content != null)
+                    $params["resource"] = $this->convertInputToResource($content);
+            }
+            else
+            {
+                $this->onActionError($action, new Exception ("No Session"));
+            }
         }
         return $execute;
     }
     
-    protected function onAfterActionExecution ($action, $response)
+    protected function onAfterActionExecution ($action, $params, $response)
     {
         if ($this->getRequest()->getParameters()->returnFormat == "json")
         {
@@ -52,7 +61,7 @@ abstract class EntityController extends WebRestController
         }
     }
     
-    public function convertInputToResource ($content)
+    protected function convertInputToResource ($content)
     {
         return null;
     }
