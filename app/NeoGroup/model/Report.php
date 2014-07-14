@@ -2,6 +2,8 @@
 
 namespace NeoGroup\model;
 
+use DateTime;
+use Exception;
 use NeoPHP\mvc\DatabaseModel;
 
 /**
@@ -133,6 +135,7 @@ abstract class Report extends DatabaseModel
         self::getDatabase()->beginTransaction();
         try 
         {
+            $this->setInputDate(new DateTime());
             parent::insert();
             $reportId = intval(self::getDatabase()->getLastInsertedId("report_reportid_seq"));
             if (empty($reportId))
