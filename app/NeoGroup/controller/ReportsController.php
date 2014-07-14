@@ -7,6 +7,7 @@ use NeoGroup\model\Device;
 use NeoGroup\model\Holder;
 use NeoGroup\model\PositionReport;
 use NeoGroup\model\Report;
+use NeoGroup\model\ReportType;
 
 class ReportsController extends EntityController
 {
@@ -18,7 +19,6 @@ class ReportsController extends EntityController
     
     protected function convertInputToResource ($content)
     {
-        $this->getApplication()->getLogger()->debug($content);
         $report = null;
         $decodedContent = json_decode($content);
         if (isset($decodedContent->reportClassTypeId))
@@ -34,6 +34,9 @@ class ReportsController extends EntityController
                 {
                     switch ($propertyName)
                     {
+                        case "reportTypeId":
+                            $report->setReportType(new ReportType($propertyValue));
+                            break;
                         case "deviceId":
                             $report->setDevice(new Device($propertyValue));
                             break;
