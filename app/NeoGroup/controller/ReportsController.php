@@ -21,9 +21,9 @@ class ReportsController extends EntityController
         $this->getApplication()->getLogger()->debug($content);
         $report = null;
         $decodedContent = json_decode($content);
-        if (isset($decodedContent->reportClassType))
+        if (isset($decodedContent->reportClassTypeId))
         {
-            switch ($decodedContent->reportClassType)
+            switch ($decodedContent->reportClassTypeId)
             {
                 case Report::CLASSTYPE_POSITION: $report = new PositionReport(); break;
             }
