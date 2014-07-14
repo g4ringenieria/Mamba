@@ -57,7 +57,7 @@ class ReportsView extends SiteView
         $holderSelector = new Selector($this);
         $holderSelector->setAttributes(array("placeholder"=>"Seleccione un holder ...", "name"=>"holderId"));
         $holderSelector->setRemoteUrl($this->getUrl("holders/"));
-        $holderSelector->setRequestParams(array("returnFormat"=>"json"));
+        $holderSelector->setRequestParams(array("returnFormat"=>"json", session_name()=>session_id() ));
         $holderSelector->setValueField("id");
         $holderSelector->setSearchFields(array("id","name","domain"));
         $holderSelector->setTemplate("<div><span>{id}: {name} {domain}</span></div>");
