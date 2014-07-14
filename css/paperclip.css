@@ -6645,16 +6645,16 @@ body {
 }
 #item-1 {
     background-color: #ffffff;
-    background-image: url(../images/portal/image-5.png);
+    background-image: url(../images/portal/fuel_min32.png);
 }
 #item-2 {
     background-color: #ffffff;
-    background-image: url(../images/portal/image-6.png);
+    background-image: url(../images/portal/speed_min32.png);
 }
 #item-3 {
     background-color: #ffffff;
-    background-image: url(../images/portal/image-7.png);
-    background-position: bottom center;
+    background-image: url(../images/portal/temperature_min32.png);
+    /*background-position: bottom center;*/
 }
 
 #item-3 h1 {
