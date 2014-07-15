@@ -13,44 +13,46 @@ class ReportsController extends EntityController
 {
     public function createResourceAction ($resource)
     {
-        $this->getApplication()->getLogger()->debug(print_r ($resource, true));
-//        $resource->insert();
+        $resource->insert();
     }
     
     protected function convertInputToResource ($content)
     {
         $report = null;
-        $decodedContent = json_decode($content);
-        if (isset($decodedContent->reportClassTypeId))
+        if (!empty($content))
         {
-            switch ($decodedContent->reportClassTypeId)
+            $decodedContent = json_decode($content);
+            if (isset($decodedContent->reportClassTypeId))
             {
-                case Report::CLASSTYPE_POSITION: $report = new PositionReport(); break;
-            }
-            
-            if ($report != null)
-            {
-                foreach ($decodedContent as $propertyName => $propertyValue)
+                switch ($decodedContent->reportClassTypeId)
                 {
-                    switch ($propertyName)
+                    case Report::CLASSTYPE_POSITION: $report = new PositionReport(); break;
+                }
+
+                if ($report != null)
+                {
+                    foreach ($decodedContent as $propertyName => $propertyValue)
                     {
-                        case "reportTypeId":
-                            $report->setReportType(new ReportType($propertyValue));
-                            break;
-                        case "deviceId":
-                            $report->setDevice(new Device($propertyValue));
-                            break;
-                        case "holderId":
-                            $report->setHolder(new Holder($propertyValue));
-                            break;
-                        case "date":
-                            $date = new DateTime();
-                            $date->setTimestamp($propertyValue);
-                            $report->setDate($date);
-                            break;
-                        default: 
-                            $report->setPropertyValue($propertyName, $propertyValue);
-                            break;
+                        switch ($propertyName)
+                        {
+                            case "reportTypeId":
+                                $report->setReportType(new ReportType($propertyValue));
+                                break;
+                            case "deviceId":
+                                $report->setDevice(new Device($propertyValue));
+                                break;
+                            case "holderId":
+                                $report->setHolder(new Holder($propertyValue));
+                                break;
+                            case "date":
+                                $date = new DateTime();
+                                $date->setTimestamp($propertyValue);
+                                $report->setDate($date);
+                                break;
+                            default: 
+                                $report->setPropertyValue($propertyName, $propertyValue);
+                                break;
+                        }
                     }
                 }
             }
