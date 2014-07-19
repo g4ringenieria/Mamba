@@ -2,9 +2,7 @@
 
 namespace NeoGroup;
 
-use NeoPHP\cli\CLIApplication;
-
-class CommandApplication extends CLIApplication
+class CLIApplication extends \NeoPHP\cli\CLIApplication
 {
     protected function initialize ()
     {
