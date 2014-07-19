@@ -36,7 +36,7 @@ abstract class DeviceController extends Controller
         {
             $socket = new Socket();
             $socket->connect("localhost", $this->port);   
-            $socket->send($package);
+            $socket->send("sendPackage $package");
         }
         catch (Exception $exception)
         {
