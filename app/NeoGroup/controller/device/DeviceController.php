@@ -2,10 +2,19 @@
 
 namespace NeoGroup\controller\device;
 
+use Exception;
 use NeoPHP\mvc\Controller;
+use NeoPHP\socket\Socket;
 
 abstract class DeviceController extends Controller
 {
+    private $port;
+    
+    protected function __construct($port)
+    {
+        $this->port = $port;
+    }
+    
     public function notifyPackageAction ($datagram)
     {
         $package = new DevicePackage($datagram);
@@ -13,6 +22,27 @@ abstract class DeviceController extends Controller
         if ($responsePackage != null && $responsePackage instanceof DevicePackage)
             print($responsePackage);
         $this->getLogger()->info("Datagram received from \"" . ($package->getDeviceId() >0 ? $package->getDeviceId() : "?") . "\": " . substr($datagram, 4));
+    }
+    
+    public function sendToDevice ($deviceId, $data)
+    {
+        $this->sendPackage(new DevicePackage($deviceId, $data));
+    }
+    
+    public function sendPackage (DevicePackage $package)
+    {
+        $socket = null;
+        try
+        {
+            $socket = new Socket();
+            $socket->connect("localhost", $this->port);   
+            $socket->send($package);
+        }
+        catch (Exception $exception)
+        {
+            try { $socket->close(); } catch (Exception $ex) {}
+            throw $exception;
+        }
     }
     
     public abstract function notifyPackageReceived (DevicePackage $package);
