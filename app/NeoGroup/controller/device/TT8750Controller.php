@@ -64,6 +64,39 @@ class TT8750Controller extends DeviceController
                 break;
         }
     }
+    
+    private function getCoordinate ($coordinateField)
+    {
+        $isNegative = false;
+        $a = ord($coordinateField{0});
+        $b = ord($coordinateField{1});
+        $c = ord($coordinateField{2});
+        $d = ord($coordinateField{3});
+        if ($a > 128)
+        {
+            $isNegative = true;
+            $a = 255 - $a;
+            $b = 255 - $b;
+            $c = 255 - $c;
+            $d = 255 - $d;
+        }
+        $decimalCoordinate = (string)($d + ($c << 8) + ($b << 16) + ($a << 24));
+        $decimalCoordinate = str_pad($decimalCoordinate, 8, "0", STR_PAD_LEFT); 
+        $degrees = floatval(substr($decimalCoordinate, 0, strlen($decimalCoordinate) - 6));
+        $minutes = floatval(substr($decimalCoordinate, -6)) / 10000;
+        $coordinateDegrees = $degrees + ($minutes/60);
+        return ($isNegative)? -$coordinateDegrees : $coordinateDegrees;
+    }
+    
+    private function getReportTypeByEvent ($eventId)
+    {
+        $reportType = 0;
+        switch ($eventId)
+        {
+            case 21: $reportType = ReportType::REPORTTYPE_TIMEREPORT; break;
+        }
+        return $reportType;
+    }
 }
 
 ?>
