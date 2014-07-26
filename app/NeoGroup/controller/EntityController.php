@@ -39,25 +39,16 @@ abstract class EntityController extends WebController
     
     public function onBeforeActionExecution ($action, $params)
     {
-        $execute = true;
-        if (php_sapi_name() == "cli")
+        $execute = $this->getSession()->isStarted() && isset($this->getSession()->sessionId);
+        if ($execute)
         {
-            if (sizeof($params) > 0)
-                $params["resource"] = $this->convertInputToResource($params[0]);
+            $content = $this->getRequest()->getContent();
+            if ($content != null)
+                $this->resource = $this->convertInputToResource($content);
         }
         else
         {
-            $execute = $this->getSession()->isStarted() && isset($this->getSession()->sessionId);
-            if ($execute)
-            {
-                $content = $this->getRequest()->getContent();
-                if ($content != null)
-                    $params["resource"] = $this->convertInputToResource($content);
-            }
-            else
-            {
-                $this->onActionError($action, new Exception ("No Session"));
-            }
+            $this->onActionError($action, new Exception ("No Session"));
         }
         return $execute;
     }
@@ -75,6 +66,13 @@ abstract class EntityController extends WebController
             $this->getResponse()->setContent($output);
         }
         return $response;
+    }
+    
+    protected function executeAction ($action, $parameters=array())
+    {
+        if (isset($this->resource))
+            $parameters["resource"] = $this->resource;
+        parent::executeAction($action, $parameters);
     }
     
     public function onActionError ($action, $error)
