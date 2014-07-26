@@ -9,7 +9,7 @@ use NeoPHP\web\WebController;
 
 class MainController extends WebController
 {   
-    public function onBeforeActionExecution ($action, &$params)
+    public function onBeforeActionExecution ($action, $params)
     {
         $this->getSession()->start();
         $executeAction = ($action == "logout" || ($this->getSession()->isStarted() && isset($this->getSession()->sessionId)));
@@ -27,7 +27,7 @@ class MainController extends WebController
     
     public function logoutAction ()
     {
-        $this->executeAction("session/deleteResource");
+        $this->getSession()->destroy();
         $this->redirectAction("site/portal/");
     }
     

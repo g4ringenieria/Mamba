@@ -3,12 +3,41 @@
 namespace NeoGroup\controller;
 
 use Exception;
-use NeoPHP\web\WebRestController;
+use NeoPHP\web\WebController;
 use stdClass;
 
-abstract class EntityController extends WebRestController
+abstract class EntityController extends WebController
 {   
-    public function onBeforeActionExecution ($action, &$params)
+    public function action ($action, array $parameters = array())
+    {
+        $response = null;
+        if ($action == "index")
+        {
+            $method = $this->getRequest()->getMethod ();
+            switch ($method)
+            {
+                case "GET":
+                    $response = parent::action("getResource", $parameters);
+                    break;
+                case "PUT":
+                    $response = parent::action("createResource", $parameters);
+                    break;
+                case "POST":
+                    $response = parent::action("updateResource", $parameters); 
+                    break;
+                case "DELETE":
+                    $response = parent::action("deleteResource", $parameters);
+                    break;
+            }
+        }
+        else
+        {
+            $response = parent::action($action, $parameters);
+        }
+        return $response;
+    }
+    
+    public function onBeforeActionExecution ($action, $params)
     {
         $execute = true;
         if (php_sapi_name() == "cli")

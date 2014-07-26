@@ -8,9 +8,9 @@ use NeoPHP\web\WebScriptView;
 
 class PortalController extends WebController
 {   
-    public function onBeforeActionExecution ($action, &$params)
+    public function onBeforeActionExecution ($action, $params)
     {
-        $this->executeAction("session/deleteResource");
+        $this->getSession()->destroy();
         return true;
     }
     

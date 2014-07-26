@@ -8,7 +8,7 @@ use NeoPHP\web\WebController;
 
 abstract class SiteController extends WebController
 {
-    public function onBeforeActionExecution ($action, &$params)
+    public function onBeforeActionExecution ($action, $params)
     {
         $this->getSession()->start();
         $executeAction = $this->getSession()->isStarted() && isset($this->getSession()->sessionId);
