@@ -8,7 +8,7 @@ use stdClass;
 
 abstract class EntityController extends WebController
 {   
-    public function action ($action, array $parameters = array())
+    public function processAction ($action, array $parameters = array())
     {
         $response = null;
         if ($action == "index")
@@ -17,22 +17,22 @@ abstract class EntityController extends WebController
             switch ($method)
             {
                 case "GET":
-                    $response = parent::action("getResource", $parameters);
+                    $response = parent::processAction("getResource", $parameters);
                     break;
                 case "PUT":
-                    $response = parent::action("createResource", $parameters);
+                    $response = parent::processAction("createResource", $parameters);
                     break;
                 case "POST":
-                    $response = parent::action("updateResource", $parameters); 
+                    $response = parent::processAction("updateResource", $parameters); 
                     break;
                 case "DELETE":
-                    $response = parent::action("deleteResource", $parameters);
+                    $response = parent::processAction("deleteResource", $parameters);
                     break;
             }
         }
         else
         {
-            $response = parent::action($action, $parameters);
+            $response = parent::processAction($action, $parameters);
         }
         return $response;
     }
