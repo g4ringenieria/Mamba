@@ -97,9 +97,7 @@ class TT8750Controller extends DeviceController
                         $report->setFuelTank(1);
                         $report->setFuelLevel($fuelLevel);
                         $report->setFuelTemperature($fuelTemperature);
-                        
-                        $this->getLogger()->info("report a insertar: " . print_r($report, true));
-//                        $report->insert();
+                        $report->insert();
                         break;
                 }
                 break;

@@ -7,37 +7,37 @@ class PositionReport extends Report
     /**
      * @Column (columnName="data", dataIndex=0)
      */
-    private $longitude;
+    protected $longitude;
     
     /**
      * @Column (columnName="data", dataIndex=1)
      */
-    private $latitude;
+    protected $latitude;
     
     /**
      * @Column (columnName="data", dataIndex=2)
      */
-    private $altitude;
+    protected $altitude;
     
     /**
      * @Column (columnName="data", dataIndex=3)
      */
-    private $speed;
+    protected $speed;
     
     /**
      * @Column (columnName="data", dataIndex=4)
      */
-    private $course;
+    protected $course;
     
     /**
      * @Column (columnName="data", dataIndex=5)
      */
-    private $location;
+    protected $location;
     
     /**
      * @Column (columnName="data", dataIndex=6)
      */
-    private $odometer;
+    protected $odometer;
     
     public function __construct($classType=Report::CLASSTYPE_POSITION)
     {
