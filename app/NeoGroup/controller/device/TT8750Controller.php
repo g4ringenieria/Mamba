@@ -60,12 +60,13 @@ class TT8750Controller extends DeviceController
                 }
                 break;
             case self::DATAGRAMTYPE_SERIALPORT:
+                $this->getLogger()->info("Serial port received: $datagram");
                 $datagram = substr($datagram, 7);
 		$datagram = "0035000a08100418e0be4f" . $datagram;
                 $datagram = hex2bin($datagram);
                 $deviceId = intval((substr($datagram, 15, 8)));
                 $eventId = ord($datagram{14}) + (ord($datagram{13}) << 8);
-                $this->getLogger()->debug("Serial port package => equipo: " . $deviceId . "; evento: " . $eventId);
+                $this->getLogger()->info("Serial port package => equipo: " . $deviceId . "; evento: " . $eventId);
                 break;
         }
     }
@@ -99,6 +100,7 @@ class TT8750Controller extends DeviceController
         switch ($eventId)
         {
             case 21: $reportType = ReportType::REPORTTYPE_TIMEREPORT; break;
+            default: throw new Exception("Event \"$eventId\" not found");
         }
         return $reportType;
     }
