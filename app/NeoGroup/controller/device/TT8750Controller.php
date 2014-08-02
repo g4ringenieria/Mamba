@@ -56,7 +56,6 @@ class TT8750Controller extends DeviceController
                     $report->setSpeed($speed);
                     $report->setCourse($course);
                     $report->setDate($date);
-                    $report->setInputDate(new DateTime());
                     $report->setOdometer($odometer);
                     $report->insert();
                 }
@@ -92,9 +91,7 @@ class TT8750Controller extends DeviceController
                         $report->setSpeed($speed);
                         $report->setCourse($course);
                         $report->setDate($date);
-                        $report->setInputDate(new DateTime());
                         $report->setOdometer($odometer);
-                        
                         $this->getLogger()->info("report a insertar: " . print_r($report, true));
 //                        $report->insert();
                         break;
