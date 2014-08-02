@@ -63,11 +63,41 @@ class TT8750Controller extends DeviceController
             case self::DATAGRAMTYPE_SERIALPORT:
                 $this->getLogger()->info("Serial port received: $datagram");
                 $datagram = substr($datagram, 7);
-		$datagram = "0035000a08100418e0be4f" . $datagram;
                 $datagram = hex2bin($datagram);
-                $deviceId = intval((substr($datagram, 15, 8)));
-                $eventId = ord($datagram{14}) + (ord($datagram{13}) << 8);
-                $this->getLogger()->info("Serial port package => equipo: " . $deviceId . "; evento: " . $eventId);
+                $deviceId = intval((substr($datagram, 4, 8)));
+                $eventId = ord($datagram{3}) + (ord($datagram{2}) << 8);
+                $ios = ord($datagram{13}) + (ord($datagram{12}) << 8);
+                $validity = ord($datagram{14});
+                $latitude = $this->getCoordinate(substr($datagram, 15, 4));
+                $longitude = $this->getCoordinate(substr($datagram, 19, 4));
+                $speed = (intval(ord($datagram{24}) + (ord($datagram{23}) << 8))/10) * 1.8;
+                $course = (intval(ord($datagram{26}) + (ord($datagram{25}) << 8))/10);
+                $altitude = (ord($datagram{29}) + (ord($datagram{28}) << 8) + (ord($datagram{27}) << 16)) / 10;
+                $odometer = ord($datagram{33}) + (ord($datagram{32}) << 8) + (ord($datagram{31}) << 16) + (ord($datagram{30}) << 24);
+                $date = new DateTime();
+                $date->setDate(ord($datagram{34})+2000, ord($datagram{35}), ord($datagram{36}));
+                $date->setTime(ord($datagram{37}), ord($datagram{38}), ord($datagram{39}));
+                $reporttype = $this->getReportTypeByEvent($eventId);
+                
+                switch ($reporttype)
+                {
+                    case ReportType::REPORTTYPE_FUELREPORT:
+                        $report = new FuelPositionReport();
+                        $report->setDevice(new Device($deviceId));
+                        $report->setReportType(new ReportType($reporttype));
+                        $report->setLongitude($longitude);
+                        $report->setLatitude($latitude);
+                        $report->setAltitude($altitude);
+                        $report->setSpeed($speed);
+                        $report->setCourse($course);
+                        $report->setDate($date);
+                        $report->setInputDate(new DateTime());
+                        $report->setOdometer($odometer);
+                        
+                        $this->getLogger()->info("report a insertar: " . print_r($report, true));
+//                        $report->insert();
+                        break;
+                }
                 break;
         }
     }
@@ -100,6 +130,7 @@ class TT8750Controller extends DeviceController
         $reportType = 0;
         switch ($eventId)
         {
+            case 1: $reportType = ReportType::REPORTTYPE_FUELREPORT; break;
             case 21: $reportType = ReportType::REPORTTYPE_TIMEREPORT; break;
             default: throw new Exception("Event \"$eventId\" not found");
         }
