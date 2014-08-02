@@ -19,6 +19,11 @@ class FuelPositionReport extends PositionReport
      */
     private $fuelTemperature;
     
+    public function __construct($classType=Report::CLASSTYPE_FUELPOSITION)
+    {
+        parent::__construct($classType);
+    }
+    
     public function getFuelTank()
     {
         return $this->fuelTank;

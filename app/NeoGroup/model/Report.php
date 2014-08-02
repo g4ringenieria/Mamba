@@ -12,6 +12,7 @@ use NeoPHP\mvc\DatabaseModel;
 abstract class Report extends DatabaseModel
 {
     const CLASSTYPE_POSITION = 1;
+    const CLASSTYPE_FUELPOSITION = 2;
     
     /**
      * @Column (columnName="reportid", id=true)

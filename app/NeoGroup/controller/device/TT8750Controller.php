@@ -5,6 +5,7 @@ namespace NeoGroup\controller\device;
 use DateTime;
 use Exception;
 use NeoGroup\model\Device;
+use NeoGroup\model\FuelPositionReport;
 use NeoGroup\model\PositionReport;
 use NeoGroup\model\ReportType;
 
