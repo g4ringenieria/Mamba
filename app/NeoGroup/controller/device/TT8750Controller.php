@@ -2,6 +2,11 @@
 
 namespace NeoGroup\controller\device;
 
+use DateTime;
+use NeoGroup\model\Device;
+use NeoGroup\model\PositionReport;
+use NeoGroup\model\ReportType;
+
 class TT8750Controller extends DeviceController
 {
     const DATAGRAMTYPE_DEFAULT = 8;

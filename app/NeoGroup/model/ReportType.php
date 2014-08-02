@@ -12,6 +12,7 @@ class ReportType extends DatabaseModel
     const REPORTTYPE_POLL = 1;
     const REPORTTYPE_TIMEREPORT = 2;
     const REPORTTYPE_DISTANCEREPORT = 3;
+    const REPORTTYPE_FUELREPORT = 4;
     
     /**
      * @Column (columnName="reporttypeid", id=true)
