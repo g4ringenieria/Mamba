@@ -82,6 +82,8 @@ class TT8750Controller extends DeviceController
                 switch ($reporttype)
                 {
                     case ReportType::REPORTTYPE_FUELREPORT:
+                        $fuelLevel = intval(ord($datagram{43}) + (ord($datagram{42}) << 8));
+                        $fuelTemperature = intval(ord($datagram{45}) + (ord($datagram{44}) << 8));
                         $report = new FuelPositionReport();
                         $report->setDevice(new Device($deviceId));
                         $report->setReportType(new ReportType($reporttype));
@@ -92,6 +94,10 @@ class TT8750Controller extends DeviceController
                         $report->setCourse($course);
                         $report->setDate($date);
                         $report->setOdometer($odometer);
+                        $report->setFuelTank(1);
+                        $report->setFuelLevel($fuelLevel);
+                        $report->setFuelTemperature($fuelTemperature);
+                        
                         $this->getLogger()->info("report a insertar: " . print_r($report, true));
 //                        $report->insert();
                         break;
