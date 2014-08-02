@@ -8,6 +8,8 @@ use NeoPHP\socket\Socket;
 
 abstract class DeviceController extends Controller
 {
+    const DEBUGMODE = false;
+    
     private $port;
     
     protected function __construct($port)
@@ -18,10 +20,11 @@ abstract class DeviceController extends Controller
     public function notifyPackageAction ($datagram)
     {
         $package = new DevicePackage($datagram);
+        if (DEBUGMODE)
+            $this->getLogger()->info("Datagram received from \"" . ($package->getDeviceId() >0 ? $package->getDeviceId() : "?") . "\": " . substr($datagram, 4));
         $responsePackage = $this->notifyPackageReceived($package);
         if ($responsePackage != null && $responsePackage instanceof DevicePackage)
             print($responsePackage);
-        $this->getLogger()->info("Datagram received from \"" . ($package->getDeviceId() >0 ? $package->getDeviceId() : "?") . "\": " . substr($datagram, 4));
     }
     
     public function sendToDevice ($deviceId, $data)
