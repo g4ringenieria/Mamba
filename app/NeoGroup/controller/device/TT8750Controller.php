@@ -35,6 +35,7 @@ class TT8750Controller extends DeviceController
                 else
                 {
                     $deviceId = intval((substr($datagram, 15, 8)));
+                    $responsePackage = new DevicePackage($deviceId, "");
                     $eventId = ord($datagram{14}) + (ord($datagram{13}) << 8);
                     $ios = ord($datagram{24}) + (ord($datagram{23}) << 8);
                     $validity = ord($datagram{25});
@@ -65,6 +66,7 @@ class TT8750Controller extends DeviceController
                 $datagram = substr($datagram, 7);
                 $datagram = hex2bin($datagram);
                 $deviceId = intval((substr($datagram, 4, 8)));
+                $responsePackage = new DevicePackage($deviceId, "");
                 $eventId = ord($datagram{3}) + (ord($datagram{2}) << 8);
                 $ios = ord($datagram{13}) + (ord($datagram{12}) << 8);
                 $validity = ord($datagram{14});
@@ -102,6 +104,7 @@ class TT8750Controller extends DeviceController
                 }
                 break;
         }
+        return $responsePackage;
     }
     
     private function getCoordinate ($coordinateField)
