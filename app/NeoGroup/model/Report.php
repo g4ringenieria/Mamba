@@ -45,6 +45,16 @@ abstract class Report extends DatabaseModel
     protected $device;
     
     /**
+     * @Column (columnName="channelid", relatedTableName="channel")
+     */
+    protected $channel;
+    
+    /**
+     * @Column (columnName="validity")
+     */
+    protected $validity;
+    
+    /**
      * @Column (columnName="reportclasstypeid")
      */
     protected $reportClassType;
@@ -124,6 +134,26 @@ abstract class Report extends DatabaseModel
         $this->device = $device;
     }
     
+    public function getChannel ()
+    {
+        return $this->channel;
+    }
+
+    public function getValidity ()
+    {
+        return $this->validity;
+    }
+
+    public function setChannel (Channel $channel)
+    {
+        $this->channel = $channel;
+    }
+
+    public function setValidity ($validity)
+    {
+        $this->validity = $validity;
+    }
+
     public function insert()
     {
         if ($this->getHolder() == null && $this->getDevice() != null)
