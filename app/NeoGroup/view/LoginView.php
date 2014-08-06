@@ -18,11 +18,23 @@ class LoginView extends HTMLView
         $this->addStyleFile($this->getBaseUrl() . "css/login.css");
         $this->bodyTag->add($this->createLoginForm());
         $this->addScript('
+            function showErrorMessage (message)
+            {
+                $(\'.form-group\').addClass ("has-error");
+                $(\'#errorMessage\').html("<label class=\"control-label\" >" + message + "</label>");
+            }
+            
+            function clearErrorMessage ()
+            {
+                $(\'.form-group\').removeClass ("has-error");
+                $(\'#errorMessage\').html("");
+            }
+
             function disableLoginControls ()
             {
                 $(\'input[name=username]\').prop("disabled", true);
                 $(\'input[name=password]\').prop("disabled", true);
-                $(\'button[name=loginbutton]\').prop("disabled", true);
+                $(\'input[name=loginbutton]\').prop("disabled", true);
                 $("body").css("cursor", "progress");
             }
             
@@ -30,12 +42,14 @@ class LoginView extends HTMLView
             {
                 $(\'input[name=username]\').prop("disabled", false);
                 $(\'input[name=password]\').prop("disabled", false);
-                $(\'button[name=loginbutton]\').prop("disabled", false);
+                $(\'input[name=loginbutton]\').prop("disabled", false);
                 $("body").css("cursor", "default");
+                $(\'input[name=username]\').focus();
             }
 
             function login ()
             {
+                clearErrorMessage ();
                 disableLoginControls();
                 var username = $(\'input[name=username]\')[0].value;
                 var password = $(\'input[name=password]\')[0].value;
@@ -49,18 +63,18 @@ class LoginView extends HTMLView
                         }
                         else
                         {
-                            showMessage(data.errorMessage);
+                            showErrorMessage(data.errorMessage);
                             enableLoginControls();
                         }
                     },
                     error: function (qXHR, textStatus, errorThrown)
                     {
-                        showMessage(textStatus + " - " + errorThrown);
+                        showErrorMessage(textStatus + " - " + errorThrown);
                         enableLoginControls();
                     },
                     timeout: function ()
                     {
-                        showMessage("Se ha agotado el tiempo de conexión. Intente más tarde");
+                        showErrorMessage("Se ha agotado el tiempo de conexión. Intente más tarde");
                         enableLoginControls();
                     }
                 });
@@ -79,8 +93,10 @@ class LoginView extends HTMLView
                             <h4 class="modal-title">' . $this->getApplication()->getName() . '</h4>
                         </div>
                         <div class="modal-body">
+                            
                             <fieldset>
                                 <div class="form-group">
+                                    <div id="errorMessage"></div>
                                     <input class="form-control" placeholder="Nombre de usuario" name="username" type="text" autofocus="autofocus">
                                 </div>
                                 <div class="form-group">
@@ -92,7 +108,7 @@ class LoginView extends HTMLView
                             </fieldset>
                         </div>
                         <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary" onclick="login(); return false;" value="Iniciar sesión"></input>
+                            <input type="submit" name="loginbutton" class="btn btn-primary" onclick="login(); return false;" value="Iniciar sesión"></input>
                         </div>
                     </div>
                 </div>
