@@ -17,7 +17,16 @@ class LoginView extends HTMLView
         $this->addStyleFile($this->getBaseUrl() . "css/bootstrap.cerulean.min.css");
         $this->addStyleFile($this->getBaseUrl() . "css/login.css");
         $this->bodyTag->add($this->createLoginForm());
+        $this->addOnLoadScript('checkPageLocation();');
         $this->addScript('
+            function checkPageLocation ()
+            {
+                var src = window.location.href;
+                if(window.top != window.self) {
+                    window.open(src,"_top");
+                }
+            }
+
             function showErrorMessage (message)
             {
                 $(\'.form-group\').addClass ("has-error");

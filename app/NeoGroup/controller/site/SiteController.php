@@ -3,7 +3,7 @@
 namespace NeoGroup\controller\site;
 
 use NeoGroup\view\ErrorView;
-use NeoGroup\view\NoSessionView;
+use NeoGroup\view\LoginView;
 use NeoPHP\web\WebController;
 
 abstract class SiteController extends WebController
@@ -14,7 +14,7 @@ abstract class SiteController extends WebController
         $executeAction = $this->getSession()->isStarted() && isset($this->getSession()->sessionId);
         if (!$executeAction)
         {
-            $view = new NoSessionView();
+            $view = new LoginView();
             $view->render();
         }
         return $executeAction;
