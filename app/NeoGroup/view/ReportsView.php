@@ -39,8 +39,8 @@ class ReportsView extends SiteView
     
     protected function buildPage($page) 
     {
-        $sideColumn = new Tag("div", array("class"=>"col-xs-3"));
-        $contentColumn = new Tag("div", array("class"=>"col-xs-9"));
+        $sideColumn = new Tag("div", array("class"=>"col-sm-4 col-md-3 col-lg-2"));
+        $contentColumn = new Tag("div", array("class"=>"col-sm-8 col-md-9 col-lg-10"));
         $row = new Tag("div", array("class"=>"row"));
         $row->add($sideColumn);
         $row->add($contentColumn);
