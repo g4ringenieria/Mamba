@@ -80,7 +80,14 @@ class ReportsView extends SiteView
         $button->setText("Buscar");
         $button->addAction("Tabla", array(), "showReportsInTable");
         $button->addAction("Mapa", array(), "showReportsInMap");
-        return new Tag("form", array("style"=>"margin-bottom: 10px", "method"=>"POST"), array($holderSelector,$dateFromPicker,$dateToPicker,$button));
+        $form = new Tag("form", array("class"=>"form-horizontal", "method"=>"POST"));
+        $fieldset = new Tag("fieldset");
+        $fieldset->add($holderSelector);
+        $fieldset->add($dateFromPicker);
+        $fieldset->add($dateToPicker);
+        $fieldset->add($button);
+        $form->add($fieldset);
+        return $form;
     }
     
     protected function createReportsGrid ()
