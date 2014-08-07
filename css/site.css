@@ -1,9 +1,5 @@
 body 
 { 
     padding: 10px; 
-    background: white url(images/siteBackground.png)no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background: white url(images/siteBackground8.jpg) repeat; 
 }
