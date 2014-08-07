@@ -147,7 +147,7 @@ class MainView extends HTMLView
     
     protected function createContent()
     {
-        return '<div id="mainContent"><iframe id="iframe" src=""></iframe></div>';
+        return '<div id="mainContent"><iframe id="iframe" src="' . $this->getUrl("site/dashboard/") . '"></iframe></div>';
     }
 }
 

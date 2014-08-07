@@ -39,16 +39,22 @@ class ReportsView extends SiteView
     
     protected function buildPage($page) 
     {
-        $page->add ($this->createFiltersForm());
+        $sideColumn = new Tag("div", array("class"=>"col-xs-3"));
+        $contentColumn = new Tag("div", array("class"=>"col-xs-9"));
+        $row = new Tag("div", array("class"=>"row"));
+        $row->add($sideColumn);
+        $row->add($contentColumn);
+        $sideColumn->add ($this->createFiltersForm());
         switch ($this->outputType)
         {
             case self::OUTPUTTYPE_GRID:
-                $page->add ($this->createReportsGrid());
+                $contentColumn->add ($this->createReportsGrid());
                 break;
             case self::OUTPUTTYPE_MAP:
-                $page->add ($this->createReportsMap ());
+                $contentColumn->add ($this->createReportsMap ());
                 break;
         }   
+        $page->add($row);
     }
     
     protected function createFiltersForm ()
@@ -70,16 +76,11 @@ class ReportsView extends SiteView
         $dateToPicker->setAttributes(array("placeholder"=>"Fecha hasta ...", "name"=>"dateTo"));
         $dateToPicker->setValue(isset($parameters->dateTo)? $parameters->dateTo : (date("Y/m/d") . " 23:59:59"));
         $button = new Button();
-        $button->setType("danger");
+        $button->setType("primary");
         $button->setText("Buscar");
         $button->addAction("Tabla", array(), "showReportsInTable");
         $button->addAction("Mapa", array(), "showReportsInMap");
-        $container = new Tag("div", array("class"=>"row"));
-        $container->add (new Tag("div", array("class"=>"col-sm-3"), $holderSelector));
-        $container->add (new Tag("div", array("class"=>"col-sm-3"), $dateFromPicker));
-        $container->add (new Tag("div", array("class"=>"col-sm-3"), $dateToPicker));
-        $container->add (new Tag("div", array("class"=>"col-sm-3"), $button));
-        return new Tag("form", array("style"=>"margin-bottom: 10px", "method"=>"POST"), $container);
+        return new Tag("form", array("style"=>"margin-bottom: 10px", "method"=>"POST"), array($holderSelector,$dateFromPicker,$dateToPicker,$button));
     }
     
     protected function createReportsGrid ()
