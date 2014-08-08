@@ -2,12 +2,13 @@
 
 namespace NeoGroup\view;
 
-use stdClass;
+use NeoGroup\util\DateUtils;
+use NeoGroup\util\GeoUtils;
 use NeoGroup\view\component\EntityTable;
 use NeoGroup\view\component\Map;
 use NeoGroup\view\component\Panel;
-use NeoGroup\util\DateUtils;
-use NeoGroup\util\GeoUtils;
+use NeoPHP\web\html\Tag;
+use stdClass;
 
 class DashboardView extends SiteView
 {
@@ -25,8 +26,10 @@ class DashboardView extends SiteView
     
     protected function buildPage($page) 
     {
-        $page->add ($this->createHoldersMapWidget());
-        $page->add ($this->createHoldersGridWidget());
+        $container = new Tag("div", array("class"=>"content"));
+        $container->add ($this->createHoldersMapWidget());
+        $container->add ($this->createHoldersGridWidget());
+        $page->add($container);
     }
         
     protected function createHoldersMapWidget() 
