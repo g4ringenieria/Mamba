@@ -15,9 +15,9 @@ class Contact extends DatabaseModel
     private $id;
     
     /**
-     * @Column (columnName="userid", relatedTableName="user")
+     * @Column (columnName="userid")
      */
-    private $user;
+    private $userId;
     
     /**
      * @Column (columnName="contacttypeid", relatedTableName="contacttype")
@@ -40,14 +40,14 @@ class Contact extends DatabaseModel
         $this->id = $id;
     }
     
-    public function getUser()
+    public function getUserId()
     {
-        return $this->user;
+        return $this->userId;
     }
     
-    public function setUser(User $user)
+    public function setUserId($userId)
     {
-        $this->user = $user;
+        $this->userId = $userId;
     }
 
     public function getContactType()

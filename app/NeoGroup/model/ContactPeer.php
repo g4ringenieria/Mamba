@@ -15,7 +15,7 @@ abstract class ContactPeer extends DatabaseModel
         $doContact->addJoin ($doContactType, DataObject::JOINTYPE_INNER);
         $doContact->addSelectFields(array("contactid", "userid", "value"), "%s", "contact");
         $doContact->addSelectFields(array("contacttypeid", "description"), "contacttype_%s", "contacttype");
-        $doContact->addWhereCondition("userid = {$userId}");
+        $doContact->addWhereCondition("userid = $userId");
         $doContact->find();
         while ($doContact->fetch())
         {
@@ -24,6 +24,13 @@ abstract class ContactPeer extends DatabaseModel
             $contacts[] = $contact;
         }
         return $contacts;
+    }
+    
+    public static function deleteUserContacts ($userId)
+    {
+        $doContact = self::getDataObject ("contact");
+        $doContact->addWhereCondition("userid = $userId");
+        $doContact->delete();
     }
 }
 

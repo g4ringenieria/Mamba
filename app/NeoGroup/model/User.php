@@ -69,7 +69,7 @@ class User extends DatabaseModel
         return $this->id;
     }
 
-    public function setId ( $id )
+    public function setId ($id)
     {
         $this->id = $id;
     }
@@ -79,7 +79,7 @@ class User extends DatabaseModel
         return $this->client;
     }
 
-    public function setClient ( Client $client )
+    public function setClient (Client $client)
     {
         $this->client = $client;
     }
@@ -89,7 +89,7 @@ class User extends DatabaseModel
         return $this->profile;
     }
 
-    public function setProfile ( Profile $profile )
+    public function setProfile (Profile $profile)
     {
         $this->profile = $profile;
     }
@@ -99,7 +99,7 @@ class User extends DatabaseModel
         return $this->username;
     }
 
-    public function setUsername ( $username )
+    public function setUsername ($username)
     {
         $this->username = $username;
     }
@@ -109,7 +109,7 @@ class User extends DatabaseModel
         return $this->password;
     }
 
-    public function setPassword ( $password )
+    public function setPassword ($password)
     {
         $this->password = $password;
     }
@@ -119,7 +119,7 @@ class User extends DatabaseModel
         return $this->firstname;
     }
 
-    public function setFirstname ( $firstname )
+    public function setFirstname ($firstname)
     {
         $this->firstname = $firstname;
     }
@@ -129,7 +129,7 @@ class User extends DatabaseModel
         return $this->lastname;
     }
 
-    public function setLastname ( $lastname )
+    public function setLastname ($lastname)
     {
         $this->lastname = $lastname;
     }
@@ -139,7 +139,7 @@ class User extends DatabaseModel
         return $this->timeZone;
     }
 
-    public function setTimeZone ( TimeZone $timeZone )
+    public function setTimeZone (TimeZone $timeZone)
     {
         $this->timeZone = $timeZone;
     }
@@ -149,7 +149,7 @@ class User extends DatabaseModel
         return $this->language;
     }
 
-    public function setLanguage ( Language $language )
+    public function setLanguage (Language $language)
     {
         $this->language = $language;
     }
@@ -159,18 +159,13 @@ class User extends DatabaseModel
         return $this->contacts;
     }
 
-    public function setContacts ( $contacts )
+    public function setContacts (array $contacts)
     {
-        if ( !empty ( $contacts ) ) 
-        {
-            foreach ( $contacts as $contact ) 
-            {
-                $this->addContact ( $contact );
-            }
-        }
+        foreach ($contacts as $contact) 
+            $this->addContact ($contact);
     }
 
-    public function addContact ( Contact $contact )
+    public function addContact (Contact $contact)
     {
         $this->contacts[] = $contact;
     }
@@ -184,6 +179,51 @@ class User extends DatabaseModel
             {
                 $this->setContacts(ContactPeer::getContactsForUserId($this->getId()));
             }
+        }
+    }
+    
+    public function insert ()
+    {
+        $this->getDatabase()->beginTransaction();
+        try 
+        {
+            parent::insert();
+            $userId = intval(self::getDatabase()->getLastInsertedId("user_userid_seq"));
+            $this->setId($userId);
+            $this->synchronizeContacts();
+            $this->getDatabase()->commitTransaction();
+        }
+        catch (Exception $ex)
+        {
+            $this->setId(null);
+            $this->getDatabase()->rollbackTransaction();
+            throw $ex;
+        }
+    }
+    
+    public function update ()
+    {
+        $this->getDatabase()->beginTransaction();
+        try 
+        {
+            parent::update();
+            $this->synchronizeContacts();
+            $this->getDatabase()->commitTransaction();
+        }
+        catch (Exception $ex)
+        {
+            $this->getDatabase()->rollbackTransaction();
+            throw $ex;
+        }
+    }
+    
+    protected function synchronizeContacts ()
+    {
+        ContactPeer::deleteUserContacts($this->getId());
+        foreach ($this->contacts as $contact)
+        {
+            $contact->setUserId($this->getId());
+            $contact->insert();
         }
     }
 }
