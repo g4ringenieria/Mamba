@@ -2,16 +2,17 @@
 
 namespace NeoGroup\view;
 
-use NeoPHP\web\html\Tag;
-use NeoPHP\web\http\Parameters;
-use stdClass;
+use NeoGroup\util\DateUtils;
+use NeoGroup\util\GeoUtils;
 use NeoGroup\view\component\Button;
 use NeoGroup\view\component\DatetimePicker;
 use NeoGroup\view\component\EntityTable;
+use NeoGroup\view\component\Form;
 use NeoGroup\view\component\Map;
 use NeoGroup\view\component\Selector;
-use NeoGroup\util\DateUtils;
-use NeoGroup\util\GeoUtils;
+use NeoPHP\web\html\Tag;
+use NeoPHP\web\http\Parameters;
+use stdClass;
 
 class ReportsView extends SiteView
 {
@@ -30,11 +31,6 @@ class ReportsView extends SiteView
     public function setOutputType ($outputType)
     {
         $this->outputType = $outputType;
-    }
-    
-    protected function getPageTitle ()
-    {
-        return "Herramienta de Reportes";
     }
     
     protected function buildPage($page) 
@@ -80,13 +76,11 @@ class ReportsView extends SiteView
         $button->setText("Buscar");
         $button->addAction("Tabla", array(), "showReportsInTable");
         $button->addAction("Mapa", array(), "showReportsInMap");
-        $form = new Tag("form", array("class"=>"form-horizontal", "method"=>"POST"));
-        $fieldset = new Tag("fieldset");
-        $fieldset->add($holderSelector);
-        $fieldset->add($dateFromPicker);
-        $fieldset->add($dateToPicker);
-        $fieldset->add($button);
-        $form->add($fieldset);
+        $form = new Form(array("method"=>"POST"));
+        $form->addField($holderSelector);
+        $form->addField($dateFromPicker);
+        $form->addField($dateToPicker);
+        $form->addButton($button);
         return $form;
     }
     
