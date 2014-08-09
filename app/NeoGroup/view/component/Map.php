@@ -195,7 +195,8 @@ class Map extends HTMLComponent
                 for (var i in polylineConfig.points)
                 {
                     var point = polylineConfig.points[i];
-                    points.push (L.latLng(point.latitude, point.longitude));
+                    if (point.latitude != null && point.longitude != null)
+                        points.push (L.latLng(point.latitude, point.longitude));
                 }
                 return L.polyline(points);
             }

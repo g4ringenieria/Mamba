@@ -121,28 +121,30 @@ class ReportsView extends SidebarSiteView
                 $position = new stdClass();
                 $position->latitude = $report->getLatitude();
                 $position->longitude = $report->getLongitude();
-                $pathOverlay->points[] = $position;
-                
-                if (!$markerAdded)
+                if (!empty($position->latitude) && !empty($position->longitude))
                 {
-                    $overlay = new stdClass();
-                    $overlay->type = "marker";
-                    $overlay->latitude = $report->getLatitude();
-                    $overlay->longitude = $report->getLongitude();
-                    $overlay->description = '
-                        <b>Holder: </b>' . $report->getHolder() . '
-                        <br><b>Equipo: </b>' . $report->getDevice()->getId() . '
-                        <br><b>Evento: </b>' . $report->getReportType() . '
-                        <br><b>Fecha posición: </b>' . DateUtils::formatDate($report->getDate(), $this->getSession()->userDateFormat, $this->getSession()->userTimeZone) . '
-                        <br><b>Velocidad: </b>' . $report->getSpeed() . '
-                        <br><b>Curso: </b>' . GeoUtils::getCourseString($report->getCourse()) . '
-                        <br><b>Odómetro: </b>' . $report->getOdometer() . '
-                    ';
-                    $overlay->label = strval($report->getHolder());
-                    $overlay->labelConfig = new stdClass(); 
-                    $overlay->labelConfig->noHide = true;
-                    $markers[] = $overlay;
-                    $markerAdded = true;
+                    $pathOverlay->points[] = $position;
+                    if (!$markerAdded)
+                    {
+                        $overlay = new stdClass();
+                        $overlay->type = "marker";
+                        $overlay->latitude = $report->getLatitude();
+                        $overlay->longitude = $report->getLongitude();
+                        $overlay->description = '
+                            <b>Holder: </b>' . $report->getHolder() . '
+                            <br><b>Equipo: </b>' . $report->getDevice()->getId() . '
+                            <br><b>Evento: </b>' . $report->getReportType() . '
+                            <br><b>Fecha posición: </b>' . DateUtils::formatDate($report->getDate(), $this->getSession()->userDateFormat, $this->getSession()->userTimeZone) . '
+                            <br><b>Velocidad: </b>' . $report->getSpeed() . '
+                            <br><b>Curso: </b>' . GeoUtils::getCourseString($report->getCourse()) . '
+                            <br><b>Odómetro: </b>' . $report->getOdometer() . '
+                        ';
+                        $overlay->label = strval($report->getHolder());
+                        $overlay->labelConfig = new stdClass(); 
+                        $overlay->labelConfig->noHide = true;
+                        $markers[] = $overlay;
+                        $markerAdded = true;
+                    }
                 }
             }
             $paths[] = $pathOverlay;
