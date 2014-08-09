@@ -16,7 +16,7 @@ abstract class SiteView extends HTMLView
         $this->addStyleFile($this->getBaseUrl() . "assets/font-awesome-4.1.0/css/font-awesome.min.css");
         $this->addScriptFile($this->getBaseUrl() . "js/jquery.min.js");
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.2.0/js/bootstrap.min.js");
-        $this->addStyleFile($this->getBaseUrl() . "css/bootstrap.cerulean.min.css");
+        $this->addStyleFile($this->getBaseUrl() . "assets/bootstrap-3.2.0/css/bootstrap.cerulean.min.css");
         $this->addStyleFile($this->getBaseUrl() . "css/site.css");
         $this->buildBody();
     }

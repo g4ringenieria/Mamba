@@ -14,7 +14,7 @@ class LoginView extends HTMLView
         $this->addMeta(array("name"=>"viewport", "content"=>"width=device-width, initial-scale=1.0"));
         $this->addScriptFile($this->getBaseUrl() . "js/jquery.min.js");
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.2.0/js/bootstrap.min.js");
-        $this->addStyleFile($this->getBaseUrl() . "css/bootstrap.cerulean.min.css");
+        $this->addStyleFile($this->getBaseUrl() . "assets/bootstrap-3.2.0/css/bootstrap.cerulean.min.css");
         $this->addStyleFile($this->getBaseUrl() . "css/login.css");
         $this->bodyTag->add($this->createLoginForm());
         $this->addOnLoadScript('checkPageLocation();');
