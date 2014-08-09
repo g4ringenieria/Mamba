@@ -8,6 +8,7 @@ abstract class SidebarSiteView extends SiteView
 {
     protected function buildBody()
     {
+        $this->getBodyTag()->setAttribute("class", "sidebarMode");
         $this->getBodyTag()->add ($this->createSidebar());
         parent::buildBody();
     }

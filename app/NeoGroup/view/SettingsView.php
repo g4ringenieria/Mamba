@@ -9,7 +9,7 @@ class SettingsView extends SiteView
         return "Configuración";
     }
     
-    protected function buildPage($page) 
+    protected function buildContent($page) 
     {
     }
 }
