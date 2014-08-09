@@ -55,7 +55,7 @@ class ReportsView extends SidebarSiteView
     {
         $parameters = Parameters::getInstance();
         $holderSelector = new Selector($this);
-        $holderSelector->setAttributes(array("placeholder"=>"Seleccione un holder ...", "name"=>"holderId"));
+        $holderSelector->setAttributes(array("placeholder"=>"Vehiculo", "name"=>"holderId"));
         $holderSelector->setRemoteUrl($this->getUrl("holders/"));
         $holderSelector->setRequestParams(array("returnFormat"=>"json", session_name()=>session_id() ));
         $holderSelector->setValueField("id");
