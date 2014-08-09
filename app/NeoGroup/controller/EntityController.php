@@ -17,16 +17,16 @@ abstract class EntityController extends WebController
             switch ($method)
             {
                 case "GET":
-                    $response = parent::processAction("getResource", $parameters);
+                    $response = $this->processAction("getResource");
                     break;
                 case "PUT":
-                    $response = parent::processAction("createResource", $parameters);
+                    $response = $this->processAction("createResource");
                     break;
                 case "POST":
-                    $response = parent::processAction("updateResource", $parameters); 
+                    $response = $this->processAction("updateResource"); 
                     break;
                 case "DELETE":
-                    $response = parent::processAction("deleteResource", $parameters);
+                    $response = $this->processAction("deleteResource");
                     break;
             }
         }
@@ -72,7 +72,7 @@ abstract class EntityController extends WebController
     {
         if (isset($this->resource))
             $parameters["resource"] = $this->resource;
-        parent::executeAction($action, $parameters);
+        return parent::executeAction($action, $parameters);
     }
     
     public function onActionError ($action, $error)
