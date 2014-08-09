@@ -3,6 +3,7 @@
 namespace NeoGroup\view;
 
 use NeoPHP\web\html\HTMLView;
+use NeoPHP\web\html\Tag;
 
 abstract class SiteView extends HTMLView
 {
@@ -22,10 +23,17 @@ abstract class SiteView extends HTMLView
     
     protected function buildBody()
     {
-        $this->buildPage($this->getBodyTag()); 
+        $this->getBodyTag()->add ($this->createContent());
     }
     
-    protected abstract function buildPage($body);
+    protected function createContent ()
+    {
+        $content = new Tag("div", array("id"=>"content"));
+        $this->buildContent ($content);
+        return new Tag("div", array("id"=>"contentwrapper"), $content);
+    }
+    
+    protected abstract function buildContent ($content);
 }
 
 ?>

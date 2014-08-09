@@ -18,7 +18,7 @@ class AccountView extends SiteView
         return "Mi Cuenta";
     }
     
-    protected function buildPage($page) 
+    protected function buildContent($page) 
     {
         $page->add ($this->createUserWidget());
     }
