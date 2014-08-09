@@ -14,7 +14,7 @@ use NeoPHP\web\html\Tag;
 use NeoPHP\web\http\Parameters;
 use stdClass;
 
-class ReportsView extends SiteView
+class ReportsView extends SidebarSiteView
 {
     const OUTPUTTYPE_NONE = 0;
     const OUTPUTTYPE_GRID = 1;
@@ -33,24 +33,22 @@ class ReportsView extends SiteView
         $this->outputType = $outputType;
     }
     
-    protected function buildPage($page) 
+    protected function buildSidebar($sidebar)
     {
-        $sideColumn = new Tag("div", array("class"=>"col-sm-4 col-md-3 col-lg-2 sideRegion"));
-        $contentColumn = new Tag("div", array("class"=>"col-sm-8 col-md-9 col-lg-10 centerRegion"));
-        $row = new Tag("div", array("class"=>"row"));
-        $row->add($sideColumn);
-        $row->add($contentColumn);
-        $sideColumn->add (new Tag("div", array("class"=>"content"), $this->createFiltersForm()));
+        $sidebar->add($this->createFiltersForm());
+    }
+    
+    protected function buildContent($content)
+    {
         switch ($this->outputType)
         {
             case self::OUTPUTTYPE_GRID:
-                $contentColumn->add (new Tag("div", array("class"=>"content"), $this->createReportsGrid()));
+                $content->add ($this->createReportsGrid());
                 break;
             case self::OUTPUTTYPE_MAP:
-                $contentColumn->add (new Tag("div", array("class"=>"content"), $this->createReportsMap ()));
+                $content->add ($this->createReportsMap ());
                 break;
-        }   
-        $page->add($row);
+        }
     }
     
     protected function createFiltersForm ()
@@ -95,7 +93,6 @@ class ReportsView extends SiteView
         $grid->addColumn ("Curso", "course", function ($course) { return GeoUtils::getCourseString($course); });
         $grid->addColumn ("Latitud", "latitude");
         $grid->addColumn ("Longitud", "longitude");
-        $grid->addColumn ("Odómetro", "odometer");
         $grid->setEntities($this->reports);  
         return $grid;
     }
@@ -161,7 +158,7 @@ class ReportsView extends SiteView
             $overlayLayer->overlays[] = $marker;
         
         $map = new Map($this);
-        $map->setAttributes(array("style"=>"height:500px;"));
+        $map->setAttributes(array("style"=>"width: 100%; height:100%;"));
         $map->addDefaultBaseLayers();
         $map->addOverlay($overlayLayer);
         return $map;

@@ -1,27 +1,70 @@
 body 
 { 
     background: white url(images/siteBackground2.png) repeat; 
+    white-space:nowrap;
 }
 
-.content
+#sidebarwrapper
+{
+    position:fixed;
+    width: 200px;
+    height: 100%;
+    z-index: 20;
+    background: white;
+    border-right: 1px solid lightgray;
+}
+
+#contentwrapper
+{
+    position:fixed;
+    width: 100%;
+    height: 100%;
+    padding-left: 200px;
+    z-index: 10;
+}
+
+#content
+{
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+#sidebar
 {
     padding: 10px;
 }
 
-.sideRegion
+.collapsed #sidebarwrapper
 {
-    background: white;
-    min-height: 1000px;
-    border-right: 1px solid lightgray;
+    visibility: hidden;
 }
 
-.sideRegion .content
+.collapsed #contentwrapper
 {
-    padding: 10px 0px 10px 10px;
+    padding-left:0px;
 }
 
-.centerRegion
+@media (max-width:765px) 
 {
-    margin: 0px;
-    padding: 0px;
+    #sidebar
+    {
+        visibility: hidden;
+    }
+
+    #content
+    {
+        padding-left:0px;
+    }
+
+    .collapsed #sidebar
+    {
+        visibility: visible;
+    }
+
+    .collapsed #content
+    {
+        padding-left:200px;
+    }
 }
