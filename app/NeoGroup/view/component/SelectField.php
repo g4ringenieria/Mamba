@@ -29,21 +29,31 @@ class SelectField extends HTMLComponent
         
 //        $option1 = new \stdClass();
 //        $option1->id = 1;
-//        $option1->description = "pepe paredes";
+//        $option1->name = "pepe";
+//        $option1->lastName = "Paredes";
 //        $option2 = new \stdClass();
 //        $option2->id = 2;
-//        $option2->description = "tito puente";
+//        $option2->name = "tito";
+//        $option2->lastName = "Puente";
 //        $this->source->data[] = $option1;
 //        $this->source->data[] = $option2;
+//        $this->source->displayTemplate = "{name} {lastName}";
         
         $this->source->type = "remote";
-        $this->source->displayField = "domain";
+        $this->source->displayTemplate = "{name} - {domain}";
         $this->source->url = $this->view->getBaseUrl() . "holders/?returnFormat=json&" . session_name() . "=" . session_id();
     }
     
     protected function onBeforeBuild ()
     {
         $this->view->addScript('
+            function createTemplateDescriptionFromSearchResult (template, item)
+            { 
+                for (var i in item)
+                    template = template.replace(new RegExp("{" + i + "}", "g"), item[i]);
+                return template; 
+            }
+
             function createSearchResultItem (value, text)
             {
                 return "<a href=\"#\" class=\"list-group-item selectField-searchItem\" value=\"" + value + "\" onclick=\"selectSearchResultItem($(this)); return false;\">" + text + "</a>";
@@ -80,8 +90,9 @@ class SelectField extends HTMLComponent
                     for (var i in source.data)
                     {
                         var dataItem = source.data[i];
-                        if (dataItem.description.indexOf(query) >= 0)
-                            $selectSearchList.append(createSearchResultItem(dataItem[source.valueField], dataItem[source.displayField]));
+                        var description = source.displayTemplate? createTemplateDescriptionFromSearchResult(source.displayTemplate, dataItem) : dataItem[source.displayField];
+                        if (description.indexOf(query) >= 0)
+                            $selectSearchList.append(createSearchResultItem(dataItem[source.valueField], description));
                     }
                 }
                 else if (source.type == "remote")
@@ -96,13 +107,15 @@ class SelectField extends HTMLComponent
                             data: { query: query },
                             success: function (data, status, xhr)
                             {
-                                if (data && data.success == true && data.results)
-                                    data = data.results;
                                 $selectSearchList.empty();
-                                for (var i in data)
+                                if (data && data.success == true && data.results)
                                 {
-                                    var dataItem = data[i];
-                                    $selectSearchList.append(createSearchResultItem(dataItem[source.valueField], dataItem[source.displayField]));
+                                    for (var i in data.results)
+                                    {
+                                        var dataItem = data.results[i];
+                                        var description = source.displayTemplate? createTemplateDescriptionFromSearchResult(source.displayTemplate, dataItem) : dataItem[source.displayField];
+                                        $selectSearchList.append(createSearchResultItem(dataItem[source.valueField], description));
+                                    }
                                 }
                             },
                             error: function ()
