@@ -188,7 +188,7 @@ class SelectField extends HTMLComponent
     protected function createContent ()
     {
         $container = new Tag("div", array("id"=>$this->id, "class"=>"dropdown selectField"));
-        $button = new Tag("button", array("href"=>"#", "class"=>"btn btn-default btn-block selectField-button"));
+        $button = new Tag("button", array("type"=>"button", "class"=>"btn btn-default btn-block selectField-button"));
         $button->add (new Tag("span", array("class"=>"pull-left"), "--"));
         $button->add (new Tag("span", array("class"=>"pull-right caret", "style"=>"margin-top:6px;")));
         $searchField = new Tag("input", array("type"=>"text", "class"=>"form-control", "placeholder"=>"Buscar ..."));
