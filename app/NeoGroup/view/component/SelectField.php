@@ -155,8 +155,12 @@ class SelectField extends HTMLComponent
 
             .selectField-searchList
             {
-                margin: 0px; 
-                padding: 10px 0px 0px 0px;
+                margin: 0px;
+                margin-top: 10px;
+                padding: 0px;
+                max-height: 100px;
+                overflow-y: auto;
+                overflow-x: hidden;
             }
             
             .selectField-searchItem
