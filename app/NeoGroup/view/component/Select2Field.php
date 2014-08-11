@@ -186,7 +186,7 @@ class Select2Field extends HTMLComponent
                         {
                             url: source.url,
                             method: "GET",
-                            data: { query: query },
+                            data: { query: searchQuery },
                             success: function (data, status, xhr) { if (data && data.success == true && data.results) selectSetResults(id, data.results, null); },
                             error: function () {},
                             timeout: function () {}
