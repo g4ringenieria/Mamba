@@ -9,6 +9,9 @@ use stdClass;
 
 class SelectField extends HTMLComponent
 {
+    const SOURCETYPE_LOCAL = "local";
+    const SOURCETYPE_REMOTE = "remote";
+    
     private $id;
     private $name;
     private $view;
@@ -21,27 +24,63 @@ class SelectField extends HTMLComponent
         $this->name = $this->id;
         $this->view = $view;
         $this->source = new stdClass();
-        $this->source->type = "local";
+        $this->source->type = self::SOURCETYPE_LOCAL;
         $this->source->valueField = "id";
         $this->source->displayField = "description";
         $this->source->data = array();
-        
-        
-//        $option1 = new \stdClass();
-//        $option1->id = 1;
-//        $option1->name = "pepe";
-//        $option1->lastName = "Paredes";
-//        $option2 = new \stdClass();
-//        $option2->id = 2;
-//        $option2->name = "tito";
-//        $option2->lastName = "Puente";
-//        $this->source->data[] = $option1;
-//        $this->source->data[] = $option2;
-//        $this->source->displayTemplate = "{name} {lastName}";
-        
-        $this->source->type = "remote";
-        $this->source->displayTemplate = "{name} - {domain}";
-        $this->source->url = $this->view->getBaseUrl() . "holders/?returnFormat=json&" . session_name() . "=" . session_id();
+    }
+    
+    public function setSourceType ($sourceType)
+    {
+        $this->source->type = $sourceType;
+    }
+    
+    public function setValueField ($valueField)
+    {
+        $this->source->valueField = $valueField;
+    }
+    
+    public function setDisplayField ($displayField)
+    {
+        $this->source->displayField = $displayField;
+    }
+    
+    public function setDisplayTemplate ($displayTemplate)
+    {
+        $this->source->displayTemplate = $displayTemplate;
+    }
+    
+    public function setRemoteUrl ($remoteUrl)
+    {
+        $this->source->url = $remoteUrl;
+    }
+    
+    public function setOptions (array $options)
+    {
+        foreach ($options as $id=>$option)
+        {
+            if ($option instanceof stdClass)
+                $this->addOption($option);
+            else
+                $this->addOption($id, $option);
+        }
+    }
+    
+    public function addOption ($option, $optionValue=null)
+    {
+        if ($option instanceof stdClass)
+        {
+            $this->source->data[] = $option;
+        }
+        else
+        {
+            $valueField = $this->source->valueField;
+            $displayField = $this->source->displayField;
+            $newOption = new stdClass();
+            $newOption->$valueField = $option;
+            $newOption->$displayField = $optionValue;
+            $this->source->data[] = $newOption;
+        }
     }
     
     protected function onBeforeBuild ()
