@@ -229,6 +229,18 @@ class Select2Field extends HTMLComponent
                         selectSearchResults (id);
                     }
                 });
+                $input.focusin(function() 
+                {
+                    $input = $(this);
+                    clearTimeout($input[0].focusTimeout);
+                });
+                $input.focusout(function() 
+                {
+                    var $selectField = $(this).closest(".selectField");
+                    var id = $selectField.attr("id");
+                    $input = $(this);
+                    $input[0].focusTimeout = setTimeout(function() { selectClearResults(id); }, 200);
+                });
             });
         '); 
         $this->view->addStyle('
