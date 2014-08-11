@@ -168,10 +168,11 @@ class Select2Field extends HTMLComponent
             function selectSearchResults (id)
             {
                 var $selectField = $("#" + id);
-                var $selectSearchField = $selectField.find("input[type=text]");
-                var searchQuery = $selectSearchField[0].value;
+                var $searchField = $selectField.find("input[type=text]");
+                var searchQuery = $searchField[0].value;
                 var source = $selectField[0].source;
-                
+                $searchField.focus();
+
                 if (source.type == "local")
                 {
                     selectSetResults(id, source.data, searchQuery);
@@ -201,8 +202,13 @@ class Select2Field extends HTMLComponent
                 $button.click(function () 
                 {
                     var $selectField = $(this).closest(".selectField");
-                    var selectId = $selectField.attr("id");
-                    selectSearchResults (selectId);
+                    var $hiddenField = $selectField.find("input[type=hidden]");
+                    var id = $selectField.attr("id");
+                    if ($hiddenField.val())
+                    {
+                        selectClearValue (id);
+                    }
+                    selectSearchResults (id);
                 });
                 $input = $(".selectField input[type=text]");
                 $input.keyup(function(event)
@@ -210,17 +216,17 @@ class Select2Field extends HTMLComponent
                     var $selectField = $(this).closest(".selectField");
                     var $hiddenField = $selectField.find("input[type=hidden]");
                     var $searchField = $selectField.find("input[type=text]");
-                    var selectId = $selectField.attr("id");
+                    var id = $selectField.attr("id");
                     if ($hiddenField.val())
                     {
                         if (event.which == 8 || event.which == 46)
                         {
-                            selectClearValue (selectId);
+                            selectClearValue (id);
                         }
                     }
                     else
                     {
-                        selectSearchResults (selectId);
+                        selectSearchResults (id);
                     }
                 });
             });
