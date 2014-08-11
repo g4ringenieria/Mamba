@@ -98,6 +98,25 @@ class Select2Field extends HTMLComponent
     {
         $this->view->addScript('$("#' . $this->id . '")[0].source = ' . json_encode($this->source));
         $this->view->addScript('
+            
+            function selectSetValue (id, value, displayValue)
+            {
+                var $selectField = $("#" + id);
+                var $hiddenField = $selectField.find("input[type=hidden]");
+                var $searchField = $selectField.find("input[type=text]");
+                $hiddenField.val(value);
+                $searchField.val(displayValue);
+            }
+            
+            function selectClearValue (id)
+            {
+                var $selectField = $("#" + id);
+                var $hiddenField = $selectField.find("input[type=hidden]");
+                var $searchField = $selectField.find("input[type=text]");
+                $hiddenField.val("");
+                $searchField.val("");
+            }
+
             function selectClearResults (id)
             {
                 var $selectField = $("#" + id);
@@ -135,12 +154,9 @@ class Select2Field extends HTMLComponent
                         $searchItem.click(function () 
                         {
                             var $searchItem = $(this);
-                            var $selectField = $searchItem.closest(".selectField");
-                            var $hiddenField = $selectField.find("input[type=hidden]");
-                            var $searchField = $selectField.find("input[type=text]");
                             var value = $searchItem.attr("value");
-                            $hiddenField.val(value);
-                            $searchField.val($searchItem[0].innerHTML);
+                            var displayValue = $searchItem[0].innerHTML;
+                            selectSetValue (id, value, displayValue);
                             $selectDropdown.removeClass("show");
                         });
                         $selectSearchList.append($searchItem);
@@ -190,7 +206,7 @@ class Select2Field extends HTMLComponent
                     selectSearchResults ($selectField.attr("id"));
                 });
                 $input = $(".selectField input[type=text]");
-                $input.keyup(function()
+                $input.keyup(function(event)
                 {
                     $selectField = $(this).closest(".selectField");
                     selectSearchResults ($selectField.attr("id"));
