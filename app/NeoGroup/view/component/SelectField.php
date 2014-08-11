@@ -14,6 +14,7 @@ class SelectField extends HTMLComponent
     
     private $id;
     private $name;
+    private $placeholder;
     private $view;
     private $source;
     
@@ -53,6 +54,16 @@ class SelectField extends HTMLComponent
     public function setRemoteUrl ($remoteUrl)
     {
         $this->source->url = $remoteUrl;
+    }
+    
+    public function setName ($name)
+    {
+        $this->name = $name;
+    }
+    
+    public function setPlaceholder ($placeholder)
+    {
+        $this->placeholder = $placeholder;
     }
     
     public function setOptions (array $options)
@@ -228,7 +239,7 @@ class SelectField extends HTMLComponent
     {
         $container = new Tag("div", array("id"=>$this->id, "class"=>"dropdown selectField"));
         $button = new Tag("button", array("type"=>"button", "class"=>"btn btn-default btn-block selectField-button"));
-        $button->add (new Tag("span", array("class"=>"pull-left"), "--"));
+        $button->add (new Tag("span", array("class"=>"pull-left"), $this->placeholder));
         $button->add (new Tag("span", array("class"=>"pull-right caret", "style"=>"margin-top:6px;")));
         $searchField = new Tag("input", array("type"=>"text", "class"=>"form-control", "placeholder"=>"Buscar ..."));
         $searchList = new Tag("div", array("class"=>"list-group selectField-searchList"));
