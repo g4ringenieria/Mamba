@@ -172,7 +172,14 @@ class Select2Field extends HTMLComponent
                 $button = $(".selectField .btn");
                 $button.click(function () 
                 {
-                    selectSearchResults ("selectField_0");
+                    $selectField = $(this).closest(".selectField");
+                    selectSearchResults ($selectField.attr("id"));
+                });
+                $input = $(".selectField input[type=text]");
+                $input.keyup(function ()
+                {
+                    $selectField = $(this).closest(".selectField");
+                    selectSearchResults ($selectField.attr("id"));
                 });
             });
         '); 
