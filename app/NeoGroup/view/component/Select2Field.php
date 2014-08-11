@@ -98,41 +98,55 @@ class Select2Field extends HTMLComponent
     {
         $this->view->addScript('$("#' . $this->id . '")[0].source = ' . json_encode($this->source));
         $this->view->addScript('
-            function createTemplateDescriptionFromSearchResult (template, item)
-            { 
-                for (var i in item)
-                    template = template.replace(new RegExp("{" + i + "}", "g"), item[i]);
-                return template; 
+            function selectSetResults (id, data, query)
+            {
+                var $selectField = $("#" + id);
+                var $selectDropdown = $selectField.find(".dropdown-menu");
+                var $selectSearchList = $selectField.find(".list-group");
+                var source = $selectField[0].source;
+                var showDropdown = false;
+
+                $selectDropdown.removeClass("show");
+                $selectSearchList.empty();
+                for (var i in data)
+                {
+                    var dataItem = data[i];
+                    var description = "";
+                    if (source.displayTemplate)
+                    {
+                        description = source.displayTemplate;
+                        for (var i in dataItem)
+                            description = description.replace(new RegExp("{" + i + "}", "g"), dataItem[i]);
+                    }
+                    else
+                    {
+                        description = dataItem[source.displayField];
+                    }
+                    if (query == null || description.indexOf(query) >= 0)
+                    {
+                        var $searchItem = $("<a href=\"#\" class=\"list-group-item\" value=\"" + dataItem[source.valueField] + "\">" + description + "</a>");
+                        $searchItem.click(function () 
+                        {
+                            alert("simpler");
+                        });
+                        $selectSearchList.append($searchItem);
+                        showDropdown = true;
+                    }
+                }
+                if (showDropdown)
+                    $selectDropdown.addClass("show");
             }
 
-            function showSelectResults (id)
+            function selectSearchResults (id)
             {
                 var $selectField = $("#" + id);
                 var $selectSearchField = $selectField.find("input[type=text]");
-                var $selectDropdown = $selectField.find(".dropdown-menu");
-                var $selectSearchList = $selectField.find(".list-group");
-                
-                $selectDropdown.removeClass("show");
                 var searchQuery = $selectSearchField[0].value;
                 var source = $selectField[0].source;
+                
                 if (source.type == "local")
                 {
-                    var showDropdown = false;
-                    $selectSearchList.empty();
-                    for (var i in source.data)
-                    {
-                        var dataItem = source.data[i];
-                        var description = source.displayTemplate? createTemplateDescriptionFromSearchResult(source.displayTemplate, dataItem) : dataItem[source.displayField];
-                        if (description.indexOf(searchQuery) >= 0)
-                        {
-                            showDropdown = true;
-                            var $searchItem = $("<a href=\"#\" class=\"list-group-item\" value=\"" + dataItem[source.valueField] + "\">" + description + "</a>");
-                            $searchItem.click(function () {alert("superv");});
-                            $selectSearchList.append($searchItem);
-                        }
-                    }
-                    if (showDropdown)
-                        $selectDropdown.addClass("show");
+                    selectSetResults(id, source.data, searchQuery);
                 }
                 else if (source.type == "remote")
                 {
@@ -144,25 +158,7 @@ class Select2Field extends HTMLComponent
                             url: source.url,
                             method: "GET",
                             data: { query: query },
-                            success: function (data, status, xhr)
-                            {
-                                var showDropdown = false;
-                                $selectSearchList.empty();
-                                if (data && data.success == true && data.results)
-                                {
-                                    for (var i in data.results)
-                                    {
-                                        var dataItem = data.results[i];
-                                        var description = source.displayTemplate? createTemplateDescriptionFromSearchResult(source.displayTemplate, dataItem) : dataItem[source.displayField];
-                                        var $searchItem = $("<a href=\"#\" class=\"list-group-item\" value=\"" + dataItem[source.valueField] + "\">" + description + "</a>");
-                                        $searchItem.click(function () {alert("superv");});
-                                        $selectSearchList.append($searchItem);
-                                        showDropdown = true;
-                                    }
-                                    if (showDropdown)
-                                        $selectDropdown.addClass("show");
-                                }
-                            },
+                            success: function (data, status, xhr) { if (data && data.success == true && data.results) selectSetResults(id, data.results, null); },
                             error: function () {},
                             timeout: function () {}
                         });
@@ -171,16 +167,12 @@ class Select2Field extends HTMLComponent
             }
             
 
-
-
-
-            
             $(document).ready(function() 
             {
                 $button = $(".selectField .btn");
                 $button.click(function () 
                 {
-                    showSelectResults ("selectField_0");
+                    selectSearchResults ("selectField_0");
                 });
             });
         '); 
