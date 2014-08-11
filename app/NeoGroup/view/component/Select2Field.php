@@ -238,15 +238,22 @@ class Select2Field extends HTMLComponent
                 });
                 $input.focusin(function() 
                 {
-                    $input = $(this);
+                    var $input = $(this);
                     clearTimeout($input[0].focusTimeout);
                 });
                 $input.focusout(function() 
                 {
-                    var $selectField = $(this).closest(".selectField");
-                    var id = $selectField.attr("id");
-                    $input = $(this);
-                    $input[0].focusTimeout = setTimeout(function() { selectClearResults(id); }, 200);
+                    var $input = $(this);
+                    $input[0].focusTimeout = setTimeout(function() 
+                    { 
+                        var $selectField = $input.closest(".selectField");
+                        var $hiddenField = $selectField.find("input[type=hidden]");
+                        var $searchField = $selectField.find("input[type=text]");
+                        var id = $selectField.attr("id");
+                        selectClearResults(id); 
+                        if (!$hiddenField.val())
+                            $searchField.val("");
+                    }, 200);
                 });
             });
         '); 
