@@ -200,16 +200,18 @@ class Select2Field extends HTMLComponent
         $this->view->addStyle('
             .selectField .dropdown-menu
             {
-                width: 100%; 
-                max-height: 100px;
+                width: 100%;
                 padding: 5px;
                 margin: 0px;
             }
             
             .selectField .list-group
             {
+                max-height: 100px;
                 margin: 0px;
                 padding: 0px;
+                overflow-x: hidden;
+                overflow-y: auto;
             }
             
             .selectField .list-group .list-group-item
