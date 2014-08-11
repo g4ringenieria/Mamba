@@ -127,7 +127,14 @@ class Select2Field extends HTMLComponent
                         var $searchItem = $("<a href=\"#\" class=\"list-group-item\" value=\"" + dataItem[source.valueField] + "\">" + description + "</a>");
                         $searchItem.click(function () 
                         {
-                            alert("simpler");
+                            var $searchItem = $(this);
+                            var $selectField = $searchItem.closest(".selectField");
+                            var $hiddenField = $selectField.find("input[type=hidden]");
+                            var $searchField = $selectField.find("input[type=text]");
+                            var value = $searchItem.attr("value");
+                            $hiddenField.val(value);
+                            $searchField.val($searchItem[0].innerHTML);
+                            $selectDropdown.removeClass("show");
                         });
                         $selectSearchList.append($searchItem);
                         showDropdown = true;
@@ -211,7 +218,7 @@ class Select2Field extends HTMLComponent
     protected function createContent ()
     {
         $inputGroup = new Tag("div", array("class"=>"input-group"));
-        $inputGroup->add (new Tag("input", array("type"=>"text", "class"=>"form-control")));
+        $inputGroup->add (new Tag("input", array("type"=>"text", "name"=>$this->name . "_text", "class"=>"form-control")));
         $inputGroup->add (new Tag("span", array("class"=>"input-group-btn"), new Tag("button", array("class"=>"btn btn-default", "type"=>"button"), "<span class=\"glyphicon glyphicon-search\"></span>")));
         $hiddenField = new Tag("input", array("type"=>"hidden", "name"=>$this->name));
         $dropdownList = new Tag("div", array("class"=>"list-group"));
