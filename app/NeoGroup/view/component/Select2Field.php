@@ -217,16 +217,23 @@ class Select2Field extends HTMLComponent
                     var $hiddenField = $selectField.find("input[type=hidden]");
                     var $searchField = $selectField.find("input[type=text]");
                     var id = $selectField.attr("id");
-                    if ($hiddenField.val())
+                    if (event.which == 27)
                     {
-                        if (event.which == 8 || event.which == 46)
-                        {
-                            selectClearValue (id);
-                        }
+                        selectClearResults(id);
                     }
                     else
                     {
-                        selectSearchResults (id);
+                        if ($hiddenField.val())
+                        {
+                            if (event.which == 8 || event.which == 46)
+                            {
+                                selectClearValue (id);
+                            }
+                        }
+                        else
+                        {
+                            selectSearchResults (id);
+                        }
                     }
                 });
                 $input.focusin(function() 
