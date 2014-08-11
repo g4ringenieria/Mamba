@@ -98,6 +98,13 @@ class Select2Field extends HTMLComponent
     {
         $this->view->addScript('$("#' . $this->id . '")[0].source = ' . json_encode($this->source));
         $this->view->addScript('
+            function selectClearResults (id)
+            {
+                var $selectField = $("#" + id);
+                var $selectDropdown = $selectField.find(".dropdown-menu");
+                $selectDropdown.removeClass("show");
+            }
+
             function selectSetResults (id, data, query)
             {
                 var $selectField = $("#" + id);
@@ -183,7 +190,7 @@ class Select2Field extends HTMLComponent
                     selectSearchResults ($selectField.attr("id"));
                 });
                 $input = $(".selectField input[type=text]");
-                $input.keyup(function ()
+                $input.keyup(function()
                 {
                     $selectField = $(this).closest(".selectField");
                     selectSearchResults ($selectField.attr("id"));
