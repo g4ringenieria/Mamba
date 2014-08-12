@@ -148,7 +148,7 @@ class Select2Field extends HTMLComponent
                     }
                     if (query == null || description.indexOf(query) >= 0)
                     {
-                        var $searchItem = $("<a href=\"#\" class=\"list-group-item\" value=\"" + dataItem[source.valueField] + "\">" + description + "</a>");
+                        var $searchItem = $("<a href=\"#\" class=\"list-group-item" + ((showDropdown)?"":" active") + "\" value=\"" + dataItem[source.valueField] + "\">" + description + "</a>");
                         $searchItem.click(function () 
                         {
                             var $searchItem = $(this);
@@ -214,26 +214,34 @@ class Select2Field extends HTMLComponent
                 $input.keyup(function(event)
                 {
                     var $selectField = $(this).closest(".selectField");
-                    var $hiddenField = $selectField.find("input[type=hidden]");
-                    var $searchField = $selectField.find("input[type=text]");
                     var id = $selectField.attr("id");
-                    if (event.which == 27)
+                    switch (event.which)
                     {
-                        selectClearResults(id);
-                    }
-                    else
-                    {
-                        if ($hiddenField.val())
-                        {
-                            if (event.which == 8 || event.which == 46)
-                            {
+                        case 13:
+                            var $searchActiveItem = $selectField.find(".list-group .active");
+                            var value = $searchActiveItem.attr("value");
+                            var displayValue = $searchActiveItem[0].innerHTML;
+                            selectSetValue (id, value, displayValue, true);
+                            selectClearResults (id);
+                            break;
+                        case 27:
+                            selectClearResults(id);
+                            break;
+                        case 38:
+                            break;
+                        case 40:
+                            break;
+                        case 8:
+                        case 46:
+                            var $hiddenField = $selectField.find("input[type=hidden]");
+                            if ($hiddenField.val())
                                 selectClearValue (id);
-                            }
-                        }
-                        else
-                        {
+                            else
+                                selectSearchResults (id);
+                            break;
+                        default:
                             selectSearchResults (id);
-                        }
+                            break;
                     }
                 });
                 $input.focusin(function() 
@@ -278,6 +286,8 @@ class Select2Field extends HTMLComponent
             {
                 padding: 0px;
                 margin: 0px;
+                padding-left: 3px;
+                margin-right: 3px;
                 border: none;
             }
         ');
