@@ -14,7 +14,6 @@ class SelectField extends HTMLComponent
     
     private $id;
     private $name;
-    private $placeholder;
     private $view;
     private $source;
     
@@ -61,11 +60,6 @@ class SelectField extends HTMLComponent
         $this->name = $name;
     }
     
-    public function setPlaceholder ($placeholder)
-    {
-        $this->placeholder = $placeholder;
-    }
-    
     public function setOptions (array $options)
     {
         foreach ($options as $id=>$option)
@@ -96,139 +90,255 @@ class SelectField extends HTMLComponent
     
     protected function onBeforeBuild ()
     {
+        $this->view->addScript('$("#' . $this->id . '")[0].source = ' . json_encode($this->source));
         $this->view->addScript('
-            function createTemplateDescriptionFromSearchResult (template, item)
-            { 
-                for (var i in item)
-                    template = template.replace(new RegExp("{" + i + "}", "g"), item[i]);
-                return template; 
-            }
-
-            function createSearchResultItem (value, text)
+            
+            function selectSetValue (id, value, displayValue, focus)
             {
-                return "<a href=\"#\" class=\"list-group-item selectField-searchItem\" value=\"" + value + "\" onclick=\"selectSearchResultItem($(this)); return false;\">" + text + "</a>";
+                var $selectField = $("#" + id);
+                var $hiddenField = $selectField.find("input[type=hidden]");
+                var $searchField = $selectField.find("input[type=text]");
+                $hiddenField.val(value);
+                $searchField.val(displayValue);
+                $searchField.attr("readonly", true);
+                if (focus != null)
+                    $searchField.focus();
             }
             
-            function selectSearchResultItem ($searchResultItem)
+            function selectClearValue (id)
             {
-                var value = $searchResultItem.attr("value");
-                var displayValue = $searchResultItem[0].innerHTML;
-                var $selectField = $searchResultItem.closest(".selectField");
-                var $selectButtonText = $selectField.find(".selectField-button .pull-left");
-                var $selectDropdown = $selectField.find(".selectField-dropdown");
-                var $hiddenValueField = $selectField.find(".selectField-hiddenValue");
-                var $hiddenDisplayValueField = $selectField.find(".selectField-hiddenDisplayValue");
-                $selectButtonText.html(displayValue);
-                $hiddenValueField.val (value);
-                $hiddenDisplayValueField.val (displayValue);
+                var $selectField = $("#" + id);
+                var $hiddenField = $selectField.find("input[type=hidden]");
+                var $searchField = $selectField.find("input[type=text]");
+                $searchField.attr("readonly", false);
+                $hiddenField.val("");
+                $searchField.val("");
+            }
+
+            function selectClearResults (id)
+            {
+                var $selectField = $("#" + id);
+                var $selectDropdown = $selectField.find(".dropdown-menu");
                 $selectDropdown.removeClass("show");
             }
 
-            function searchResults ($selectField, query)
+            function selectSetResults (id, data, query)
             {
-                if (query == null)
-                {
-                    var $selectSearchField = $selectField.find("input");
-                    query = $selectSearchField[0].value;
-                }
-
-                var $selectSearchList = $selectField.find(".selectField-searchList");
+                var $selectField = $("#" + id);
+                var $selectDropdown = $selectField.find(".dropdown-menu");
+                var $selectSearchList = $selectField.find(".list-group");
                 var source = $selectField[0].source;
-                if (source.type == "local")
+                var showDropdown = false;
+
+                $selectDropdown.removeClass("show");
+                $selectSearchList.empty();
+                for (var i in data)
                 {
-                    $selectSearchList.empty();
-                    for (var i in source.data)
+                    var dataItem = data[i];
+                    var description = "";
+                    if (source.displayTemplate)
                     {
-                        var dataItem = source.data[i];
-                        var description = source.displayTemplate? createTemplateDescriptionFromSearchResult(source.displayTemplate, dataItem) : dataItem[source.displayField];
-                        if (description.indexOf(query) >= 0)
-                            $selectSearchList.append(createSearchResultItem(dataItem[source.valueField], description));
+                        description = source.displayTemplate;
+                        for (var i in dataItem)
+                            description = description.replace(new RegExp("{" + i + "}", "g"), dataItem[i]);
+                    }
+                    else
+                    {
+                        description = dataItem[source.displayField];
+                    }
+                    if (query == null || description.indexOf(query) >= 0)
+                    {
+                        var $searchItem = $("<a href=\"#\" class=\"list-group-item" + ((showDropdown)?"":" active") + "\" value=\"" + dataItem[source.valueField] + "\">" + description + "</a>");
+                        $searchItem.click(function () 
+                        {
+                            var $searchItem = $(this);
+                            var value = $searchItem.attr("value");
+                            var displayValue = $searchItem[0].innerHTML;
+                            selectSetValue (id, value, displayValue, true);
+                            $selectDropdown.removeClass("show");
+                        });
+                        $selectSearchList.append($searchItem);
+                        showDropdown = true;
                     }
                 }
-                else if (source.type == "remote")
+                
+                if (showDropdown)
                 {
-                    clearTimeout($selectField[0].searchProcess);
-                    $selectField[0].searchProcess = setTimeout(function()
-                    {
-                        $.ajax(
-                        {
-                            url: source.url,
-                            method: "GET",
-                            data: { query: query },
-                            success: function (data, status, xhr)
-                            {
-                                $selectSearchList.empty();
-                                if (data && data.success == true && data.results)
-                                {
-                                    for (var i in data.results)
-                                    {
-                                        var dataItem = data.results[i];
-                                        var description = source.displayTemplate? createTemplateDescriptionFromSearchResult(source.displayTemplate, dataItem) : dataItem[source.displayField];
-                                        $selectSearchList.append(createSearchResultItem(dataItem[source.valueField], description));
-                                    }
-                                }
-                            },
-                            error: function ()
-                            {
-                            },
-                            timeout: function ()
-                            {
-                            }
-                        });
-                    }, 500);
+                    $selectDropdown.addClass("show");
+                    $selectSearchList.scrollTop(0);
                 }
             }
 
+            function selectSearchResults (id)
+            {
+                var $selectField = $("#" + id);
+                var $searchField = $selectField.find("input[type=text]");
+                var $hiddenField = $selectField.find("input[type=hidden]");
+                if (!$hiddenField.val())
+                {
+                    var searchQuery = $searchField[0].value;
+                    var source = $selectField[0].source;
+                    $searchField.focus();
+
+                    if (source.type == "local")
+                    {
+                        selectSetResults(id, source.data, searchQuery);
+                    }
+                    else if (source.type == "remote")
+                    {
+                        clearTimeout($selectField[0].searchProcess);
+                        $selectField[0].searchProcess = setTimeout(function()
+                        {
+                            $.ajax(
+                            {
+                                url: source.url,
+                                method: "GET",
+                                data: { query: searchQuery },
+                                success: function (data, status, xhr) { if (data && data.success == true && data.results) selectSetResults(id, data.results, null); },
+                                error: function () {},
+                                timeout: function () {}
+                            });
+                        }, 500);
+                    }
+                }
+            }
+            
             $(document).ready(function() 
             {
-                var $selectButton = $(".selectField-button");   
-                $selectButton.click (function (event) 
-                { 
-                    var $selectField = $(this).closest(".selectField");
-                    var $selectDropdown = $selectField.find(".selectField-dropdown");
-                    var $selectSearchField = $selectField.find("input");
-                    $selectDropdown.toggleClass("show");
-                    if ($selectDropdown.hasClass("show"))
-                    {
-                        $selectSearchField.focus();
-                        var source = $selectField[0].source;
-                        if (source.type == "local")
-                            searchResults ($selectField);
-                    }
-                    event.stopPropagation();
-                    return false;
-                });
-                
-                var $selectSearchField = $(".selectField input");
-                $selectSearchField.keyup (function (event)
+                $button = $(".selectField .btn");
+                $button.click(function () 
                 {
-                    var $field = $(this);
-                    var $selectField = $field.closest(".selectField");
-                    var query = $field[0].value;
-                    searchResults ($selectField, query);
+                    var $selectField = $(this).closest(".selectField");
+                    var $hiddenField = $selectField.find("input[type=hidden]");
+                    var id = $selectField.attr("id");
+                    if ($hiddenField.val())
+                        selectClearValue (id);
+                    selectSearchResults (id);
+                });
+                $input = $(".selectField input[type=text]");
+                $input.keyup(function(event)
+                {
+                    var $selectField = $(this).closest(".selectField");
+                    var id = $selectField.attr("id");
+                    switch (event.which)
+                    {
+                        case 13:
+                            var $searchActiveItem = $selectField.find(".list-group .active");
+                            var value = $searchActiveItem.attr("value");
+                            var displayValue = $searchActiveItem[0].innerHTML;
+                            selectSetValue (id, value, displayValue, true);
+                            selectClearResults (id);
+                            break;
+                        case 27:
+                            selectClearResults(id);
+                            break;
+                        case 38:
+                            var $selectDropdown = $selectField.find(".dropdown-menu");
+                            if ($selectDropdown.hasClass("show"))
+                            {
+                                var $searchActiveItem = $selectField.find(".list-group .active");
+                                var $previousItem = $searchActiveItem.prev();
+                                if ($previousItem.length > 0)
+                                {
+                                    $searchActiveItem.removeClass("active");
+                                    $previousItem.addClass("active");
+                                    
+                                    var $selectSearchList = $selectField.find(".list-group");
+                                    var listOffsets = $selectSearchList.offset();
+                                    var listHeight = $selectSearchList.height();
+                                    var itemOffsets = $previousItem.offset();
+                                    var itemHeight = $previousItem.height();
+                                    if (listOffsets.top > itemOffsets.top)
+                                        $selectSearchList.scrollTop($selectSearchList.scrollTop() - ((listOffsets.top) - (itemOffsets.top)));
+                                }
+                            }
+                            else
+                            {
+                                selectSearchResults (id);
+                            }
+                            break;
+                        case 40:
+                            var $selectDropdown = $selectField.find(".dropdown-menu");
+                            if ($selectDropdown.hasClass("show"))
+                            {
+                                var $searchActiveItem = $selectField.find(".list-group .active");
+                                var $nextItem = $searchActiveItem.next();
+                                if ($nextItem.length > 0)
+                                {
+                                    $searchActiveItem.removeClass("active");
+                                    $nextItem.addClass("active");
+                                    
+                                    var $selectSearchList = $selectField.find(".list-group");
+                                    var listOffsets = $selectSearchList.offset();
+                                    var listHeight = $selectSearchList.height();
+                                    var itemOffsets = $nextItem.offset();
+                                    var itemHeight = $nextItem.height();
+                                    if ((listOffsets.top + listHeight) <= itemOffsets.top)
+                                        $selectSearchList.scrollTop($selectSearchList.scrollTop() + ((itemOffsets.top + itemHeight) - (listOffsets.top + listHeight)));
+                                }
+                            }
+                            else
+                            {
+                                selectSearchResults (id);
+                            }
+                            break;
+                        case 8:
+                        case 46:
+                            var $hiddenField = $selectField.find("input[type=hidden]");
+                            if ($hiddenField.val())
+                                selectClearValue (id);
+                            else
+                                selectSearchResults (id);
+                            break;
+                        default:
+                            selectSearchResults (id);
+                            break;
+                    }
+                });
+                $input.focusin(function() 
+                {
+                    var $input = $(this);
+                    clearTimeout($input[0].focusTimeout);
+                });
+                $input.focusout(function() 
+                {
+                    var $input = $(this);
+                    $input[0].focusTimeout = setTimeout(function() 
+                    { 
+                        var $selectField = $input.closest(".selectField");
+                        var $hiddenField = $selectField.find("input[type=hidden]");
+                        var $searchField = $selectField.find("input[type=text]");
+                        var id = $selectField.attr("id");
+                        selectClearResults(id); 
+                        if (!$hiddenField.val())
+                            $searchField.val("");
+                    }, 200);
                 });
             });
         '); 
         $this->view->addStyle('
-            .selectField-dropdown
+            .selectField .dropdown-menu
             {
-                width: 100%; 
+                width: 100%;
                 padding: 5px;
-            }
-
-            .selectField-searchList
-            {
                 margin: 0px;
-                margin-top: 10px;
-                padding: 0px;
-                max-height: 100px;
-                overflow-y: auto;
-                overflow-x: hidden;
             }
             
-            .selectField-searchItem
+            .selectField .list-group
+            {
+                max-height: 100px;
+                margin: 0px;
+                padding: 0px;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            
+            .selectField .list-group .list-group-item
             {
                 padding: 0px;
+                margin: 0px;
+                padding-left: 3px;
+                margin-right: 3px;
                 border: none;
             }
         ');
@@ -237,19 +347,17 @@ class SelectField extends HTMLComponent
     
     protected function createContent ()
     {
+        $inputGroup = new Tag("div", array("class"=>"input-group"));
+        $inputGroup->add (new Tag("input", array("type"=>"text", "name"=>$this->name . "_text", "class"=>"form-control")));
+        $inputGroup->add (new Tag("span", array("class"=>"input-group-btn"), new Tag("button", array("class"=>"btn btn-default", "type"=>"button"), "<span class=\"glyphicon glyphicon-search\"></span>")));
+        $hiddenField = new Tag("input", array("type"=>"hidden", "name"=>$this->name));
+        $dropdownList = new Tag("div", array("class"=>"list-group"));
+        $dropdown = new Tag("ul", array("class"=>"dropdown-menu"));
+        $dropdown->add (new Tag("li", $dropdownList));
         $container = new Tag("div", array("id"=>$this->id, "class"=>"dropdown selectField"));
-        $button = new Tag("button", array("type"=>"button", "class"=>"btn btn-default btn-block selectField-button"));
-        $button->add (new Tag("span", array("class"=>"pull-left"), $this->placeholder));
-        $button->add (new Tag("span", array("class"=>"pull-right caret", "style"=>"margin-top:6px;")));
-        $searchField = new Tag("input", array("type"=>"text", "class"=>"form-control", "placeholder"=>"Buscar ..."));
-        $searchList = new Tag("div", array("class"=>"list-group selectField-searchList"));
-        $dropdown = new Tag("ul", array("class"=>"dropdown-menu selectField-dropdown"));
-        $dropdown->add (new Tag("li", $searchField));
-        $dropdown->add (new Tag("li", $searchList));
-        $container->add ($button);
+        $container->add ($inputGroup);
         $container->add ($dropdown);
-        $container->add (new Tag("input", array("type"=>"hidden", "class"=>"selectField-hiddenValue", "name"=>$this->name)));
-        $container->add (new Tag("input", array("type"=>"hidden", "class"=>"selectField-hiddenDisplayValue", "name"=>$this->name . "_text")));
+        $container->add ($hiddenField);
         return $container;
     }
 }
