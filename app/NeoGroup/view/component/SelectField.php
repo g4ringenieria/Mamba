@@ -220,7 +220,8 @@ class SelectField extends HTMLComponent
                 {
                     var $selectField = $(this).closest(".selectField");
                     var id = $selectField.attr("id");
-                    switch (event.which)
+                    var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+                    switch (keyCode)
                     {
                         case 13:
                             var $searchActiveItem = $selectField.find(".list-group .active");
@@ -348,7 +349,7 @@ class SelectField extends HTMLComponent
     protected function createContent ()
     {
         $inputGroup = new Tag("div", array("class"=>"input-group"));
-        $inputGroup->add (new Tag("input", array("type"=>"text", "name"=>$this->name . "_text", "class"=>"form-control")));
+        $inputGroup->add (new Tag("input", array("type"=>"text", "name"=>$this->name . "_text", "class"=>"form-control", "autocomplete"=>"off")));
         $inputGroup->add (new Tag("span", array("class"=>"input-group-btn"), new Tag("button", array("class"=>"btn btn-default", "type"=>"button"), "<span class=\"glyphicon glyphicon-search\"></span>")));
         $hiddenField = new Tag("input", array("type"=>"hidden", "name"=>$this->name));
         $dropdownList = new Tag("div", array("class"=>"list-group"));
