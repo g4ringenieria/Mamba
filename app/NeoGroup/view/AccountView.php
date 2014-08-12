@@ -3,6 +3,8 @@
 namespace NeoGroup\view;
 
 use NeoGroup\model\Language;
+use NeoGroup\model\Profile;
+use NeoGroup\model\TimeZone;
 use NeoGroup\model\User;
 use NeoGroup\view\component\Form;
 use NeoGroup\view\component\Panel;
@@ -23,13 +25,15 @@ class AccountView extends SiteView
     protected function buildContent($page) 
     {
         $form = new Form();
-        $form->setColumns(2);
+        $form->setType(Form::TYPE_HORIZONTAL);
         $form->addField (new TextField(array("value"=>$this->user->getFirstname())), "Nombre");
         $form->addField (new TextField(array("value"=>$this->user->getLastname())), "Apellido");
-        $form->addField (new TextField(array("value"=>$this->user->getUsername())), "Nombre de Usuario");
-        $form->addField (new SelectField($this, array("value"=>$this->user->getLanguage()->getId(), "displayvalue"=>$this->user->getLanguage()->getDescription(), "options"=>Language::findAll())), "Idioma");
+        $form->addField (new TextField(array("value"=>$this->user->getUsername())), "Nombre de Usuario");        
         $form->addField (new PasswordField(array("value"=>$this->user->getPassword())), "Contraseña");
         $form->addField (new PasswordField(array("value"=>$this->user->getPassword())), "Contraseña (rep)");
+        $form->addField (new SelectField($this, array("value"=>$this->user->getProfile()->getId(), "displayvalue"=>$this->user->getProfile()->getDescription(), "options"=>Profile::findAll())), "Perfil");
+        $form->addField (new SelectField($this, array("value"=>$this->user->getLanguage()->getId(), "displayvalue"=>$this->user->getLanguage()->getDescription(), "options"=>Language::findAll())), "Idioma");
+        $form->addField (new SelectField($this, array("value"=>$this->user->getTimeZone()->getId(), "displayvalue"=>$this->user->getTimeZone()->getDescription(), "options"=>TimeZone::findAll())), "Zona horaria");
         $page->add (new Tag("div", array("class"=>"container"), new Panel("Mi Cuenta", $form)));
     }
 }
