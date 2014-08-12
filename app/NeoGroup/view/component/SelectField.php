@@ -376,12 +376,18 @@ class SelectField extends HTMLComponent
         $attributes = $this->attributes;
         $componentName = isset($attributes["name"])? $attributes["name"] : $this->id;
         $componentDisplayName = isset($attributes["displayname"])? $attributes["displayname"] : ($componentName . "_text");
+        $componentValue = isset($attributes["value"])? $attributes["value"] : "";
+        $componentDisplayValue = isset($attributes["displayvalue"])? $attributes["displayvalue"] : "";
         unset($attributes["name"]);
         unset($attributes["displayname"]);
+        unset($attributes["value"]);
+        unset($attributes["displayvalue"]);
+        if (!empty($componentValue))
+            $attributes["readonly"] = "true";
         $inputGroup = new Tag("div", array("class"=>"input-group"));
-        $inputGroup->add (new Tag("input", array_merge(array("type"=>"text", "name"=>$componentDisplayName . "_text", "class"=>"form-control", "autocomplete"=>"off"), $attributes)));
+        $inputGroup->add (new Tag("input", array_merge(array("type"=>"text", "name"=>$componentDisplayName, "class"=>"form-control", "autocomplete"=>"off", "value"=>$componentDisplayValue), $attributes)));
         $inputGroup->add (new Tag("span", array("class"=>"input-group-btn"), new Tag("button", array("class"=>"btn btn-default", "type"=>"button"), "<span class=\"glyphicon glyphicon-search\"></span>")));
-        $hiddenField = new Tag("input", array("type"=>"hidden", "name"=>$componentName));
+        $hiddenField = new Tag("input", array("type"=>"hidden", "name"=>$componentName, "value"=>$componentValue));
         $dropdownList = new Tag("div", array("class"=>"list-group"));
         $dropdown = new Tag("ul", array("class"=>"dropdown-menu"));
         $dropdown->add (new Tag("li", $dropdownList));

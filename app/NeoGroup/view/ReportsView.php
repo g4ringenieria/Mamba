@@ -54,12 +54,10 @@ class ReportsView extends SidebarSiteView
     protected function createFiltersForm ()
     {
         $parameters = Parameters::getInstance();
-        $holderSelector = new SelectField($this, array("placeholder"=>"Vehículo", "name"=>"holderid"));
+        $holderSelector = new SelectField($this, array("placeholder"=>"Vehículo", "name"=>"holderId", "value"=>$parameters->holderId, "displayvalue"=>$parameters->holderId_text));
         $holderSelector->setSourceType(SelectField::SOURCETYPE_REMOTE);
         $holderSelector->setRemoteUrl($this->getBaseUrl() . "holders/?returnFormat=json&" . session_name() . "=" . session_id());
         $holderSelector->setDisplayTemplate("{id}: {name} {domain}");
-//        if (isset($parameters->holderId))
-//            $holderSelector->setValue($parameters->holderId);
         $dateFromPicker = new DatetimePicker($this);
         $dateFromPicker->setAttributes(array("placeholder"=>"Fecha desde ...", "name"=>"dateFrom"));
         $dateFromPicker->setValue(isset($parameters->dateFrom)? $parameters->dateFrom : (date("Y/m/d") . " 00:00:00"));
