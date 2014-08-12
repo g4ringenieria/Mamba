@@ -169,33 +169,36 @@ class Select2Field extends HTMLComponent
             {
                 var $selectField = $("#" + id);
                 var $searchField = $selectField.find("input[type=text]");
-                var searchQuery = $searchField[0].value;
-                var source = $selectField[0].source;
-                $searchField.focus();
+                var $hiddenField = $selectField.find("input[type=hidden]");
+                if (!$hiddenField.val())
+                {
+                    var searchQuery = $searchField[0].value;
+                    var source = $selectField[0].source;
+                    $searchField.focus();
 
-                if (source.type == "local")
-                {
-                    selectSetResults(id, source.data, searchQuery);
-                }
-                else if (source.type == "remote")
-                {
-                    clearTimeout($selectField[0].searchProcess);
-                    $selectField[0].searchProcess = setTimeout(function()
+                    if (source.type == "local")
                     {
-                        $.ajax(
+                        selectSetResults(id, source.data, searchQuery);
+                    }
+                    else if (source.type == "remote")
+                    {
+                        clearTimeout($selectField[0].searchProcess);
+                        $selectField[0].searchProcess = setTimeout(function()
                         {
-                            url: source.url,
-                            method: "GET",
-                            data: { query: searchQuery },
-                            success: function (data, status, xhr) { if (data && data.success == true && data.results) selectSetResults(id, data.results, null); },
-                            error: function () {},
-                            timeout: function () {}
-                        });
-                    }, 500);
+                            $.ajax(
+                            {
+                                url: source.url,
+                                method: "GET",
+                                data: { query: searchQuery },
+                                success: function (data, status, xhr) { if (data && data.success == true && data.results) selectSetResults(id, data.results, null); },
+                                error: function () {},
+                                timeout: function () {}
+                            });
+                        }, 500);
+                    }
                 }
             }
             
-
             $(document).ready(function() 
             {
                 $button = $(".selectField .btn");
@@ -205,9 +208,7 @@ class Select2Field extends HTMLComponent
                     var $hiddenField = $selectField.find("input[type=hidden]");
                     var id = $selectField.attr("id");
                     if ($hiddenField.val())
-                    {
                         selectClearValue (id);
-                    }
                     selectSearchResults (id);
                 });
                 $input = $(".selectField input[type=text]");
@@ -228,21 +229,37 @@ class Select2Field extends HTMLComponent
                             selectClearResults(id);
                             break;
                         case 38:
-                            var $searchActiveItem = $selectField.find(".list-group .active");
-                            var $previousItem = $searchActiveItem.prev();
-                            if ($previousItem.length > 0)
+                            var $selectDropdown = $selectField.find(".dropdown-menu");
+                            if ($selectDropdown.hasClass("show"))
                             {
-                                $searchActiveItem.removeClass("active");
-                                $previousItem.addClass("active");
+                                var $searchActiveItem = $selectField.find(".list-group .active");
+                                var $previousItem = $searchActiveItem.prev();
+                                if ($previousItem.length > 0)
+                                {
+                                    $searchActiveItem.removeClass("active");
+                                    $previousItem.addClass("active");
+                                }
+                            }
+                            else
+                            {
+                                selectSearchResults (id);
                             }
                             break;
                         case 40:
-                            var $searchActiveItem = $selectField.find(".list-group .active");
-                            var $nextItem = $searchActiveItem.next();
-                            if ($nextItem.length > 0)
+                            var $selectDropdown = $selectField.find(".dropdown-menu");
+                            if ($selectDropdown.hasClass("show"))
                             {
-                                $searchActiveItem.removeClass("active");
-                                $nextItem.addClass("active");
+                                var $searchActiveItem = $selectField.find(".list-group .active");
+                                var $nextItem = $searchActiveItem.next();
+                                if ($nextItem.length > 0)
+                                {
+                                    $searchActiveItem.removeClass("active");
+                                    $nextItem.addClass("active");
+                                }
+                            }
+                            else
+                            {
+                                selectSearchResults (id);
                             }
                             break;
                         case 8:
@@ -254,9 +271,7 @@ class Select2Field extends HTMLComponent
                                 selectSearchResults (id);
                             break;
                         default:
-                            var $hiddenField = $selectField.find("input[type=hidden]");
-                            if (!$hiddenField.val())
-                                selectSearchResults (id);
+                            selectSearchResults (id);
                             break;
                     }
                 });
