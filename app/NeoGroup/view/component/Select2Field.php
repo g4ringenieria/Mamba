@@ -254,7 +254,9 @@ class Select2Field extends HTMLComponent
                                 selectSearchResults (id);
                             break;
                         default:
-                            selectSearchResults (id);
+                            var $hiddenField = $selectField.find("input[type=hidden]");
+                            if (!$hiddenField.val())
+                                selectSearchResults (id);
                             break;
                     }
                 });
