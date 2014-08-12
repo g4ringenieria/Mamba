@@ -238,6 +238,13 @@ class Select2Field extends HTMLComponent
                                 {
                                     $searchActiveItem.removeClass("active");
                                     $previousItem.addClass("active");
+                                    
+                                    var $selectSearchList = $selectField.find(".list-group");
+                                    var listOffsets = $selectSearchList.offset();
+                                    var listHeight = $selectSearchList.height();
+                                    var itemOffsets = $previousItem.offset();
+                                    if (listOffsets.top > itemOffsets.top)
+                                        $previousItem[0].scrollIntoView();
                                 }
                             }
                             else
@@ -255,6 +262,13 @@ class Select2Field extends HTMLComponent
                                 {
                                     $searchActiveItem.removeClass("active");
                                     $nextItem.addClass("active");
+                                    
+                                    var $selectSearchList = $selectField.find(".list-group");
+                                    var listOffsets = $selectSearchList.offset();
+                                    var listHeight = $selectSearchList.height();
+                                    var itemOffsets = $nextItem.offset();
+                                    if ((listOffsets.top + listHeight) <= itemOffsets.top)
+                                        $nextItem[0].scrollIntoView(false);
                                 }
                             }
                             else
