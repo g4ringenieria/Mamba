@@ -216,6 +216,36 @@ class SelectField extends HTMLComponent
                     selectSearchResults (id);
                 });
                 $input = $(".selectField input[type=text]");
+                $input.keydown(function(event)
+                {
+                    var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+                    if (keyCode == 13 || keyCode == 8 || keyCode == 46)
+                    {
+                        event.cancelBubble = true;
+                        event.returnValue = false;
+                        if (event.stopPropagation) 
+                        {   
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                        return false;
+                    }
+                });
+                $input.keypress(function(event)
+                {
+                    var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+                    if (keyCode == 13 || keyCode == 8 || keyCode == 46)
+                    {
+                        event.cancelBubble = true;
+                        event.returnValue = false;
+                        if (event.stopPropagation) 
+                        {   
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                        return false;
+                    }
+                });
                 $input.keyup(function(event)
                 {
                     var $selectField = $(this).closest(".selectField");
