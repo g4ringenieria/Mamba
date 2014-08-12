@@ -107,20 +107,6 @@ class Form extends Tag
         }
         $this->fieldsCounter++;
     }
-    
-    public function addButton (Button $button)
-    {
-        switch ($this->type)
-        {
-            case self::TYPE_BASIC:
-            case self::TYPE_INLINE:
-                $this->add($button);
-                break;
-            case self::TYPE_HORIZONTAL:
-                $this->add(new Tag("div", array("class"=>"form-group"), new Tag("div", array("class"=>"col-sm-offset-2 col-sm-10"), $button)));
-                break;
-        }
-    }
 }
 
 ?>

@@ -4,11 +4,11 @@ namespace NeoGroup\view;
 
 use NeoGroup\util\DateUtils;
 use NeoGroup\util\GeoUtils;
-use NeoGroup\view\component\Button;
 use NeoGroup\view\component\DatetimePicker;
 use NeoGroup\view\component\EntityTable;
 use NeoGroup\view\component\Form;
 use NeoGroup\view\component\Map;
+use NeoGroup\view\component\MultiButton;
 use NeoGroup\view\component\Panel;
 use NeoGroup\view\component\SelectField;
 use NeoPHP\web\http\Parameters;
@@ -64,16 +64,14 @@ class ReportsView extends SidebarSiteView
         $dateToPicker = new DatetimePicker($this);
         $dateToPicker->setAttributes(array("placeholder"=>"Fecha hasta ...", "name"=>"dateTo"));
         $dateToPicker->setValue(isset($parameters->dateTo)? $parameters->dateTo : (date("Y/m/d") . " 23:59:59"));
-        $button = new Button();
-        $button->setType("primary");
-        $button->setText("Buscar");
-        $button->addAction("Tabla", array(), "showReportsInTable");
-        $button->addAction("Mapa", array(), "showReportsInMap");
+        $button = new MultiButton("Buscar", array("class"=>"primary"));
+        $button->addAction("Tabla", array("action"=>"showReportsInTable"));
+        $button->addAction("Mapa", array("action"=>"showReportsInMap"));
         $form = new Form(array("method"=>"POST"));
         $form->addField($holderSelector);
         $form->addField($dateFromPicker);
         $form->addField($dateToPicker);
-        $form->addButton($button);
+        $form->add($button);
         return $form;
     }
     
