@@ -243,8 +243,9 @@ class Select2Field extends HTMLComponent
                                     var listOffsets = $selectSearchList.offset();
                                     var listHeight = $selectSearchList.height();
                                     var itemOffsets = $previousItem.offset();
+                                    var itemHeight = $previousItem.height();
                                     if (listOffsets.top > itemOffsets.top)
-                                        $previousItem[0].scrollIntoView();
+                                        $selectSearchList.scrollTop($selectSearchList.scrollTop() - ((listOffsets.top) - (itemOffsets.top)));
                                 }
                             }
                             else
@@ -267,8 +268,9 @@ class Select2Field extends HTMLComponent
                                     var listOffsets = $selectSearchList.offset();
                                     var listHeight = $selectSearchList.height();
                                     var itemOffsets = $nextItem.offset();
+                                    var itemHeight = $nextItem.height();
                                     if ((listOffsets.top + listHeight) <= itemOffsets.top)
-                                        $nextItem[0].scrollIntoView(false);
+                                        $selectSearchList.scrollTop($selectSearchList.scrollTop() + ((itemOffsets.top + itemHeight) - (listOffsets.top + listHeight)));
                                 }
                             }
                             else
