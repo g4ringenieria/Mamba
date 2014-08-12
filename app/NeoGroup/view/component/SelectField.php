@@ -164,8 +164,12 @@ class SelectField extends HTMLComponent
                 
                 if (showDropdown)
                 {
-                    $selectDropdown.addClass("show");
-                    $selectSearchList.scrollTop(0);
+                    var $hiddenField = $selectField.find("input[type=hidden]");
+                    if (!$hiddenField.val())
+                    {
+                        $selectDropdown.addClass("show");
+                        $selectSearchList.scrollTop(0);
+                    }
                 }
             }
 
@@ -173,33 +177,29 @@ class SelectField extends HTMLComponent
             {
                 var $selectField = $("#" + id);
                 var $searchField = $selectField.find("input[type=text]");
-                var $hiddenField = $selectField.find("input[type=hidden]");
-                if (!$hiddenField.val())
-                {
-                    var searchQuery = $searchField[0].value;
-                    var source = $selectField[0].source;
-                    $searchField.focus();
+                var searchQuery = $searchField[0].value;
+                var source = $selectField[0].source;
+                $searchField.focus();
 
-                    if (source.type == "local")
+                if (source.type == "local")
+                {
+                    selectSetResults(id, source.data, searchQuery);
+                }
+                else if (source.type == "remote")
+                {
+                    clearTimeout($selectField[0].searchProcess);
+                    $selectField[0].searchProcess = setTimeout(function()
                     {
-                        selectSetResults(id, source.data, searchQuery);
-                    }
-                    else if (source.type == "remote")
-                    {
-                        clearTimeout($selectField[0].searchProcess);
-                        $selectField[0].searchProcess = setTimeout(function()
+                        $.ajax(
                         {
-                            $.ajax(
-                            {
-                                url: source.url,
-                                method: "GET",
-                                data: { query: searchQuery },
-                                success: function (data, status, xhr) { if (data && data.success == true && data.results) selectSetResults(id, data.results, null); },
-                                error: function () {},
-                                timeout: function () {}
-                            });
-                        }, 500);
-                    }
+                            url: source.url,
+                            method: "GET",
+                            data: { query: searchQuery },
+                            success: function (data, status, xhr) { if (data && data.success == true && data.results) selectSetResults(id, data.results, null); },
+                            error: function () {},
+                            timeout: function () {}
+                        });
+                    }, 500);
                 }
             }
             
