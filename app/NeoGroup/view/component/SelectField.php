@@ -219,7 +219,7 @@ class SelectField extends HTMLComponent
                 $input.keydown(function(event)
                 {
                     var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
-                    if (keyCode == 13 || keyCode == 8 || keyCode == 46)
+                    if (keyCode == 13)
                     {
                         event.cancelBubble = true;
                         event.returnValue = false;
@@ -234,7 +234,7 @@ class SelectField extends HTMLComponent
                 $input.keypress(function(event)
                 {
                     var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
-                    if (keyCode == 13 || keyCode == 8 || keyCode == 46)
+                    if (keyCode == 13)
                     {
                         event.cancelBubble = true;
                         event.returnValue = false;

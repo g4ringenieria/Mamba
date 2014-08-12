@@ -25,7 +25,7 @@ class AccountView extends SiteView
     protected function buildContent($page) 
     {
         $form = new Form();
-        $form->setType(Form::TYPE_HORIZONTAL);
+        $form->setColumns(2);
         $form->addField (new TextField(array("value"=>$this->user->getFirstname())), "Nombre");
         $form->addField (new TextField(array("value"=>$this->user->getLastname())), "Apellido");
         $form->addField (new TextField(array("value"=>$this->user->getUsername())), "Nombre de Usuario");        
