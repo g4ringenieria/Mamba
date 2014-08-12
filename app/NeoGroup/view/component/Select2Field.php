@@ -161,8 +161,12 @@ class Select2Field extends HTMLComponent
                         showDropdown = true;
                     }
                 }
+                
                 if (showDropdown)
+                {
                     $selectDropdown.addClass("show");
+                    $selectSearchList.scrollTop(0);
+                }
             }
 
             function selectSearchResults (id)
