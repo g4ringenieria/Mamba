@@ -9,8 +9,8 @@ use NeoGroup\view\component\DatetimePicker;
 use NeoGroup\view\component\EntityTable;
 use NeoGroup\view\component\Form;
 use NeoGroup\view\component\Map;
-use NeoGroup\view\component\Selector;
-use NeoPHP\web\html\Tag;
+use NeoGroup\view\component\Panel;
+use NeoGroup\view\component\SelectField;
 use NeoPHP\web\http\Parameters;
 use stdClass;
 
@@ -54,15 +54,13 @@ class ReportsView extends SidebarSiteView
     protected function createFiltersForm ()
     {
         $parameters = Parameters::getInstance();
-        $holderSelector = new Selector($this);
-        $holderSelector->setAttributes(array("placeholder"=>"Vehiculo", "name"=>"holderId"));
-        $holderSelector->setRemoteUrl($this->getUrl("holders/"));
-        $holderSelector->setRequestParams(array("returnFormat"=>"json", session_name()=>session_id() ));
-        $holderSelector->setValueField("id");
-        $holderSelector->setSearchFields(array("id","name","domain"));
-        $holderSelector->setTemplate("<div><span>{id}: {name} {domain}</span></div>");
-        if (isset($parameters->holderId))
-            $holderSelector->setValue($parameters->holderId);
+        $holderSelector = new SelectField($this);
+        $holderSelector->setSourceType(SelectField::SOURCETYPE_REMOTE);
+        $holderSelector->setName("holderId");
+        $holderSelector->setRemoteUrl($this->getBaseUrl() . "holders/?returnFormat=json&" . session_name() . "=" . session_id());
+        $holderSelector->setDisplayTemplate("{id}: {name} {domain}");
+//        if (isset($parameters->holderId))
+//            $holderSelector->setValue($parameters->holderId);
         $dateFromPicker = new DatetimePicker($this);
         $dateFromPicker->setAttributes(array("placeholder"=>"Fecha desde ...", "name"=>"dateFrom"));
         $dateFromPicker->setValue(isset($parameters->dateFrom)? $parameters->dateFrom : (date("Y/m/d") . " 00:00:00"));
@@ -94,7 +92,7 @@ class ReportsView extends SidebarSiteView
         $grid->addColumn ("Latitud", "latitude");
         $grid->addColumn ("Longitud", "longitude");
         $grid->setEntities($this->reports);  
-        return $grid;
+        return new Panel("Histórico de Reportes", $grid);
     }
     
     protected function createReportsMap () 

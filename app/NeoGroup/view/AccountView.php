@@ -3,6 +3,11 @@
 namespace NeoGroup\view;
 
 use NeoGroup\model\User;
+use NeoGroup\view\component\Form;
+use NeoGroup\view\component\Panel;
+use NeoGroup\view\component\PasswordField;
+use NeoGroup\view\component\TextField;
+use NeoPHP\web\html\Tag;
 
 class AccountView extends SiteView
 {
@@ -13,26 +18,16 @@ class AccountView extends SiteView
         $this->user = $user;
     }
     
-    protected function getPageTitle ()
-    {
-        return "Mi Cuenta";
-    }
-    
     protected function buildContent($page) 
     {
-        $page->add ($this->createUserWidget());
-    }
-    
-    protected function createUserWidget() 
-    {
-        $result = "Nombre: " . $this->user->getFirstname() . " Apellido: " . $this->user->getLastname() . "<br>";
-        $result .= "Cliente: " . $this->user->getClient()->getId() . " - " . $this->user->getClient()->getName() . "<br>";
-        $result .= "Perfil: " . $this->user->getProfile()->getDescription() . "<br>";   
-        $result .= "Zona Horaria: " . $this->user->getTimeZone()->getDescription() . "<br>";
-        foreach ( $this->user->getContacts() as $contact ) {
-            $result .=  $contact->getContactType()->getDescription() . ": ". $contact->getValue() . "<br>";
-        }
-        return $result;
+        $form = new Form();
+        $form->setColumns(2);
+        $form->addField (new TextField(array("value"=>$this->user->getFirstname())), "Nombre");
+        $form->addField (new TextField(array("value"=>$this->user->getLastname())), "Apellido");
+        $form->addField (new TextField(array("value"=>$this->user->getUsername())), "Nombre de Usuario");
+        $form->addField (new PasswordField(array("value"=>$this->user->getPassword())), "Contraseña");
+        $form->addField (new PasswordField(array("value"=>$this->user->getPassword())), "Contraseña (rep)");
+        $page->add (new Tag("div", array("class"=>"container"), new Panel("Mi Cuenta", $form)));
     }
 }
 
