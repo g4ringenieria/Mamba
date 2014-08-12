@@ -13,15 +13,15 @@ class SelectField extends HTMLComponent
     const SOURCETYPE_REMOTE = "remote";
     
     private $id;
-    private $name;
+    private $attributes;
     private $view;
     private $source;
     
-    public function __construct(HTMLView $view)
+    public function __construct(HTMLView $view, array $attributes = array())
     {
         static $idCounter = 0;
         $this->id = "selectField_" . ($idCounter++);
-        $this->name = $this->id;
+        $this->attributes = $attributes;
         $this->view = $view;
         $this->source = new stdClass();
         $this->source->type = self::SOURCETYPE_LOCAL;
@@ -53,11 +53,6 @@ class SelectField extends HTMLComponent
     public function setRemoteUrl ($remoteUrl)
     {
         $this->source->url = $remoteUrl;
-    }
-    
-    public function setName ($name)
-    {
-        $this->name = $name;
     }
     
     public function setOptions (array $options)
@@ -378,10 +373,15 @@ class SelectField extends HTMLComponent
     
     protected function createContent ()
     {
+        $attributes = $this->attributes;
+        $componentName = isset($attributes["name"])? $attributes["name"] : $this->id;
+        $componentDisplayName = isset($attributes["displayname"])? $attributes["displayname"] : ($componentName . "_text");
+        unset($attributes["name"]);
+        unset($attributes["displayname"]);
         $inputGroup = new Tag("div", array("class"=>"input-group"));
-        $inputGroup->add (new Tag("input", array("type"=>"text", "name"=>$this->name . "_text", "class"=>"form-control", "autocomplete"=>"off")));
+        $inputGroup->add (new Tag("input", array_merge(array("type"=>"text", "name"=>$componentDisplayName . "_text", "class"=>"form-control", "autocomplete"=>"off"), $attributes)));
         $inputGroup->add (new Tag("span", array("class"=>"input-group-btn"), new Tag("button", array("class"=>"btn btn-default", "type"=>"button"), "<span class=\"glyphicon glyphicon-search\"></span>")));
-        $hiddenField = new Tag("input", array("type"=>"hidden", "name"=>$this->name));
+        $hiddenField = new Tag("input", array("type"=>"hidden", "name"=>$componentName));
         $dropdownList = new Tag("div", array("class"=>"list-group"));
         $dropdown = new Tag("ul", array("class"=>"dropdown-menu"));
         $dropdown->add (new Tag("li", $dropdownList));

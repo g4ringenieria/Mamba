@@ -54,9 +54,8 @@ class ReportsView extends SidebarSiteView
     protected function createFiltersForm ()
     {
         $parameters = Parameters::getInstance();
-        $holderSelector = new SelectField($this);
+        $holderSelector = new SelectField($this, array("placeholder"=>"Vehículo", "name"=>"holderid"));
         $holderSelector->setSourceType(SelectField::SOURCETYPE_REMOTE);
-        $holderSelector->setName("holderId");
         $holderSelector->setRemoteUrl($this->getBaseUrl() . "holders/?returnFormat=json&" . session_name() . "=" . session_id());
         $holderSelector->setDisplayTemplate("{id}: {name} {domain}");
 //        if (isset($parameters->holderId))
