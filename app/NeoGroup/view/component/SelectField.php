@@ -28,6 +28,11 @@ class SelectField extends HTMLComponent
         $this->source->valueField = "id";
         $this->source->displayField = "description";
         $this->source->data = array();
+        if (isset($this->attributes["options"]))
+        {
+            $this->setOptions ($this->attributes["options"]);
+            unset($this->attributes["options"]);
+        }
     }
     
     public function setSourceType ($sourceType)
@@ -59,16 +64,16 @@ class SelectField extends HTMLComponent
     {
         foreach ($options as $id=>$option)
         {
-            if ($option instanceof stdClass)
+            if (is_object($option))
                 $this->addOption($option);
             else
                 $this->addOption($id, $option);
         }
     }
     
-    public function addOption ($option, $optionValue=null)
+    public function addOption ($option, $optionDescription=null)
     {
-        if ($option instanceof stdClass)
+        if ($optionDescription == null)
         {
             $this->source->data[] = $option;
         }
@@ -78,7 +83,7 @@ class SelectField extends HTMLComponent
             $displayField = $this->source->displayField;
             $newOption = new stdClass();
             $newOption->$valueField = $option;
-            $newOption->$displayField = $optionValue;
+            $newOption->$displayField = $optionDescription;
             $this->source->data[] = $newOption;
         }
     }

@@ -24,7 +24,6 @@ class MainView extends HTMLView
     protected function build()
     {
         parent::build();
-        $this->setTitle($this->getApplication()->getName());
         $this->addMeta(array("charset" => "utf-8"));
         $this->addMeta(array("name" => "viewport", "content" => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"));
         $this->addStyleFile($this->getBaseUrl() . "assets/font-awesome-4.1.0/css/font-awesome.min.css");
