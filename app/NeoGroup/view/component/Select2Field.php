@@ -228,8 +228,22 @@ class Select2Field extends HTMLComponent
                             selectClearResults(id);
                             break;
                         case 38:
+                            var $searchActiveItem = $selectField.find(".list-group .active");
+                            var $previousItem = $searchActiveItem.prev();
+                            if ($previousItem.length > 0)
+                            {
+                                $searchActiveItem.removeClass("active");
+                                $previousItem.addClass("active");
+                            }
                             break;
                         case 40:
+                            var $searchActiveItem = $selectField.find(".list-group .active");
+                            var $nextItem = $searchActiveItem.next();
+                            if ($nextItem.length > 0)
+                            {
+                                $searchActiveItem.removeClass("active");
+                                $nextItem.addClass("active");
+                            }
                             break;
                         case 8:
                         case 46:
