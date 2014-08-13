@@ -67,7 +67,7 @@ class ReportsView extends SidebarSiteView
         $button = new MultiButton("Buscar", array("class"=>"primary"));
         $button->addAction("Tabla", array("action"=>"showReportsInTable"));
         $button->addAction("Mapa", array("action"=>"showReportsInMap"));
-        $form = new Form(array("method"=>"POST"));
+        $form = new Form($this, array("method"=>"POST"));
         $form->addField($holderSelector);
         $form->addField($dateFromPicker);
         $form->addField($dateToPicker);
