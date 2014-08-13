@@ -48,10 +48,20 @@ class Form extends Tag
     {
         if (!isset($this->fieldsCounter))
             $this->fieldsCounter = 0;
+        
+        $classTokens = array();
+        $classTokens[] = "form-group";
+        if (isset($attributes["error"]))
+            $classTokens[] = "has-error";
+        if (isset($attributes["success"]))
+            $classTokens[] = "has-success";
+        if (isset($attributes["warning"]))
+            $classTokens[] = "has-warning";
+        $formgroup = new Tag("div", array("class"=>implode(" ", $classTokens)));
+        
         switch ($this->type)
         {
             case self::TYPE_BASIC:
-                $formgroup = new Tag("div", array("class"=>"form-group"));
                 if (!empty($attributes["label"]))
                     $formgroup->add (new Tag("label", array("class"=>"control-label"), $attributes["label"]));
                 $formgroup->add ($field);
@@ -72,14 +82,12 @@ class Form extends Tag
                 }
                 break;
             case self::TYPE_INLINE:
-                $formgroup = new Tag("div", array("class"=>"form-group"));
                 if (!empty($attributes["label"]))
                     $formgroup->add (new Tag("label", array("class"=>"sr-only"), $attributes["label"]));
                 $formgroup->add ($field);
                 $this->add($formgroup);
                 break;
             case self::TYPE_HORIZONTAL:
-                $formgroup = new Tag("div", array("class"=>"form-group"));
                 if (!empty($attributes["label"]))
                 {
                     $formgroup->add (new Tag("label", array("class"=>"col-sm-2 control-label"), $attributes["label"]));
