@@ -13,7 +13,7 @@ class AccountController extends SiteController
     public function indexAction ()
     {
         $accountView = new AccountView();
-        $accountView->setUser(User::findById($this->getSession()->userId, array("contacts"=>true)));
+        $accountView->setUser(User::findById($this->getSession()->userId, true));
         $accountView->render();
     }
     

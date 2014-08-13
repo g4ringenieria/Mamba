@@ -44,7 +44,7 @@ class Form extends Tag
         $this->columns = $columns;
     }
     
-    public function addField ($field, $label=null)
+    public function addField ($field, array $attributes = array())
     {
         if (!isset($this->fieldsCounter))
             $this->fieldsCounter = 0;
@@ -52,8 +52,8 @@ class Form extends Tag
         {
             case self::TYPE_BASIC:
                 $formgroup = new Tag("div", array("class"=>"form-group"));
-                if (!empty($label))
-                    $formgroup->add (new Tag("label", array("class"=>"control-label"), $label));
+                if (!empty($attributes["label"]))
+                    $formgroup->add (new Tag("label", array("class"=>"control-label"), $attributes["label"]));
                 $formgroup->add ($field);
                 $formgroup->add (new Tag("p", array("class"=>"help-block hidden"), ""));
                 
@@ -73,16 +73,16 @@ class Form extends Tag
                 break;
             case self::TYPE_INLINE:
                 $formgroup = new Tag("div", array("class"=>"form-group"));
-                if (!empty($label))
-                    $formgroup->add (new Tag("label", array("class"=>"sr-only"), $label));
+                if (!empty($attributes["label"]))
+                    $formgroup->add (new Tag("label", array("class"=>"sr-only"), $attributes["label"]));
                 $formgroup->add ($field);
                 $this->add($formgroup);
                 break;
             case self::TYPE_HORIZONTAL:
                 $formgroup = new Tag("div", array("class"=>"form-group"));
-                if (!empty($label))
+                if (!empty($attributes["label"]))
                 {
-                    $formgroup->add (new Tag("label", array("class"=>"col-sm-2 control-label"), $label));
+                    $formgroup->add (new Tag("label", array("class"=>"col-sm-2 control-label"), $attributes["label"]));
                     $formgroup->add (new Tag("div", array("class"=>"col-sm-10"), $field));
                 }
                 else
