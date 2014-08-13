@@ -19,6 +19,11 @@ class Language extends DatabaseModel
      */
     private $description;
     
+    function __construct($id=null)
+    {
+        $this->id = $id;
+    }
+
     public function getId() 
     {
         return $this->id;

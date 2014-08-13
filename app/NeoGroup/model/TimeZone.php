@@ -24,6 +24,11 @@ class TimeZone extends DatabaseModel
      */
     private $timezone;
     
+    function __construct($id=null)
+    {
+        $this->id = $id;
+    }
+
     public function getId() 
     {
         return $this->id;
