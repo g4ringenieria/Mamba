@@ -3,7 +3,6 @@
 namespace NeoGroup\view;
 
 use NeoGroup\model\Language;
-use NeoGroup\model\Profile;
 use NeoGroup\model\TimeZone;
 use NeoGroup\model\User;
 use NeoGroup\view\component\DisplayField;
@@ -34,8 +33,8 @@ class AccountView extends SiteView
         $form->addField (new PasswordField(array("value"=>$this->user->getPassword())), "Contraseña");
         $form->addField (new PasswordField(array("value"=>$this->user->getPassword())), "Contraseña (rep)");
         $form->addField (new DisplayField($this->user->getProfile()->getDescription()), "Perfil");
-        $form->addField (new SelectField($this, array("value"=>$this->user->getLanguage()->getId(), "displayvalue"=>$this->user->getLanguage()->getDescription(), "options"=>Language::findAll())), "Idioma");
-        $form->addField (new SelectField($this, array("value"=>$this->user->getTimeZone()->getId(), "displayvalue"=>$this->user->getTimeZone()->getDescription(), "options"=>TimeZone::findAll())), "Zona horaria");
+        $form->addField (new SelectField($this, array("value"=>$this->user->getLanguage()->getId(), "options"=>Language::findAll())), "Idioma");
+        $form->addField (new SelectField($this, array("value"=>$this->user->getTimeZone()->getId(), "options"=>TimeZone::findAll())), "Zona horaria");
         $page->add (new Tag("div", array("class"=>"container"), new Panel("Mi Cuenta", $form)));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace NeoGroup\view\component;
 
+use NeoPHP\util\IntrospectionUtils;
 use NeoPHP\web\html\HTMLComponent;
 use NeoPHP\web\html\HTMLView;
 use NeoPHP\web\html\Tag;
@@ -313,7 +314,6 @@ class SelectField extends HTMLComponent
                                 selectSearchResults (id);
                             }
                             break;
-                        case 8:
                         case 46:
                             var $hiddenField = $selectField.find("input[type=hidden]");
                             if ($hiddenField.val())
@@ -388,7 +388,11 @@ class SelectField extends HTMLComponent
         unset($attributes["value"]);
         unset($attributes["displayvalue"]);
         if (!empty($componentValue))
+        {
             $attributes["readonly"] = "true";
+            if (empty($componentDisplayValue))
+                $componentDisplayValue = $this->getDisplayValue ($componentValue);
+        }
         $inputGroup = new Tag("div", array("class"=>"input-group"));
         $inputGroup->add (new Tag("input", array_merge(array("type"=>"text", "name"=>$componentDisplayName, "class"=>"form-control", "autocomplete"=>"off", "value"=>$componentDisplayValue), $attributes)));
         $inputGroup->add (new Tag("span", array("class"=>"input-group-btn"), new Tag("button", array("class"=>"btn btn-default", "type"=>"button"), "<span class=\"glyphicon glyphicon-search\"></span>")));
@@ -401,6 +405,25 @@ class SelectField extends HTMLComponent
         $container->add ($dropdown);
         $container->add ($hiddenField);
         return $container;
+    }
+    
+    private function getDisplayValue ($value)
+    {
+        $displayValue = $value;
+        if ($this->source->type = self::SOURCETYPE_LOCAL)
+        {
+            $valueField = $this->source->valueField;
+            foreach ($this->source->data as $dataItem)
+            {
+                if (IntrospectionUtils::getPropertyValue($dataItem, $valueField) == $value)
+                {
+                    $displayField = $this->source->displayField;
+                    $displayValue = IntrospectionUtils::getPropertyValue($dataItem, $displayField);
+                    break;
+                }
+            }
+        }
+        return $displayValue;
     }
 }
 
