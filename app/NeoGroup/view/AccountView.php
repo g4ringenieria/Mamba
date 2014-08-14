@@ -17,17 +17,38 @@ use NeoPHP\web\html\Tag;
 
 class AccountView extends SiteView
 {
+    const STATE_DEFAULT = 0;
+    const STATE_SAVESUCCESS = 1;
+    const STATE_SAVEFAILURE = 2;
+    
     private $user;
+    private $state = self::STATE_DEFAULT;
+    private $stateMessage = "";
     
     public function setUser(User $user)
     {
         $this->user = $user;
     }
     
+    public function setState($state, $stateMessage = "")
+    {
+        $this->state = $state;
+        $this->stateMessage = $stateMessage;
+    }
+    
     protected function buildContent($page) 
     {   
         $form = new Form(array("method"=>"POST"));
         $form->setColumns(3);
+        switch ($this->state)
+        {
+            case self::STATE_SAVESUCCESS:
+                $form->add (new Alert ("Datos de la cuenta guardados correctamente !!", array("type"=>"success", "dismissable"=>true)));
+                break;
+            case self::STATE_SAVEFAILURE:
+                $form->add (new Alert ("Fallo al guardar los datos de la cuenta: " . $this->stateMessage, array("type"=>"danger", "dismissable"=>true)));
+                break;
+        }
         $form->addField (new DisplayField(str_pad($this->user->getId(), 4, "0", STR_PAD_LEFT)), array("label"=>"Id"));
         $form->addField (new TextField(array("name"=>"firstname", "value"=>$this->user->getFirstname())), array("label"=>"Nombre"));
         $form->addField (new TextField(array("name"=>"lastname", "value"=>$this->user->getLastname())), array("label"=>"Apellido"));
