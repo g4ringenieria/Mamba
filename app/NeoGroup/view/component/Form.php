@@ -14,56 +14,11 @@ class Form extends Tag
     private $type;
     private $columns;
     
-    public function __construct(HTMLView $view=null, array $attributes = array())
+    public function __construct(array $attributes = array())
     {
         parent::__construct("form", $attributes);
         $this->type = self::TYPE_BASIC;
         $this->columns = 1;
-        
-        if ($view != null)
-        {
-            $view->addScript ('
-
-                jQuery.fn.extend(
-                {
-                    setFieldState: function (state, stateText, stateTextAppend)
-                    {
-                        return this.each(function() 
-                        {
-                            var $field = $(this);
-                            var $fieldGroup = $field.closest(".form-group");
-                            $fieldGroup.addClass("has-" + state);
-                            if (stateText)
-                            {
-                                var $helpBlock = $fieldGroup.find(".help-block");
-                                $helpBlock.html(stateTextAppend == true? ($helpBlock.html() + ($helpBlock.html() != ""? "<br>" : "") + stateText) : stateText);
-                                $helpBlock.removeClass("hidden");
-                            }
-                        });
-                    },
-
-                    addFieldError: function (errorText)
-                    {
-                        this.setFieldState("error", errorText, true);
-                    },
-
-                    clearFieldState: function (state)
-                    {
-                        return this.each(function() 
-                        {
-                            $field = $(this);
-                            var $fieldGroup = $field.closest(".form-group");
-                            $fieldGroup.removeClass("has-error");
-                            $fieldGroup.removeClass("has-warning");
-                            $fieldGroup.removeClass("has-success");
-                            var $helpBlock = $fieldGroup.find(".help-block");
-                            $helpBlock.addClass("hidden");
-                            $helpBlock.html("");
-                        });
-                    }
-                });
-            ');
-        }
     }
     
     public function getType()

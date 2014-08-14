@@ -17,7 +17,7 @@ class AccountController extends SiteController
         $accountView->render();
     }
     
-    public function saveAccountAction ($firstname, $lastname, $password, $languageid, $timezoneid)
+    public function saveAccountAction ($firstname, $lastname, $password, $passwordrepeat, $languageid, $timezoneid)
     {
         $user = new User($this->getSession()->userId);
         $user->setFirstname($firstname);

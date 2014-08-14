@@ -5,6 +5,7 @@ namespace NeoGroup\view;
 use NeoGroup\model\Language;
 use NeoGroup\model\TimeZone;
 use NeoGroup\model\User;
+use NeoGroup\view\component\Alert;
 use NeoGroup\view\component\Button;
 use NeoGroup\view\component\DisplayField;
 use NeoGroup\view\component\Form;
@@ -25,7 +26,7 @@ class AccountView extends SiteView
     
     protected function buildContent($page) 
     {   
-        $form = new Form($this, array("method"=>"POST"));
+        $form = new Form(array("method"=>"POST"));
         $form->setColumns(3);
         $form->addField (new DisplayField(str_pad($this->user->getId(), 4, "0", STR_PAD_LEFT)), array("label"=>"Id"));
         $form->addField (new TextField(array("name"=>"firstname", "value"=>$this->user->getFirstname())), array("label"=>"Nombre"));
@@ -42,35 +43,39 @@ class AccountView extends SiteView
         $this->addScript ('
             $("form").submit(function(event)
             {
+                $(".has-error").removeClass("has-error");
+                $(".help-block").addClass("hidden").html("");
+                
                 var $firstnameField = $("input[name=firstname]");
-                var $lastnameField = $("input[name=lastname]");
-                var $passwordField = $("input[name=password]");
-                var $passwordrepeatField = $("input[name=passwordrepeat]");
-
-                $firstnameField.clearFieldState();
-                $lastnameField.clearFieldState();
-                $passwordField.clearFieldState();
-                $passwordrepeatField.clearFieldState();
-
                 if ($firstnameField.val() == "")
                 {
-                    $firstnameField.addFieldError ("El campo es requeridos");
+                    $firstnameField.closest(".form-group").addClass("has-error").find(".help-block").removeClass("hidden").append("El campo es requerido<br>");
                     event.preventDefault();
                 }
+                
+                var $lastnameField = $("input[name=lastname]");
                 if ($lastnameField.val() == "")
                 {
-                    $lastnameField.addFieldError ("El campo es requerido");
+                    $lastnameField.closest(".form-group").addClass("has-error").find(".help-block").removeClass("hidden").append("El campo es requerido<br>");
                     event.preventDefault();
                 }
+                
+                var $passwordField = $("input[name=password]");
+                var $passwordrepeatField = $("input[name=passwordrepeat]");
                 if ($passwordField.val() == "")
                 {
-                    $passwordField.addFieldError ("El campo es requerido");
+                    $passwordField.closest(".form-group").addClass("has-error").find(".help-block").removeClass("hidden").append("El campo es requerido<br>");
                     event.preventDefault();
                 }
                 if ($passwordField.val() != $passwordrepeatField.val())
                 {
-                    $passwordField.addFieldError ("Las contraseñas no coinciden");
-                    $passwordrepeatField.addFieldError();
+                    $passwordField.closest(".form-group").addClass("has-error").find(".help-block").removeClass("hidden").append("Las contraseñas deben coincidir<br>");
+                    $passwordrepeatField.closest(".form-group").addClass("has-error").find(".help-block").removeClass("hidden").append("Las contraseñas deben coincidir<br>");
+                    event.preventDefault();
+                }
+                if ($passwordField.val().length < 8)
+                {
+                    $passwordField.closest(".form-group").addClass("has-error").find(".help-block").removeClass("hidden").append("La contraseña debe tener un minimo de 8 caracteres<br>");
                     event.preventDefault();
                 }
             });
