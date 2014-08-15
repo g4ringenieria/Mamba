@@ -17,7 +17,7 @@ class GeneralController extends SiteController
     public function showReportsInTableAction ($holderId=null, $dateFrom=null, $dateTo=null)
     {
         $reportsView = new ReportsView();
-        $reportsView->setReports(ReportPeer::getReports($holderId, $dateFrom, $dateTo));
+        $reportsView->setReports(ReportPeer::getReports(array("holderId"=>$holderId, "dateFrom"=>$dateFrom, "dateTo"=>$dateTo)));
         $reportsView->setOutputType(ReportsView::OUTPUTTYPE_GRID);
         $reportsView->render();
     }
@@ -25,7 +25,7 @@ class GeneralController extends SiteController
     public function showReportsInMapAction ($holderId=null, $dateFrom=null, $dateTo=null)
     {
         $reportsView = new ReportsView();
-        $reportsView->setReports(ReportPeer::getReports($holderId, $dateFrom, $dateTo));
+        $reportsView->setReports(ReportPeer::getReports(array("holderId"=>$holderId, "dateFrom"=>$dateFrom, "dateTo"=>$dateTo)));
         $reportsView->setOutputType(ReportsView::OUTPUTTYPE_MAP);
         $reportsView->render();
     }
