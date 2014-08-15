@@ -21,7 +21,6 @@ class AccountController extends SiteController
     public function saveAccountAction ($firstname, $lastname, $password, $passwordrepeat, $languageid, $timezoneid)
     {
         $accountView = new AccountView();
-        $accountView->setUser(User::findById($this->getSession()->userId, true));
         try
         {
             $user = new User($this->getSession()->userId);
@@ -38,6 +37,7 @@ class AccountController extends SiteController
         {
             $accountView->setState(AccountView::STATE_SAVEFAILURE, $ex->getMessage());
         }
+        $accountView->setUser(User::findById($this->getSession()->userId, true));
         $accountView->render();
     }
 }
