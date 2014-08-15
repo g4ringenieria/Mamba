@@ -4,9 +4,9 @@ namespace NeoGroup\controller\device;
 
 use DateTime;
 use Exception;
+use NeoGroup\model\DataPositionReport;
 use NeoGroup\model\Device;
 use NeoGroup\model\FuelPositionReport;
-use NeoGroup\model\PositionReport;
 use NeoGroup\model\ReportType;
 
 class TT8750Controller extends DeviceController
@@ -48,7 +48,7 @@ class TT8750Controller extends DeviceController
                     $date = new DateTime();
                     $date->setDate(ord($datagram{45})+2000, ord($datagram{46}), ord($datagram{47}));
                     $date->setTime(ord($datagram{48}), ord($datagram{49}), ord($datagram{50}));
-                    $report = new PositionReport();
+                    $report = new DataPositionReport();
                     $report->setDevice(new Device($deviceId));
                     $report->setReportType(new ReportType($this->getReportTypeByEvent($eventId)));
                     $report->setLongitude($longitude);

@@ -50,7 +50,6 @@ class DashboardView extends SiteView
                 <br><b>Fecha posición: </b>' . DateUtils::formatDate($report->getDate(), $this->getSession()->userDateFormat, $this->getSession()->userTimeZone) . '
                 <br><b>Velocidad: </b>' . $report->getSpeed() . '
                 <br><b>Curso: </b>' . GeoUtils::getCourseString($report->getCourse()) . '
-                <br><b>Odómetro: </b>' . $report->getOdometer() . '
             ';
             $overlay->label = strval($holder);
             $overlay->labelConfig = new stdClass(); 
@@ -79,7 +78,6 @@ class DashboardView extends SiteView
         $grid->addColumn ("Curso", "lastReport_course", function ($course) { return GeoUtils::getCourseString($course); });
         $grid->addColumn ("Latitud", "lastReport_latitude");
         $grid->addColumn ("Longitud", "lastReport_longitude");
-        $grid->addColumn ("Odómetro", "lastReport_odometer");
         $grid->setEntities($this->holders);  
         $panel = new Panel ("Vehículos en Tabla (" . date("Y-m-d H:i:s", time()) . ")", $grid);
         $panel->setAddBodyWrapper(false);

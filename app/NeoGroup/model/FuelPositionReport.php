@@ -2,7 +2,7 @@
 
 namespace NeoGroup\model;
 
-class FuelPositionReport extends PositionReport
+class FuelPositionReport extends DataPositionReport
 {
     /**
      * @Column (columnName="data", dataIndex=20)

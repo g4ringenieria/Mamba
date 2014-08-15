@@ -34,11 +34,6 @@ class PositionReport extends Report
      */
     protected $location;
     
-    /**
-     * @Column (columnName="data", dataIndex=6)
-     */
-    protected $odometer;
-    
     public function __construct($classType=Report::CLASSTYPE_POSITION)
     {
         parent::__construct($classType);
@@ -102,15 +97,5 @@ class PositionReport extends Report
     public function setSpeed ($speed)
     {
         $this->speed = $speed;
-    }
-    
-    public function getOdometer ()
-    {
-        return $this->odometer;
-    }
-
-    public function setOdometer ($odometer)
-    {
-        $this->odometer = $odometer;
     }
 }

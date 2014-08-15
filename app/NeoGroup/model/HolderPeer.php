@@ -63,6 +63,9 @@ class HolderPeer extends DatabaseModel
                 case Report::CLASSTYPE_POSITION:
                     $lastReport = new PositionReport();
                     break;
+                case Report::CLASSTYPE_DATAPOSITION:
+                    $lastReport = new DataPositionReport();
+                    break;
                 case Report::CLASSTYPE_FUELPOSITION:
                     $lastReport = new FuelPositionReport();
                     break;

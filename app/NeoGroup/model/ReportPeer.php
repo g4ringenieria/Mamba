@@ -31,11 +31,25 @@ class ReportPeer extends DatabaseModel
         $doReport->find();
         while ($doReport->fetch())
         { 
-            $report = new PositionReport();
-            $report->setFieldValues($doReport->getFields());
-            $reports[] = $report;
+            $report = null;
+            switch ($doReport->reportclasstypeid) 
+            {
+                case Report::CLASSTYPE_POSITION:
+                    $report = new PositionReport();
+                    break;
+                case Report::CLASSTYPE_DATAPOSITION:
+                    $report = new DataPositionReport();
+                    break;
+                case Report::CLASSTYPE_FUELPOSITION:
+                    $report = new FuelPositionReport();
+                    break;
+            }
+            if ($report != null)
+            {
+                $report->setFieldValues($doReport->getFields());
+                $reports[] = $report;
+            }
         }
-
         return $reports;
     }
 }
