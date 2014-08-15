@@ -2,6 +2,8 @@
 
 namespace NeoGroup\util;
 
+use Exception;
+
 abstract class GeoUtils 
 {
     public static function getCourseString ($course)
@@ -19,12 +21,16 @@ abstract class GeoUtils
     
     public static function getLocation ($latitude, $longitude)
     {
-        $location = null;
+        $location = "";
         if (!empty($latitude) && !empty($longitude)) 
         {
-            $gl = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?latlng={$this->latitude},{$this->longitude}&sensor=true"));
-            if ($gl->status == "OK") 
-                $location = $gl->results[0]->formatted_address;
+            try
+            {
+                $gl = json_decode(@file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?latlng={$this->latitude},{$this->longitude}&sensor=true"));
+                if ($gl->status == "OK") 
+                    $location = $gl->results[0]->formatted_address;
+            } 
+            catch (Exception $ex) {}
         }
         return $location;
     }
