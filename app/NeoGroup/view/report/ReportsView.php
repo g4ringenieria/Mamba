@@ -1,6 +1,6 @@
 <?php
 
-namespace NeoGroup\view;
+namespace NeoGroup\view\report;
 
 use NeoGroup\util\DateUtils;
 use NeoGroup\util\GeoUtils;
@@ -11,6 +11,7 @@ use NeoGroup\view\component\Map;
 use NeoGroup\view\component\MultiButton;
 use NeoGroup\view\component\Panel;
 use NeoGroup\view\component\SelectField;
+use NeoGroup\view\SidebarSiteView;
 use NeoPHP\web\http\Parameters;
 use stdClass;
 
