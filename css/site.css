@@ -54,4 +54,18 @@ body
 
 @media (max-width:765px) 
 {
+    .sidebarMode #sidebarwrapper
+    {
+        position: static;
+        width: 100%;
+        background: white;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .sidebarMode #contentwrapper
+    {
+        position: static;
+        width: 100%;
+        padding-left: 0px;
+    }
 }
