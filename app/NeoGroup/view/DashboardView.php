@@ -78,6 +78,7 @@ class DashboardView extends SiteView
         $grid->addColumn ("Curso", "lastReport_course", function ($course) { return GeoUtils::getCourseString($course); });
         $grid->addColumn ("Latitud", "lastReport_latitude");
         $grid->addColumn ("Longitud", "lastReport_longitude");
+        $grid->addColumn ("Ubicación", "lastReport_location");
         $grid->setEntities($this->holders);  
         $panel = new Panel ("Vehículos en Tabla (" . date("Y-m-d H:i:s", time()) . ")", $grid);
         $panel->setAddBodyWrapper(false);

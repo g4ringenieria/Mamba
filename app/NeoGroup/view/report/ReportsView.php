@@ -79,7 +79,7 @@ class ReportsView extends SidebarSiteView
     protected function createReportsGrid ()
     {
         $grid = new EntityTable();
-        $grid->addColumn ("Holder", "holder");
+        $grid->addColumn ("Vehículo", "holder");
         $grid->addColumn ("Equipo", "device_id");
         $grid->addColumn ("Reporte", "reporttype_description");
         $grid->addColumn ("Fecha", "date", function ($date) { return DateUtils::formatDate($date, $this->getSession()->userDateFormat, $this->getSession()->userTimeZone); } );
@@ -87,6 +87,7 @@ class ReportsView extends SidebarSiteView
         $grid->addColumn ("Curso", "course", function ($course) { return GeoUtils::getCourseString($course); });
         $grid->addColumn ("Latitud", "latitude");
         $grid->addColumn ("Longitud", "longitude");
+        $grid->addColumn ("Ubicación", "location");
         $grid->setEntities($this->reports);  
         return new Panel("Histórico de Reportes", $grid);
     }
@@ -125,7 +126,7 @@ class ReportsView extends SidebarSiteView
                         $overlay->latitude = $report->getLatitude();
                         $overlay->longitude = $report->getLongitude();
                         $overlay->description = '
-                            <b>Holder: </b>' . $report->getHolder() . '
+                            <b>Vehículo: </b>' . $report->getHolder() . '
                             <br><b>Equipo: </b>' . $report->getDevice()->getId() . '
                             <br><b>Evento: </b>' . $report->getReportType() . '
                             <br><b>Fecha posición: </b>' . DateUtils::formatDate($report->getDate(), $this->getSession()->userDateFormat, $this->getSession()->userTimeZone) . '

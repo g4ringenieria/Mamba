@@ -2,6 +2,8 @@
 
 namespace NeoGroup\model;
 
+use NeoGroup\util\GeoUtils;
+
 class PositionReport extends Report
 {
     /**
@@ -74,9 +76,9 @@ class PositionReport extends Report
         return $this->location;
     }
 
-    public function setLocation ($location=null)
+    public function setLocation ($location)
     {
-        $this->location = ($location)?$location:$this->getGoogleLocation();
+        $this->location = $location;
     }
 
     public function getCourse ()
@@ -99,15 +101,10 @@ class PositionReport extends Report
         $this->speed = $speed;
     }
     
-    private function getGoogleLocation ()
+    public function insert()
     {
-        $googleLocation = null;
-        if (!empty($this->latitude) && !empty($this->longitude)) {
-            $gl = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?latlng={$this->latitude},{$this->longitude}&sensor=true"));
-            if ($gl->status == "OK") {
-                $googleLocation = $gl->results[0]->formatted_address;
-            }
-        }
-        return $googleLocation;
+        if ($this->location == null)
+            $this->location = GeoUtils::getLocation($this->latitude, $this->longitude);
+        parent::insert();
     }
 }

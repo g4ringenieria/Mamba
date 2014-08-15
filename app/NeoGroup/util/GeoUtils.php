@@ -16,6 +16,18 @@ abstract class GeoUtils
         }
         return $courseStrings[$courseIndex];
     }
+    
+    public static function getLocation ($latitude, $longitude)
+    {
+        $location = null;
+        if (!empty($latitude) && !empty($longitude)) 
+        {
+            $gl = json_decode(file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?latlng={$this->latitude},{$this->longitude}&sensor=true"));
+            if ($gl->status == "OK") 
+                $location = $gl->results[0]->formatted_address;
+        }
+        return $location;
+    }
 }
 
 ?>
