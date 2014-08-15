@@ -53,6 +53,7 @@ class TT8750Controller extends DeviceController
                     $report->setReportType(new ReportType($this->getReportTypeByEvent($eventId)));
                     $report->setLongitude($longitude);
                     $report->setLatitude($latitude);
+                    $report->setLocation();
                     $report->setAltitude($altitude);
                     $report->setSpeed($speed);
                     $report->setCourse($course);
@@ -91,6 +92,7 @@ class TT8750Controller extends DeviceController
                         $report->setReportType(new ReportType($reporttype));
                         $report->setLongitude($longitude);
                         $report->setLatitude($latitude);
+                        $report->setLocation();
                         $report->setAltitude($altitude);
                         $report->setSpeed($speed);
                         $report->setCourse($course);
