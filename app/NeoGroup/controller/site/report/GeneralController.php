@@ -1,12 +1,12 @@
 <?php
 
-namespace NeoGroup\controller\site;
+namespace NeoGroup\controller\site\report;
 
 use NeoGroup\controller\site\SiteController;
 use NeoGroup\model\ReportPeer;
 use NeoGroup\view\ReportsView;
 
-class ReportsController extends SiteController
+class GeneralController extends SiteController
 {
     public function indexAction ()
     {
