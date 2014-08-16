@@ -26,9 +26,9 @@ abstract class GeoUtils
         {
             try
             {
-                $gl = json_decode(@file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?latlng={$latitude},{$longitude}&sensor=true"));
-                if ($gl->status == "OK") 
-                    $location = $gl->results[0]->formatted_address;
+                $response = json_decode(@file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&sensor=true", false, stream_context_create(array('http'=>array('header'=>'Connection: close\r\n', 'timeout'=>1)))));
+                if ($response->status == "OK") 
+                    $location = $response->results[0]->formatted_address;
             } 
             catch (Exception $ex) {}
         }
