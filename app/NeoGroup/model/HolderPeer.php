@@ -53,27 +53,29 @@ class HolderPeer extends DatabaseModel
         $doHolder->addSelectFields(array("reporttypeid", "description"), "reporttype_%s", "reporttype");
         $doHolder->addWhereCondition ("clientholder.clientid = " . $clientId);
         $doHolder->addWhereCondition ("holder.active = true");
+        $doHolder->addOrderByField ("lastreport.date DESC");
         $doHolder->find();
         while ($doHolder->fetch())
         {
-            $holder = new Holder();
-            $holder->setFieldValues($doHolder->getFields());
-            switch ( $doHolder->reportclasstypeid ) 
-            {
-                case Report::CLASSTYPE_POSITION:
-                    $lastReport = new PositionReport();
-                    break;
-                case Report::CLASSTYPE_DATAPOSITION:
-                    $lastReport = new DataPositionReport();
-                    break;
-                case Report::CLASSTYPE_FUELPOSITION:
-                    $lastReport = new FuelPositionReport();
-                    break;
+            if (!isset($holders[$doHolder->holderid])) {
+                $holder = new Holder();
+                $holder->setFieldValues($doHolder->getFields());
+                switch ( $doHolder->reportclasstypeid ) 
+                {
+                    case Report::CLASSTYPE_POSITION:
+                        $lastReport = new PositionReport();
+                        break;
+                    case Report::CLASSTYPE_DATAPOSITION:
+                        $lastReport = new DataPositionReport();
+                        break;
+                    case Report::CLASSTYPE_FUELPOSITION:
+                        $lastReport = new FuelPositionReport();
+                        break;
+                }
+                $lastReport->setFieldValues($doHolder->getFields());
+                $holder->setLastReport($lastReport);
+                $holders[$doHolder->holderid] = $holder;
             }
-            
-            $lastReport->setFieldValues($doHolder->getFields());
-            $holder->setLastReport($lastReport);
-            $holders[] = $holder;
         }
         return $holders;
     }
