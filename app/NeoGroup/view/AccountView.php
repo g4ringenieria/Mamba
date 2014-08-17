@@ -49,6 +49,9 @@ class AccountView extends SiteView
                 $form->add (new Alert ("Fallo al guardar los datos de la cuenta: " . $this->stateMessage, array("type"=>"danger", "dismissable"=>true)));
                 break;
         }
+        $form->addField (new DisplayField(str_pad($this->user->getClient()->getId(), 4, "0", STR_PAD_LEFT)), array("label"=>"Cliente Id"));
+        $form->addField (new DisplayField($this->user->getClient()->getName()), array("label"=>"Cliente Nombre"));
+        $form->addField (new DisplayField(""), array("label"=>""));
         $form->addField (new DisplayField(str_pad($this->user->getId(), 4, "0", STR_PAD_LEFT)), array("label"=>"Id"));
         $form->addField (new TextField(array("name"=>"firstname", "value"=>$this->user->getFirstname())), array("label"=>"Nombre"));
         $form->addField (new TextField(array("name"=>"lastname", "value"=>$this->user->getLastname())), array("label"=>"Apellido"));
