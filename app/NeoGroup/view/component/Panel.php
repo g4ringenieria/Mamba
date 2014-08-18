@@ -16,6 +16,8 @@ class Panel extends Tag
         $classTokens[] = "panel";
         if (isset($attributes["type"]))
             $classTokens[] = "panel-" . $attributes["type"];
+        if (!empty($attributes["autoWidth"]))
+            $classTokens[] = "panel-autowidth";
         $panelAttributes = array();
         $panelAttributes["class"] = implode(" ", $classTokens);
         parent::__construct("div", $panelAttributes);

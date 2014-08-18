@@ -89,7 +89,7 @@ class ReportsView extends SidebarSiteView
         $grid->addColumn ("Longitud", "longitude");
         $grid->addColumn ("Ubicación", "location");
         $grid->setEntities($this->reports);  
-        return new Panel(array("title"=>"Histórico de Reportes", "content"=>$grid));
+        return new Panel(array("title"=>"Histórico de Reportes", "content"=>$grid, "autoWidth"=>true));
     }
     
     protected function createReportsMap () 

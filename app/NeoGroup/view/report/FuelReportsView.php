@@ -86,7 +86,7 @@ class FuelReportsView extends SidebarSiteView
         $grid->addColumn("Nivel (l)", "fuelLevel");
         $grid->addColumn("Temperatura (°c)", "fuelTemperature");
         $grid->setEntities($this->reports);
-        return new Panel(array("title"=>"Histórico de Reportes de combustible", "content"=>$grid));
+        return new Panel(array("title"=>"Histórico de Reportes de combustible", "content"=>$grid, "autoWidth"=>true));
     }
 
     protected function createReportsGraphic()
