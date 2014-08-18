@@ -31,7 +31,7 @@ class EntityTable extends HTMLComponent
         $this->hover = true;
         $this->striped = true;
         $this->bordered = false;
-        $this->responsive = true;
+        $this->responsive = false;
     }
     
     public function addColumn ($name, $property, callable $renderer=null)
