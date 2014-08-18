@@ -31,7 +31,10 @@ class Panel extends Tag
                 $title = new Tag("a", array("data-toggle"=>"collapse", "href"=>"#".$id), $title);
             $this->add (new Tag("div", array("class"=>"panel-heading"), $title));
         }
-        $content = new Tag("div", array("class"=>"panel-content"), $attributes["content"]);
+        $contentAttributes = array("class"=>"panel-content");
+        if (!empty($attributes["autoWidth"]))
+            $contentAttributes["style"] = "overflow: auto;";
+        $content = new Tag("div", $contentAttributes, $attributes["content"]);
         $content = !empty($attributes["contentWrapper"])? new Tag("div", array("class"=>"panel-body"), $content) : $content;
         if (isset($attributes["collapsible"]))
             $content = new Tag("div", array("id"=>$id, "class"=>"panel-collapse collapse" . (isset($attributes["collapsed"])?'':' in')), $content);
