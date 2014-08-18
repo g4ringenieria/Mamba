@@ -18,8 +18,6 @@ class Panel extends Tag
             $classTokens[] = "panel-" . $attributes["type"];
         if (!empty($attributes["autoWidth"]))
             $classTokens[] = "panel-autowidth";
-        if (!empty($attributes["fullsize"]))
-            $classTokens[] = "fullsize";
         $panelAttributes = array();
         $panelAttributes["class"] = implode(" ", $classTokens);
         parent::__construct("div", $panelAttributes);
@@ -32,8 +30,6 @@ class Panel extends Tag
             $this->add (new Tag("div", array("class"=>"panel-heading"), $title));
         }
         $contentAttributes = array("class"=>"panel-content");
-        if (!empty($attributes["autoWidth"]))
-            $contentAttributes["style"] = "overflow: auto;";
         $content = new Tag("div", $contentAttributes, $attributes["content"]);
         $content = !empty($attributes["contentWrapper"])? new Tag("div", array("class"=>"panel-body"), $content) : $content;
         if (isset($attributes["collapsible"]))
