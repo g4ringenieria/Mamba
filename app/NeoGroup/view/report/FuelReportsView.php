@@ -86,7 +86,7 @@ class FuelReportsView extends SidebarSiteView
         $grid->addColumn("Nivel (l)", "fuelLevel");
         $grid->addColumn("Temperatura (°c)", "fuelTemperature");
         $grid->setEntities($this->reports);
-        return new Panel(array("title"=>"Histórico de Reportes de combustible", "content"=>$grid, "autoWidth"=>true));
+        return new Panel(array("title"=>"Histórico de Reportes de combustible (Grilla)", "content"=>$grid, "autoWidth"=>true));
     }
 
     protected function createReportsGraphic()
@@ -121,7 +121,7 @@ class FuelReportsView extends SidebarSiteView
                 $highchart->addSerie($fuelTemperatureSerie);
             }
         }
-        return new Panel(array("title"=>"Histórico de Reportes de combustible", "content"=>$highchart));
+        return new Panel(array("title"=>"Histórico de Reportes de combustible (Gráfico)", "content"=>$highchart));
     }
 }
 

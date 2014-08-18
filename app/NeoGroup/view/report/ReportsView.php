@@ -89,7 +89,7 @@ class ReportsView extends SidebarSiteView
         $grid->addColumn ("Longitud", "longitude");
         $grid->addColumn ("Ubicación", "location");
         $grid->setEntities($this->reports);  
-        return new Panel(array("title"=>"Histórico de Reportes", "content"=>$grid, "autoWidth"=>true));
+        return new Panel(array("title"=>"Histórico de Reportes (Grilla)", "content"=>$grid, "autoWidth"=>true));
     }
     
     protected function createReportsMap () 
@@ -155,10 +155,10 @@ class ReportsView extends SidebarSiteView
             $overlayLayer->overlays[] = $marker;
         
         $map = new Map($this);
-        $map->setAttributes(array("style"=>"width: 100%; height:100%;"));
+        $map->setAttributes(array("style"=>"height:500px"));
         $map->addDefaultBaseLayers();
         $map->addOverlay($overlayLayer);
-        return $map;
+        return new Panel(array("title"=>"Histórico de Reportes (Mapa)", "content"=>$map));
     }
 }
 
