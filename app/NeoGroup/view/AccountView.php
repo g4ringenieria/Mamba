@@ -62,7 +62,7 @@ class AccountView extends SiteView
         $form->addField (new SelectField($this, array("name"=>"languageid", "value"=>$this->user->getLanguage()->getId(), "options"=>Language::findAll())), array("label"=>"Idioma"));
         $form->addField (new SelectField($this, array("name"=>"timezoneid", "value"=>$this->user->getTimeZone()->getId(), "options"=>TimeZone::findAll())), array("label"=>"Zona horaria"));
         $form->add(new Button("Guardar cambios", array("class"=>"primary", "action"=>"saveAccount")));
-        $page->add (new Tag("div", array("class"=>"container"), new Panel("Mi Cuenta", $form)));
+        $page->add (new Tag("div", array("class"=>"container"), new Panel(array("title"=>"Mi Cuenta", "content"=>$form))));
         
         $this->addScript ('
             $("form").submit(function(event)
