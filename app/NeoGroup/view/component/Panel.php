@@ -58,7 +58,7 @@ class Panel extends HTMLComponent
     }
     
     protected function createContent ()
-    {
+    {  
         $panel = new Tag("div", array("class"=>"panel panel-" . $this->type));
         if (!empty($this->title))
         {
@@ -67,7 +67,8 @@ class Panel extends HTMLComponent
                 $title = new Tag("a", array("data-toggle"=>"collapse", "href"=>"#".$this->id), $title);
             $panel->add (new Tag("div", array("class"=>"panel-heading"), $title));
         }
-        $content = $this->addBodyWrapper? new Tag("div", array("class"=>"panel-body"), $this->content) : $this->content;
+        $content = new Tag("div", array("class"=>"panel-content"), $this->content);
+        $content = $this->addBodyWrapper? new Tag("div", array("class"=>"panel-body"), $content) : $content;
         if ($this->collapsible)
             $content = new Tag("div", array("id"=>$this->id, "class"=>"panel-collapse collapse" . ($this->collapsed?'':' in')), $content);
         $panel->add ($content);
