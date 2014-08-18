@@ -16,7 +16,6 @@ use NeoPHP\web\http\Parameters;
 
 class FuelReportsView extends SidebarSiteView
 {
-
     const OUTPUTTYPE_NONE = 0;
     const OUTPUTTYPE_GRID = 1;
     const OUTPUTTYPE_GRAPHIC = 2;
@@ -41,7 +40,8 @@ class FuelReportsView extends SidebarSiteView
 
     protected function buildContent($content)
     {
-        switch ($this->outputType) {
+        switch ($this->outputType) 
+        {
             case self::OUTPUTTYPE_GRID:
                 $content->add($this->createReportsGrid());
                 break;
@@ -81,14 +81,12 @@ class FuelReportsView extends SidebarSiteView
         $grid->addColumn("Holder", "holder");
         $grid->addColumn("Equipo", "device_id");
         $grid->addColumn("Reporte", "reporttype_description");
-        $grid->addColumn("Fecha", "date", function ($date) {
-            return DateUtils::formatDate($date, $this->getSession()->userDateFormat, $this->getSession()->userTimeZone);
-        });
+        $grid->addColumn("Fecha", "date", function ($date) { return DateUtils::formatDate($date, $this->getSession()->userDateFormat, $this->getSession()->userTimeZone);});
         $grid->addColumn("Tanque", "fuelTank");
         $grid->addColumn("Nivel (l)", "fuelLevel");
         $grid->addColumn("Temperatura (°c)", "fuelTemperature");
         $grid->setEntities($this->reports);
-        return new Panel("Histórico de Reportes de combustible", $grid);
+        return new Panel(array("title"=>"Histórico de Reportes de combustible", "content"=>$grid));
     }
 
     protected function createReportsGraphic()
@@ -97,21 +95,25 @@ class FuelReportsView extends SidebarSiteView
         $highchart->setTitleAttributes(array('text' => "Histórico de Reportes de combustible"));
         $highchart->setXAxisAttributes(array('type' => "datetime"));
         $highchart->setYAxisAttributes(array('title' => array('text' => "l / °c")));
-        if (!empty($this->reports)) {
+        if (!empty($this->reports)) 
+        {
             $fuelLevelData = array();
             $fuelTemperatureData = array();
-            foreach ($this->reports as $report) {
+            foreach ($this->reports as $report) 
+            {
                 $fuelLevelData[] = array("Date.UTC(" . date("Y,m,d,H,i,s", strtotime($report->getDate())) . ")", $report->getFuelLevel());
                 $fuelTemperatureData[] = array("Date.UTC(" . date("Y,m,d,H,i,s", strtotime($report->getDate())) . ")", $report->getFuelTemperature());
             }
-            if (!empty($fuelLevelData)) {
+            if (!empty($fuelLevelData)) 
+            {
                 $fuelLevelSerie = new HighchartSerie();
                 $fuelLevelSerie->setType(HighchartSerie::TYPE_LINE);
                 $fuelLevelSerie->setName("Nivel (l)");
                 $fuelLevelSerie->setData($fuelLevelData);
                 $highchart->addSerie($fuelLevelSerie);
             }
-            if (!empty($fuelTemperatureData)) {
+            if (!empty($fuelTemperatureData)) 
+            {
                 $fuelTemperatureSerie = new HighchartSerie();
                 $fuelTemperatureSerie->setType(HighchartSerie::TYPE_LINE);
                 $fuelTemperatureSerie->setName("Temperatura (°c)");
@@ -119,9 +121,8 @@ class FuelReportsView extends SidebarSiteView
                 $highchart->addSerie($fuelTemperatureSerie);
             }
         }
-        return new Panel("Histórico de Reportes de combustible", $highchart);
+        return new Panel(array("title"=>"Histórico de Reportes de combustible", "content"=>$highchart));
     }
-
 }
 
 ?>

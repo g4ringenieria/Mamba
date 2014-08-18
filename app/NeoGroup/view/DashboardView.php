@@ -61,10 +61,7 @@ class DashboardView extends SiteView
         $map->setAttributes(array("style"=>"height:500px;"));
         $map->addDefaultBaseLayers();
         $map->addOverlay($overlayLayer);
-        $panel = new Panel ("Vehículos en Mapa (" . date("Y-m-d H:i:s", time()) . ")", $map);
-        $panel->setAddBodyWrapper(false);
-        $panel->setCollapsible(true);
-        return $panel;
+        return new Panel (array("title"=>"Vehículos en Mapa (" . date("Y-m-d H:i:s", time()) . ")", "content"=>$map, "collapsible"=>true));
     }
     
     protected function createHoldersGridWidget() 
@@ -80,10 +77,7 @@ class DashboardView extends SiteView
         $grid->addColumn ("Longitud", "lastReport_longitude");
         $grid->addColumn ("Ubicación", "lastReport_location");
         $grid->setEntities($this->holders);  
-        $panel = new Panel ("Vehículos en Tabla (" . date("Y-m-d H:i:s", time()) . ")", $grid);
-        $panel->setAddBodyWrapper(false);
-        $panel->setCollapsible(true);
-        return $panel;
+        return new Panel (array("title"=>"Vehículos en Tabla (" . date("Y-m-d H:i:s", time()) . ")", "content"=>$grid, "collapsible"=>true));
     }
 }
 
