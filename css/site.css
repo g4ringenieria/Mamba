@@ -62,9 +62,12 @@ body
     overflow: auto;
 }
 
-.panel-autowidth
+@media (min-width:765px) 
 {
-    display: inline-block;
+    .panel-autowidth
+    {
+        display: inline-block;
+    }
 }
 
 @media (max-width:765px) 
