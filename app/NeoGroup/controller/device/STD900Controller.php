@@ -4,21 +4,16 @@ namespace NeoGroup\controller\device;
 
 class STD900Controller extends DeviceController
 {
-    protected function __construct()
+    public function notifyPackageReceived($data, &$deviceId)
     {
-        parent::__construct(8001);
-    }
-    
-    public function notifyPackageReceived(DevicePackage $package)
-    {
-        $responsePackage = null;
+        $response = null;
         $dataReceived = $package->getData();
         if (substr($dataReceived, 0, 3) == "<ID" && substr($dataReceived, -1, 1) == ">") 
         {
             $deviceId = intval((substr($dataReceived, 3, 6)));
-            $responsePackage = new DevicePackage($deviceId, ">AK<");
+            $response = ">AK<";
         }
-        return $responsePackage;
+        return $response;
     }
     
     private function datetimeFromSAIP($GPSTime, $GPSWeek = "", $GPSWeekDay = "")

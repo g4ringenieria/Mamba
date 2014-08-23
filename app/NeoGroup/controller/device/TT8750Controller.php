@@ -14,14 +14,8 @@ class TT8750Controller extends DeviceController
     const DATAGRAMTYPE_DEFAULT = 8;
     const DATAGRAMTYPE_SERIALPORT = 2;
     
-    protected function __construct()
+    public function notifyPackageReceived($data, &$deviceId)
     {
-        parent::__construct(8000);
-    }
-    
-    public function notifyPackageReceived(DevicePackage $package)
-    {
-        $responsePackage = null;
         $datagram = $package->getData();
         $datagramType = ord($datagram{4});
         switch ($datagramType)
@@ -30,12 +24,10 @@ class TT8750Controller extends DeviceController
                 if (ord($datagram{5}) == 0)
                 {
                     $deviceId = intval((substr($datagram, 11, 21)));
-                    $responsePackage = new DevicePackage($deviceId, "");
                 }
                 else
                 {
                     $deviceId = intval((substr($datagram, 15, 8)));
-                    $responsePackage = new DevicePackage($deviceId, "");
                     $eventId = ord($datagram{14}) + (ord($datagram{13}) << 8);
                     $ios = ord($datagram{24}) + (ord($datagram{23}) << 8);
                     $validity = ord($datagram{25});
@@ -66,7 +58,6 @@ class TT8750Controller extends DeviceController
                 $datagram = substr($datagram, 7);
                 $datagram = hex2bin($datagram);
                 $deviceId = intval((substr($datagram, 4, 8)));
-                $responsePackage = new DevicePackage($deviceId, "");
                 $eventId = ord($datagram{3}) + (ord($datagram{2}) << 8);
                 $ios = ord($datagram{13}) + (ord($datagram{12}) << 8);
                 $validity = ord($datagram{14});
@@ -104,7 +95,6 @@ class TT8750Controller extends DeviceController
                 }
                 break;
         }
-        return $responsePackage;
     }
     
     private function getCoordinate ($coordinateField)

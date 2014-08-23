@@ -4,85 +4,40 @@ namespace NeoGroup\controller\device;
 
 use Exception;
 use NeoPHP\mvc\Controller;
-use NeoPHP\socket\Socket;
 
 abstract class DeviceController extends Controller
 {
-    const DEBUGMODE = false;
-    
-    private $port;
-    
-    protected function __construct($port)
-    {
-        $this->port = $port;
-    }
-    
     public function notifyPackageAction ($datagram)
     {
-        $package = new DevicePackage($datagram);
-        if (self::DEBUGMODE)
-            $this->getLogger()->info("Datagram received from \"" . ($package->getDeviceId() >0 ? $package->getDeviceId() : "?") . "\": " . substr($datagram, 4));
-        $responsePackage = $this->notifyPackageReceived($package);
-        if ($responsePackage != null && $responsePackage instanceof DevicePackage)
-            print($responsePackage);
-    }
-    
-    public function sendToDevice ($deviceId, $data)
-    {
-        $this->sendPackage(new DevicePackage($deviceId, $data));
-    }
-    
-    public function sendPackage (DevicePackage $package)
-    {
-        $socket = null;
+        $tokens = $this->parseControllerDatagram($datagram);
+        $deviceId = $tokens[1];
+        $data = $tokens[2];
         try
         {
-            $socket = new Socket();
-            $socket->connect("localhost", $this->port);   
-            $socket->send("sendPackage $package");
+            $responseData = $this->notifyPackageReceived($data, $deviceId);
+            print ($this->createControllerDatagram(array(true, $deviceId, $responseData)));
         }
-        catch (Exception $exception)
+        catch (Exception $ex)
         {
-            try { $socket->close(); } catch (Exception $ex) {}
-            throw $exception;
+            $this->getLogger()->warning("Error processing datagram from \"" . ($deviceId > 0? $deviceId : "?") . "\": " . $data);
+            print ($this->createControllerDatagram(array(false, $deviceId, $ex->getMessage())));
         }
     }
     
-    public abstract function notifyPackageReceived (DevicePackage $package);
-}
-
-final class DevicePackage
-{
-    private $deviceId;
-    private $data;
+    public abstract function notifyPackageReceived ($data, &$deviceId);
     
-    public function __construct($deviceId, $data=null)
+    private function parseControllerDatagram ($datagram)
     {
-        if (isset($data))
-        {
-            $this->deviceId = $deviceId;
-            $this->data = $data;
-        }
-        else
-        {
-            $this->deviceId = hexdec(substr($deviceId, 0, 4));
-            $this->data = hex2bin(substr($deviceId, 4));
-        }
+        $tokens = array();
+        $tokens[0] = true;
+        $tokens[1] = hexdec(substr($deviceId, 0, 4));
+        $tokens[2] = hex2bin(substr($deviceId, 4));
+        return $tokens;
     }
     
-    public function getDeviceId()
+    private function createControllerDatagram (array $tokens)
     {
-        return $this->deviceId;
-    }
-    
-    public function getData()
-    {
-        return $this->data;
-    }
-    
-    public function __toString()
-    {
-        return str_pad(dechex($this->deviceId), 4, "0", STR_PAD_LEFT) . bin2hex($this->data);
+        return str_pad(dechex($tokens[1]), 4, "0", STR_PAD_LEFT) . bin2hex($tokens[2]);
     }
 }
 
