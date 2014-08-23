@@ -37,6 +37,10 @@ abstract class DeviceController extends Controller
     
     private function createControllerDatagram (array $tokens)
     {
+        if (empty($tokens[2]))
+            $tokens[2] = "";
+        if (empty($tokens[1]))
+            $tokens[1] = 0;
         return str_pad(dechex($tokens[1]), 4, "0", STR_PAD_LEFT) . bin2hex($tokens[2]);
     }
 }
