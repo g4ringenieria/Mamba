@@ -30,8 +30,8 @@ abstract class DeviceController extends Controller
     {
         $tokens = array();
         $tokens[0] = true;
-        $tokens[1] = hexdec(substr($deviceId, 0, 4));
-        $tokens[2] = hex2bin(substr($deviceId, 4));
+        $tokens[1] = hexdec(substr($datagram, 0, 4));
+        $tokens[2] = hex2bin(substr($datagram, 4));
         return $tokens;
     }
     
