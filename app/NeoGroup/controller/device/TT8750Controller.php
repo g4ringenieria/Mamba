@@ -14,9 +14,8 @@ class TT8750Controller extends DeviceController
     const DATAGRAMTYPE_DEFAULT = 8;
     const DATAGRAMTYPE_SERIALPORT = 2;
     
-    public function notifyPackageReceived($data, &$deviceId)
+    public function notifyPackageReceived($datagram, &$deviceId)
     {
-        $datagram = $package->getData();
         $datagramType = ord($datagram{4});
         switch ($datagramType)
         {

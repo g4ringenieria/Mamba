@@ -15,13 +15,14 @@ abstract class DeviceController extends Controller
         try
         {
             $responseData = $this->notifyPackageReceived($data, $deviceId);
-            print ($this->createControllerDatagram(array(true, $deviceId, $responseData)));
+            $responseDatagram = $this->createControllerDatagram(array(true, $deviceId, $responseData));
         }
         catch (Exception $ex)
         {
-            $this->getLogger()->warning("Error processing datagram from \"" . ($deviceId > 0? $deviceId : "?") . "\": " . $data);
-            print ($this->createControllerDatagram(array(false, $deviceId, $ex->getMessage())));
+            $this->getLogger()->warning("Error processing datagram from \"" . ($deviceId > 0? $deviceId : "?") . "\": " . $data . " Error: " . $ex->getMessage());
+            $responseDatagram = $this->createControllerDatagram(array(false, $deviceId, $ex->getMessage()));
         }
+        print ($responseDatagram);
     }
     
     public abstract function notifyPackageReceived ($data, &$deviceId);
@@ -30,18 +31,18 @@ abstract class DeviceController extends Controller
     {
         $tokens = array();
         $tokens[0] = true;
-        $tokens[1] = hexdec(substr($datagram, 0, 4));
-        $tokens[2] = hex2bin(substr($datagram, 4));
+        $tokens[1] = hexdec(substr($datagram, 4, 4));
+        $tokens[2] = hex2bin(substr($datagram, 8));
         return $tokens;
     }
     
     private function createControllerDatagram (array $tokens)
     {
-        if (empty($tokens[2]))
-            $tokens[2] = "";
         if (empty($tokens[1]))
             $tokens[1] = 0;
-        return str_pad(dechex($tokens[1]), 4, "0", STR_PAD_LEFT) . bin2hex($tokens[2]);
+        if (empty($tokens[2]))
+            $tokens[2] = "";
+        return ($tokens[0]==true?"0001":"0002") . str_pad(dechex($tokens[1]), 4, "0", STR_PAD_LEFT) . bin2hex($tokens[2]);
     }
 }
 
