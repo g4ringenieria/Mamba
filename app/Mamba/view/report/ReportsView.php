@@ -69,9 +69,9 @@ class ReportsView extends SidebarSiteView
         $button->addAction("Tabla", array("action"=>"showReportsInTable"));
         $button->addAction("Mapa", array("action"=>"showReportsInMap"));
         $form = new Form(array("method"=>"POST"));
-        $form->addField($holderSelector);
-        $form->addField($dateFromPicker);
-        $form->addField($dateToPicker);
+        $form->addField($holderSelector, array("label"=>"Vehículo"));
+        $form->addField($dateFromPicker, array("label"=>"Fecha desde"));
+        $form->addField($dateToPicker, array("label"=>"Fecha hasta"));
         $form->add($button);
         return $form;
     }

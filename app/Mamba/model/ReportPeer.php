@@ -22,7 +22,10 @@ class ReportPeer extends DatabaseModel
         $doReport->addSelectFields(array("holderid", "name", "domain"), "holder_%s", "holder");
         $doReport->addSelectFields(array("reporttypeid", "description"), "reporttype_%s", "reporttype");
         if (isset($options["reportClass"]))
-            $doReport->addWhereCondition("report.reportclasstypeid = " . $options["reportClass"]);
+        {
+            $reportClasses = is_array($options["reportClass"])? $options["reportClass"] : array($options["reportClass"]);
+            $doReport->addWhereCondition("report.reportclasstypeid in (" . implode(",", $reportClasses) . ")");
+        }
         if (isset($options["holderId"]))
             $doReport->addWhereCondition("report.holderid = " . $options["holderId"]);
         if (isset($options["dateFrom"]))
