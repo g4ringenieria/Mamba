@@ -5,29 +5,29 @@ namespace Mamba\controller\site\report;
 use Mamba\controller\site\SiteController;
 use Mamba\model\ReportPeer;
 use Mamba\util\DateUtils;
-use Mamba\view\report\ReportsView;
+use Mamba\view\report\PositionReportsView;
 
 class PositionReportController extends SiteController
 {
     public function indexAction ()
     {
-        $reportsView = new ReportsView();
+        $reportsView = new PositionReportsView();
         $reportsView->render();
     }
     
     public function showReportsInTableAction ($holderId=null, $dateFrom=null, $dateTo=null)
     {
-        $reportsView = new ReportsView();
+        $reportsView = new PositionReportsView();
         $reportsView->setReports($this->getReports($holderId, $dateFrom, $dateTo));
-        $reportsView->setOutputType(ReportsView::OUTPUTTYPE_GRID);
+        $reportsView->setOutputType(PositionReportsView::OUTPUTTYPE_GRID);
         $reportsView->render();
     }
     
     public function showReportsInMapAction ($holderId=null, $dateFrom=null, $dateTo=null)
     {
-        $reportsView = new ReportsView();
+        $reportsView = new PositionReportsView();
         $reportsView->setReports($this->getReports($holderId, $dateFrom, $dateTo));
-        $reportsView->setOutputType(ReportsView::OUTPUTTYPE_MAP);
+        $reportsView->setOutputType(PositionReportsView::OUTPUTTYPE_MAP);
         $reportsView->render();
     }
     

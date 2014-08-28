@@ -15,7 +15,7 @@ use Mamba\view\SidebarSiteView;
 use NeoPHP\web\http\Parameters;
 use stdClass;
 
-class ReportsView extends SidebarSiteView
+class PositionReportsView extends SidebarSiteView
 {
     const OUTPUTTYPE_NONE = 0;
     const OUTPUTTYPE_GRID = 1;
