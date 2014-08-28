@@ -25,8 +25,8 @@ class TimeZoneCRUDView extends SiteView
             {
                 click: function (e) 
                 {
-                    $("#timezonesTable tr").removeClass("active");
-                    $(this).addClass("active");
+                    $("#timezonesTable tr").removeClass("info");
+                    $(this).addClass("info");
                     $("#updateButton").prop("disabled",false); 
                     $("#deleteButton").prop("disabled",false); 
                 },
@@ -42,12 +42,12 @@ class TimeZoneCRUDView extends SiteView
             });
             $("#updateButton").click(function (e) 
             {
-                var id = $("#timezonesTable tr.active").attr("timezoneId");
+                var id = $("#timezonesTable tr.info").attr("timezoneId");
                 window.open("showTimeZoneForm?timezoneid=" + id, "_self");
             });
             $("#deleteButton").click(function (e) 
             {
-                var id = $("#timezonesTable tr.active").attr("timezoneId");
+                var id = $("#timezonesTable tr.info").attr("timezoneId");
                 if (window.confirm("Esta seguro de eliminar la zone horaria " + id + " ?"))
                     window.open("deleteTimeZone?timezoneid=" + id, "_self");
             });
