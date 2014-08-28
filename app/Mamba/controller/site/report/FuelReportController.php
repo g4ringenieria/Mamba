@@ -8,7 +8,7 @@ use Mamba\model\ReportPeer;
 use Mamba\util\DateUtils;
 use Mamba\view\report\FuelReportsView;
 
-class FuelController extends SiteController
+class FuelReportController extends SiteController
 {
     public function indexAction ()
     {

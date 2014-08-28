@@ -7,7 +7,7 @@ use Mamba\model\ReportPeer;
 use Mamba\util\DateUtils;
 use Mamba\view\report\ReportsView;
 
-class GeneralController extends SiteController
+class PositionReportController extends SiteController
 {
     public function indexAction ()
     {
