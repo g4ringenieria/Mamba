@@ -22,6 +22,24 @@ class TimezoneController extends SiteController
         $view->render();
     }
     
+    public function createTimeZoneAction ($description, $tz)
+    {
+        $timezone = new TimeZone();
+        $timezone->setDescription($description);
+        $timezone->setTimezone($tz);
+        $timezone->insert();
+        $this->renderTimeZonesCRUDView ();
+    }
+    
+    public function updateTimeZoneAction ($timezoneid, $description, $tz)
+    {
+        $timezone = new TimeZone($timezoneid);
+        $timezone->setDescription($description);
+        $timezone->setTimezone($tz);
+        $timezone->update();
+        $this->renderTimeZonesCRUDView ();
+    }
+    
     public function deleteTimeZoneAction ($timezoneid)
     {
         $timezone = new TimeZone($timezoneid);

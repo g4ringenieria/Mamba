@@ -41,7 +41,7 @@ class TimeZoneCRUDView extends SiteView
             {
                 var id = $("#timezonesTable tr.active").attr("timezoneId");
                 if (window.confirm("Esta seguro de eliminar la zone horaria " + id + " ?"))
-                    window.open("deleteTimeZoneForm?timezoneid=" + id, "_self");
+                    window.open("deleteTimeZone?timezoneid=" + id, "_self");
             });
         ');
     }
@@ -68,6 +68,7 @@ class TimeZoneCRUDView extends SiteView
         $table = new EntityTable(array("id"=>"timezonesTable"));
         $table->addColumn ("#", "id");
         $table->addColumn ("Nombre", "description");
+        $table->addColumn ("Corrimiento horario", "timezone");
         $table->setEntities($this->timezones);
         $table->addEntityProperty("timezoneId", "id");
         return $table;
