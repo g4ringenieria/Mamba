@@ -21,12 +21,20 @@ class TimeZoneCRUDView extends SiteView
     {
         parent::build();
         $this->addScript('
-            $("#timezonesTable tr").click(function (e) 
+            $("#timezonesTable tr").on(
             {
-                $("#timezonesTable tr").removeClass("active");
-                $(this).addClass("active");
-                $("#updateButton").prop("disabled",false); 
-                $("#deleteButton").prop("disabled",false); 
+                click: function (e) 
+                {
+                    $("#timezonesTable tr").removeClass("active");
+                    $(this).addClass("active");
+                    $("#updateButton").prop("disabled",false); 
+                    $("#deleteButton").prop("disabled",false); 
+                },
+                dblclick: function (e)
+                {
+                    var id = $(this).attr("timezoneId");
+                    window.open("showTimeZoneForm?timezoneid=" + id, "_self");
+                }
             });
             $("#createButton").click(function (e) 
             {
