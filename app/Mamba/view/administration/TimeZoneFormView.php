@@ -39,7 +39,7 @@ class TimeZoneFormView extends SiteView
         $form->setType (Form::TYPE_HORIZONTAL);
         $form->add($idHiddenField);
         $form->addField($descriptionTextField, array("label"=>"Descripción"));
-        $form->addField($timezoneTextField, array("label"=>"Corrimiento Horario"));
+        $form->addField($timezoneTextField, array("label"=>"Corrimiento"));
         $form->add(new Button("Guardar", array("type"=>"submit", "class"=>"primary")));
         return $form;
     }

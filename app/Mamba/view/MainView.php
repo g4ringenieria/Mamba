@@ -31,7 +31,7 @@ class MainView extends HTMLView
         $this->addScriptFile($this->getBaseUrl() . "assets/bootstrap-3.2.0/js/bootstrap.min.js");
         $this->addStyleFile($this->getBaseUrl() . "assets/bootstrap-3.2.0/css/bootstrap.cerulean.min.css");
         $this->addStyleFile($this->getBaseUrl() . "css/main.css");
-        $this->addScriptFile($this->getBaseUrl() . "js/main.js");
+        $this->addScriptFile($this->getBaseUrl() . "js/main.js?_dc=1");
         $this->buildBody();
     }
 
@@ -52,7 +52,7 @@ class MainView extends HTMLView
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">' . $this->getApplication()->getName() . '</a>
+                    <a href="' . $this->getUrl("site/dashboard/") . '" class="navbar-brand" href="#">' . $this->getApplication()->getName() . '</a>
                 </div>
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     ' . $this->createMainMenu() . '
