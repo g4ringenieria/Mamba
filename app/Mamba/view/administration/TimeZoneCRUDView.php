@@ -65,9 +65,9 @@ class TimeZoneCRUDView extends SiteView
     protected function createButtonToolbar()
     {
         $toolbar = new Tag("ul", array("class"=>"nav nav-pills"));
-        $toolbar->add (new Tag("li", new Button('<span class="glyphicon glyphicon-file"></span>&nbsp;Crear', array("id"=>"createButton", "class"=>"btn btn-primary"))));
-        $toolbar->add (new Tag("li", new Button('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Modifiar', array("id"=>"updateButton", "class"=>"btn btn-primary", "disabled"=>"true"))));
-        $toolbar->add (new Tag("li", new Button('<span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar', array("id"=>"deleteButton", "class"=>"btn btn-primary", "disabled"=>"true"))));
+        $toolbar->add (new Tag("li", new Button('<i class="fa fa-file-o"></i>&nbsp;Crear', array("id"=>"createButton", "class"=>"btn btn-primary"))));
+        $toolbar->add (new Tag("li", new Button('<i class="fa fa-pencil"></i></i>&nbsp;Modifiar', array("id"=>"updateButton", "class"=>"btn btn-primary", "disabled"=>"true"))));
+        $toolbar->add (new Tag("li", new Button('<i class="fa fa-trash"></i>&nbsp;Eliminar', array("id"=>"deleteButton", "class"=>"btn btn-primary", "disabled"=>"true"))));
         return $toolbar;
     }
     
