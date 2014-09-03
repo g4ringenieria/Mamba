@@ -126,6 +126,7 @@ class TT8750Controller extends DeviceController
         {
             case 1: $reportType = ReportType::REPORTTYPE_FUELREPORT; break;
             case 21: $reportType = ReportType::REPORTTYPE_TIMEREPORT; break;
+            case 22: $reportType = ReportType::REPORTTYPE_DISTANCEREPORT; break;
             default: throw new Exception("Event \"$eventId\" not found");
         }
         return $reportType;
