@@ -115,6 +115,8 @@ class Map extends HTMLComponent
         $layerAttributes = array();
         if (!empty($layer->source))
             $layerAttributes[] = 'source: ' . self::createSource($layer->source);
+        if (!empty($layer->style))
+            $layerAttributes[] = 'style: ' . self::createStyle($layer->style);
         if (sizeof($layerAttributes) > 0)
             $layerScript .= '{' . implode(",", $layerAttributes) . '}';
         $layerScript .= ')';
