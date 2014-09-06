@@ -192,6 +192,40 @@ class Map extends HTMLComponent
         return $geometryScript;
     }
     
+    public static function createStyle ($style)
+    {
+        $styleScript = '';
+        $styleScript .= 'new ol.style.Style(';
+        $attributes = array();
+        if (!empty($style->image))
+            $attributes[] = 'image: ' . self::createIconStyle($style->image);
+        if (sizeof($attributes) > 0)
+            $styleScript .= '{' . implode(",", $attributes) . '}';
+        $styleScript .= ')';
+        return $styleScript;
+    }
+    
+    public static function createIconStyle ($iconStyle)
+    {
+        $iconStyleScript = '';
+        $iconStyleScript .= 'new ol.style.Icon(';
+        $attributes = array();
+        if (!empty($iconStyle->src))
+            $attributes[] = 'src: "' . $iconStyle->src . '"';
+        if (!empty($iconStyle->anchor))
+            $attributes[] = 'anchor: [' . $iconStyle->anchor[0] . ',' . $iconStyle->anchor[1] . ']';
+        if (!empty($iconStyle->anchorXUnits))
+            $attributes[] = 'anchorXUnits: "' . $iconStyle->anchorXUnits . '"';
+        if (!empty($iconStyle->anchorYUnits))
+            $attributes[] = 'anchorYUnits: "' . $iconStyle->anchorYUnits . '"';
+        if (!empty($iconStyle->opacity))
+            $attributes[] = 'opacity: ' . $iconStyle->opacity;
+        if (sizeof($attributes) > 0)
+            $iconStyleScript .= '{' . implode(",", $attributes) . '}';
+        $iconStyleScript .= ')';
+        return $iconStyleScript;
+    }
+    
     public static function createPointGeometry ($geometry)
     {
         return 'new ol.geom.Point(' . self::createCoordinate($geometry->coordinates) . ')';
