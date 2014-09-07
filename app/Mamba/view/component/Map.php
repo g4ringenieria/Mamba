@@ -2,245 +2,283 @@
 
 namespace Mamba\view\component;
 
-use NeoPHP\mvc\MVCApplication;
 use NeoPHP\web\html\HTMLComponent;
 use NeoPHP\web\html\HTMLView;
 use NeoPHP\web\html\Tag;
+use stdClass;
 
 class Map extends HTMLComponent
 {
-    public static $PROJECTION_4326 = "EPSG:4326";
-    public static $PROJECTION_3857 = "EPSG:3857";
-    
     private $view;
+    private $id;
+    private $className;
     private $attributes;
-    private $targetScript;
-    private $layerScripts;
-    private $viewScript;
-    private $preConfigScripts;
-    private $postConfigScripts;
+    private $initialPosition;
+    private $initialZoom;
+    private $attribution;
+    private $baseLayers;
+    private $overlays;
     
-    public function __construct(HTMLView $view, array $attributes = array())
+    public function __construct(HTMLView $view)
     {
         static $idCounter = 0;
         $this->view = $view;
-        $this->attributes = array_merge(array("id"=>"map_" . ($idCounter++)), $attributes);
-        $this->targetScript = '"' . $this->attributes["id"] . '"';
-        $this->layerScripts = array();
-        $this->viewScript = 'new ol.View({ center: [0, 0], zoom: 2 })';
-        $this->preConfigScripts = array();
-        $this->postConfigScripts = array();
+        $this->attributes = array();
+        $this->id = "map_" . ($idCounter++); 
+        $this->className = "map";
+        $this->initialPosition = new stdClass();
+        $this->initialPosition->latitude = 0;
+        $this->initialPosition->longitude = 0;
+        $this->initialZoom = 3;
+        $this->attribution = "";
+        $this->baseLayers = array();
+        $this->overlays = array();
+    }
+    
+    public function setAttributes ($attributes)
+    {
+        $this->attributes = $attributes;
+    }
+    
+    public function addBaseLayer ($baseLayer)
+    {
+        $this->baseLayers[] = $baseLayer;
+    }
+    
+    public function addOverlay ($overlay)
+    {
+        $this->overlays[] = $overlay;
+    }
+    
+    public function setInitialPosition ($position)
+    {
+        $this->initialPosition = $position;
+    }
+    
+    public function setInitialZoom ($zoom)
+    {
+        $this->initialZoom = $zoom;
+    }
+    
+    public function setAttribution ($attribution)
+    {
+        $this->attribution = $attribution;
     }
     
     protected function createContent ()
     {
-        return new Tag("div", $this->attributes, '');
+        return new Tag("div", array_merge(array("id"=>$this->id,"class"=>$this->className), $this->attributes), '');
     }
     
     protected function onBeforeBuild ()
     {
-        $this->view->addScriptFile(MVCApplication::getInstance()->getBaseUrl() . "assets/openlayers-3.0/build/ol.js"); 
-        $this->view->addStyleFile(MVCApplication::getInstance()->getBaseUrl() . "assets/openlayers-3.0/css/ol.css"); 
-        $scriptTemplate = '
-            (function()
+        $this->view->addScriptFile($this->view->getBaseUrl() . "assets/leaflet-0.7.2/leaflet.js"); 
+        $this->view->addStyleFile($this->view->getBaseUrl() . "assets/leaflet-0.7.2/leaflet.css");    
+        $this->view->addScriptFile($this->view->getBaseUrl() . "assets/leaflet-label/leaflet.label.js");
+        $this->view->addStyleFile($this->view->getBaseUrl() . "assets/leaflet-label/leaflet.label.css");
+        $this->view->addScriptFile($this->view->getBaseUrl() . "assets/leaflet-oms/oms.min.js");
+        $this->view->addScript('
+            var maps = {};
+            
+            function getMap (id) 
+            { 
+                return maps[id]; 
+            }
+            
+            function createMap (mapConfig)
             {
-                {preConfig}
-                var map = new ol.Map(
+                var map = L.map(mapConfig.id, 
                 {
-                    target: {target},
-                    layers: {layers},
-                    view: {view}
+                    center: mapConfig.center,
+                    zoom: mapConfig.zoom,
+                    attribution: mapConfig.attribution
                 });
-                {postConfig}
-            })();
-        ';
-        $layersScript = '[' . implode(",\r\n", $this->layerScripts) . ']';
-        $preConfigScripts = implode("\r\n", $this->preConfigScripts);
-        $postConfigScripts = implode("\r\n", $this->postConfigScripts);
-        $scriptTemplate = str_replace('{target}', $this->targetScript, $scriptTemplate);
-        $scriptTemplate = str_replace('{layers}', $layersScript, $scriptTemplate);
-        $scriptTemplate = str_replace('{view}', $this->viewScript, $scriptTemplate);
-        $scriptTemplate = str_replace('{preConfig}', $preConfigScripts, $scriptTemplate);
-        $scriptTemplate = str_replace('{postConfig}', $postConfigScripts, $scriptTemplate);
-        $this->view->addScript($scriptTemplate);
+                map.oms = new OverlappingMarkerSpiderfier(map);
+                map.layersControl = L.control.layers([], []);
+                map.layersControl.addTo(map);
+                
+                if (mapConfig.baseLayers)
+                {
+                    var baseLayers = [];
+                    for (var i in mapConfig.baseLayers)
+                        baseLayers.push (createBaseLayer(mapConfig.baseLayers[i]));
+                    map.addLayer(baseLayers[0]);
+                    for (var i in baseLayers)
+                        map.layersControl.addBaseLayer(baseLayers[i], baseLayers[i].name);
+                }
+                
+                if (mapConfig.overlays)
+                {
+                    for (var i in mapConfig.overlays)
+                    {
+                        var overlayConfig = mapConfig.overlays[i];
+                        overlayConfig.oms = map.oms;
+                        var overlay = createOverlay(overlayConfig);
+                        if (overlay != null)
+                        {
+                            overlay.addTo(map);
+                            map.layersControl.addOverlay(overlay, overlay.name);
+                            if (overlayConfig.fitToBounds)
+                                map.fitBounds(overlay.getBounds().pad(0.1));
+                        }
+                    }
+                }
+                
+                maps[mapConfig.id] = map;
+            }
+            
+            function createBaseLayer (baseLayerConfig)
+            {
+                var baseLayer = L.tileLayer(baseLayerConfig.url, baseLayerConfig.attributes);
+                baseLayer.name = baseLayerConfig.name;
+                return baseLayer;
+            }
+            
+            function createOverlay (overlayConfig)
+            {
+                var overlay = null;
+                switch (overlayConfig.type)
+                {
+                    case "featureGroup":
+                        overlay = createFeatureGroup (overlayConfig);
+                        break;
+                    case "marker":
+                        overlay = createMarker (overlayConfig);
+                        break;
+                    case "polyline":
+                        overlay = createPolyline (overlayConfig)
+                        break;
+                }
+                if (overlay != null)
+                {
+                    overlay.name = overlayConfig.name;
+                }
+                return overlay;
+            }
+            
+            function createFeatureGroup (featureGroupConfig)
+            {
+                var layerGroup = new L.FeatureGroup();
+                if (featureGroupConfig.overlays)
+                {
+                    for (var i in featureGroupConfig.overlays)
+                    {
+                        var overlayConfig = featureGroupConfig.overlays[i];
+                        overlayConfig.oms = featureGroupConfig.oms;
+                        var overlay = createOverlay(overlayConfig);
+                        if (overlay != null)
+                            overlay.addTo(layerGroup);
+                    }
+                }
+                return layerGroup;
+            }
+            
+            function createMarker (markerConfig)
+            {
+                var marker = null;
+                if (markerConfig.latitude != null && markerConfig.longitude != null)
+                {
+                    marker = L.marker([markerConfig.latitude, markerConfig.longitude]);
+                    if (markerConfig.description)
+                        marker.bindPopup(markerConfig.description);
+                    if (markerConfig.label)
+                        marker.bindLabel(markerConfig.label, markerConfig.labelConfig || {});
+                    if (markerConfig.oms)
+                        markerConfig.oms.addMarker(marker);
+                }
+                return marker;
+            }
+            
+            function createPolyline (polylineConfig)
+            {
+                var points = [];
+                for (var i in polylineConfig.points)
+                {
+                    var point = polylineConfig.points[i];
+                    if (point.latitude != null && point.longitude != null)
+                        points.push (L.latLng(point.latitude, point.longitude));
+                }
+                return L.polyline(points);
+            }
+        ', 'mapJSFunctions');
+        
+        $mapConfig = new stdClass();
+        $mapConfig->id = $this->id;
+        $mapConfig->center = array($this->initialPosition->latitude, $this->initialPosition->longitude); 
+        $mapConfig->zoom = $this->initialZoom;
+        $mapConfig->attribution = $this->attribution;
+        $mapConfig->baseLayers = $this->baseLayers;
+        $mapConfig->overlays = $this->overlays;
+        $this->view->addScript('createMap(' . json_encode($mapConfig) . ')');
     }
     
-    public function addLayer ($layer)
+    public function addDefaultBaseLayers ()
     {
-        $layerScript = null;
-        switch ($layer->type)
-        {
-            case "tile":
-                $layerScript = $this->createTileLayer($layer);
-                break;
-            case "vector":
-                $layerScript = $this->createVectorLayer($layer);
-                break;
-        }
-        $this->layerScripts[] = $layerScript;
+        $this->addBaseLayer ($this->createMapQuestOpenOSMLayer());
+        $this->addBaseLayer ($this->createOpenCycleMapLayer());
+        $this->addBaseLayer ($this->createOpenStreetMapMapnikLayer());
+        $this->addBaseLayer ($this->createOpenStreetMapDELayer());
+        $this->addBaseLayer ($this->createEsriWorldStreetMapLayer());
+        $this->addBaseLayer ($this->createEsriWorldImageryLayer());
     }
     
-    public function setView ($view)
+    public static function createLayer ($name, $url, $attributes=array())
     {
-        $this->viewScript = 'new ol.View({ center: [' . $view->center[0] . ', ' . $view->center[1] . '], zoom: ' . $view->zoom . ' })';
+        $layer = new stdClass();
+        $layer->name = $name;
+        $layer->url = $url;
+        $layer->attributes = $attributes;
+        return $layer;
     }
     
-    public function addPreConfigScript ($preConfigScript)
+    public static function createCloudMadeDefaultLayer ()
     {
-        $this->preConfigScripts[] = $preConfigScript;
+        return self::createLayer ("CloudMade (Default)", "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png", array("styleId"=>997, "attribution"=>""));
     }
     
-    public function addPostConfigScript ($postConfigScript)
+    public static function createCloudMadeMidnightLayer ()
     {
-        $this->postConfigScripts[] = $postConfigScript;
+        return self::createLayer ("CloudMade (Midnight)", "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png", array("styleId"=>999, "attribution"=>""));
     }
     
-    public static function createTileLayer ($layer)
+    public static function createCloudMadeMinimalLayer ()
     {
-        $layerScript = '';
-        $layerScript .= 'new ol.layer.Tile(';
-        $layerAttributes = array();
-        if (!empty($layer->source))
-            $layerAttributes[] = 'source: ' . self::createSource($layer->source);
-        if (sizeof($layerAttributes) > 0)
-            $layerScript .= '{' . implode(",", $layerAttributes) . '}';
-        $layerScript .= ')';
-        return $layerScript;
+        return self::createLayer ("CloudMade (Minimal)", "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png", array("styleId"=>22677, "attribution"=>""));
     }
     
-    public static function createVectorLayer ($layer)
+    public static function createOpenStreetMapMapnikLayer ()
     {
-        $layerScript = '';
-        $layerScript .= 'new ol.layer.Vector(';
-        $layerAttributes = array();
-        if (!empty($layer->source))
-            $layerAttributes[] = 'source: ' . self::createSource($layer->source);
-        if (!empty($layer->style))
-            $layerAttributes[] = 'style: ' . self::createStyle($layer->style);
-        if (sizeof($layerAttributes) > 0)
-            $layerScript .= '{' . implode(",", $layerAttributes) . '}';
-        $layerScript .= ')';
-        return $layerScript;
+        return self::createLayer ("OpenStreetMap (Mapnik)", "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", array("attribution"=>'&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'));
     }
     
-    public static function createSource ($source)
+    public static function createOpenStreetMapDELayer ()
     {
-        $sourceScript = null;
-        switch ($source->type)
-        {
-            case "osm":
-                $sourceScript = self::createOSMSource($source);
-                break;
-            case "mapQuest":
-                $sourceScript = self::createMapQuestSource($source);
-                break;
-            case "vector":
-                $sourceScript = self::createVectorSource($source);
-                break;
-        }
-        return $sourceScript;
+        return self::createLayer ("OpenStreetMap (DE)", "http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png", array("attribution"=>'&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'));
     }
     
-    public static function createOSMSource ($source)
+    public static function createOpenCycleMapLayer ()
     {
-        return 'new ol.source.OSM()';
+        return self::createLayer ("OpenCycleMap", "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png", array("attribution"=>'&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'));
     }
     
-    public static function createMapQuestSource ($source)
+    public static function createMapQuestOpenOSMLayer ()
     {
-        return 'new ol.source.MapQuest({layer: "' . $source->layerType . '"})';
+        return self::createLayer ("MapQuestOpen (OSM)", 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', array("attribution"=>'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>', "subdomains"=>'1234'));
     }
     
-    public static function createVectorSource ($source)
+    public static function createEsriWorldStreetMapLayer ()
     {
-        $sourceScript = '';
-        $sourceScript .= 'new ol.source.Vector(';
-        $sourceAttributes = array();
-        if (!empty($source->features))
-        {
-            $featuresScripts = array();
-            foreach ($source->features as $feature)
-                $featuresScripts[] = self::createFeature ($feature);
-            $sourceAttributes[] = 'features: [' . implode(",", $featuresScripts) . ']';
-        }
-        if (sizeof($sourceAttributes) > 0)
-            $sourceScript .= '{' . implode(",", $sourceAttributes) . '}';
-        $sourceScript .= ')';
-        return $sourceScript;
+        return self::createLayer ("Esri (WorldStreetMap)", 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', array("attribution"=>'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'));
     }
     
-    public static function createFeature ($feature)
+    public static function createEsriWorldTopoMapLayer ()
     {
-        $featureScript = '';
-        $featureScript .= 'new ol.Feature(';
-        $featureAttributes = array();
-        if (!empty($feature->geometry))
-            $featureAttributes[] = 'geometry: ' . self::createGeometry($feature->geometry);
-        if (sizeof($featureAttributes) > 0)
-            $featureScript .= '{' . implode(",", $featureAttributes) . '}';
-        $featureScript .= ')';
-        return $featureScript;
+        return self::createLayer ("Esri (WorldTopoMap)", 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', array("attribution"=>'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'));
     }
     
-    public static function createGeometry ($geometry)
+    public static function createEsriWorldImageryLayer ()
     {
-        $geometryScript = null;
-        switch ($geometry->type)
-        {
-            case "point": 
-                $geometryScript = self::createPointGeometry ($geometry);
-                break;
-        }
-        return $geometryScript;
-    }
-    
-    public static function createStyle ($style)
-    {
-        $styleScript = '';
-        $styleScript .= 'new ol.style.Style(';
-        $attributes = array();
-        if (!empty($style->image))
-            $attributes[] = 'image: ' . self::createIconStyle($style->image);
-        if (sizeof($attributes) > 0)
-            $styleScript .= '{' . implode(",", $attributes) . '}';
-        $styleScript .= ')';
-        return $styleScript;
-    }
-    
-    public static function createIconStyle ($iconStyle)
-    {
-        $iconStyleScript = '';
-        $iconStyleScript .= 'new ol.style.Icon(';
-        $attributes = array();
-        if (!empty($iconStyle->src))
-            $attributes[] = 'src: "' . $iconStyle->src . '"';
-        if (!empty($iconStyle->anchor))
-            $attributes[] = 'anchor: [' . $iconStyle->anchor[0] . ',' . $iconStyle->anchor[1] . ']';
-        if (!empty($iconStyle->anchorXUnits))
-            $attributes[] = 'anchorXUnits: "' . $iconStyle->anchorXUnits . '"';
-        if (!empty($iconStyle->anchorYUnits))
-            $attributes[] = 'anchorYUnits: "' . $iconStyle->anchorYUnits . '"';
-        if (!empty($iconStyle->opacity))
-            $attributes[] = 'opacity: ' . $iconStyle->opacity;
-        if (sizeof($attributes) > 0)
-            $iconStyleScript .= '{' . implode(",", $attributes) . '}';
-        $iconStyleScript .= ')';
-        return $iconStyleScript;
-    }
-    
-    public static function createPointGeometry ($geometry)
-    {
-        return 'new ol.geom.Point(' . self::createCoordinate($geometry->coordinates) . ')';
-    }
-    
-    public static function createCoordinate (array $coordinates)
-    {
-        return 'ol.proj.transform([' . $coordinates[0] . ',' . $coordinates[1] . '], "' . self::$PROJECTION_4326 . '", "' . self::$PROJECTION_3857 . '")';
-    }
-    
-    public static function createExtent (array $extent)
-    {
-        return 'ol.proj.transformExtent([' . $coordinate[0] . ',' . $coordinate[1] . ',' . $coordinate[2] . ',' . $coordinate[3] . '], "' . PROJECTION_4326 . '", "' . PROJECTION_3857 . '")';
+        return self::createLayer ("Esri (WorldImagery)", 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', array("attribution"=>'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'));
     }
 }
 
