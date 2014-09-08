@@ -40,7 +40,7 @@ class MapOL extends HTMLComponent
             {
                 if (map.popupElement == null)
                 {
-                    map.popupElement = $("<div id=\"popup\"></div>");
+                    map.popupElement = $("<div id=\"popup\" style=\"min-width: 220px;\"></div>");
                     $(map.getTarget()).append(map.popupElement);
                     
                     map.popupOverlay = new ol.Overlay(
@@ -76,7 +76,7 @@ class MapOL extends HTMLComponent
                     {
                         "placement": "top",
                         "html": true,
-                        "content": "dimpl erexample ohm ohm silo tiro lo levanto ohm hago caso"
+                        "content": feature.get("description")
                     });
                     map.popupElement.popover("show");
                 } 
@@ -239,6 +239,13 @@ class MapOL extends HTMLComponent
         $featureAttributes = array();
         if (!empty($feature->geometry))
             $featureAttributes[] = 'geometry: ' . self::createGeometry($feature->geometry);
+        if (!empty($feature->description))
+        {
+            $description = $feature->description;
+            $description = str_replace("\n", "", $description);
+            $description = str_replace("\r", "", $description);
+            $featureAttributes[] = 'description: "' . $description . '"';
+        }
         if (sizeof($featureAttributes) > 0)
             $featureScript .= '{' . implode(",", $featureAttributes) . '}';
         $featureScript .= ')';
