@@ -52,12 +52,12 @@ class MapOL extends HTMLComponent
                     map.addOverlay(map.popupOverlay);
                 }
 
-                var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) { return feature; });
-                if (feature) 
+                var featureData = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) { return {feature: feature, layer: layer}; });
+                if (featureData) 
                 {
                     var popupOffset = 0;
-                    var style = feature.getStyle() || layer.getStyle();
-                    if (style != null)
+                    var style = featureData.feature.getStyle() || featureData.layer.getStyle();
+                    if (style != null && (typeof style === "object"))
                     {
                         var image = style.getImage();
                         if (image != null)
@@ -69,14 +69,14 @@ class MapOL extends HTMLComponent
                     }
                     map.popupElement.css("padding-bottom", popupOffset);
                     
-                    var geometry = feature.getGeometry();
+                    var geometry = featureData.feature.getGeometry();
                     var coord = geometry.getCoordinates();
                     map.popupOverlay.setPosition(coord);
                     map.popupElement.popover(
                     {
                         "placement": "top",
                         "html": true,
-                        "content": feature.get("description")
+                        "content": featureData.feature.get("description")
                     });
                     map.popupElement.popover("show");
                 } 
