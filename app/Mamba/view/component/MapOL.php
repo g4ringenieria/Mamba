@@ -19,7 +19,6 @@ class MapOL extends HTMLComponent
     private $viewScript;
     private $preConfigScripts;
     private $postConfigScripts;
-    private $popupsAvailiable;
     
     public function __construct(HTMLView $view, array $attributes = array())
     {
@@ -31,7 +30,6 @@ class MapOL extends HTMLComponent
         $this->viewScript = 'new ol.View({ center: [0, 0], zoom: 2 })';
         $this->preConfigScripts = array();
         $this->postConfigScripts = array();
-        $this->popupsAvailiable = true;
     }
     
     protected function createContent ()
@@ -39,73 +37,89 @@ class MapOL extends HTMLComponent
         return new Tag("div", $this->attributes, '');
     }
     
+    public function fitOnLayer ($layerName, $buffer=100)
+    {
+        $this->addPostConfigScript('
+            var layers = map.getLayers();
+            layers.forEach(function (layer)
+            {
+                if (layer.getProperties().name == "' . $layerName . '")
+                {
+                    var extent = layer.getSource().getExtent();
+                    map.getView().fitExtent(ol.extent.buffer(extent, ' . $buffer . '), map.getSize());
+                }
+            });
+        ');
+    }
+    
+    public function addPopupSupport ()
+    {
+        $this->addPostConfigScript('
+            map.on("click", function(evt) 
+            {
+                if (map.popupElement == null)
+                {
+                    map.popupElement = $("<div id=\"popup\"></div>");
+                    $(map.getTarget()).append(map.popupElement);
+
+                    map.popupOverlay = new ol.Overlay(
+                    {
+                        element: map.popupElement.get(0),
+                        positioning: "bottom-center",
+                        stopEvent: false
+                    });
+                    map.addOverlay(map.popupOverlay);
+                }
+                var featureFound = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) 
+                { 
+                    var popupOffset = 0;
+                    var style = feature.getStyle() || layer.getStyle();
+                    if (style != null && (typeof style === "object"))
+                    {
+                        var image = style.getImage();
+                        if (image != null)
+                        {
+                            var imageAnchor = image.getAnchor();
+                            if (imageAnchor != null)
+                                popupOffset = imageAnchor[1] + 2;
+                        }
+                    }
+                    map.popupElement.css("padding-bottom", popupOffset);
+
+                    var geometry = feature.getGeometry();
+                    var coord = geometry.getCoordinates();
+                    map.popupOverlay.setPosition(coord);
+                    map.popupElement.popover(
+                    {
+                        "placement": "top",
+                        "html": true,
+                        "content": feature.get("description")
+                    });
+                    map.popupElement.popover("show");
+                    return true; 
+                });
+
+                if (!featureFound) 
+                {
+                    map.popupElement.popover("hide");
+                }
+            });
+
+            $(map.getViewport()).on("mousemove", function(e) 
+            {
+                var pixel = map.getEventPixel(e.originalEvent);
+                var hit = map.forEachFeatureAtPixel(pixel, function(feature, layer) { return true; });
+                map.getTarget().style.cursor = (hit)? "pointer" : "";
+            });
+        ');
+        $this->view->addStyle('
+            .popover { max-width: 400px; }
+            .popover-content { white-space: nowrap; }
+        ');
+    }
+    
     protected function onBeforeBuild ()
     {
-        if ($this->popupsAvailiable)
-        {
-            $this->addPostConfigScript('
-                map.on("click", function(evt) 
-                {
-                    if (map.popupElement == null)
-                    {
-                        map.popupElement = $("<div id=\"popup\"></div>");
-                        $(map.getTarget()).append(map.popupElement);
-
-                        map.popupOverlay = new ol.Overlay(
-                        {
-                            element: map.popupElement.get(0),
-                            positioning: "bottom-center",
-                            stopEvent: false
-                        });
-                        map.addOverlay(map.popupOverlay);
-                    }
-                    var featureFound = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) 
-                    { 
-                        var popupOffset = 0;
-                        var style = feature.getStyle() || layer.getStyle();
-                        if (style != null && (typeof style === "object"))
-                        {
-                            var image = style.getImage();
-                            if (image != null)
-                            {
-                                var imageAnchor = image.getAnchor();
-                                if (imageAnchor != null)
-                                    popupOffset = imageAnchor[1] + 2;
-                            }
-                        }
-                        map.popupElement.css("padding-bottom", popupOffset);
-
-                        var geometry = feature.getGeometry();
-                        var coord = geometry.getCoordinates();
-                        map.popupOverlay.setPosition(coord);
-                        map.popupElement.popover(
-                        {
-                            "placement": "top",
-                            "html": true,
-                            "content": feature.get("description")
-                        });
-                        map.popupElement.popover("show");
-                        return true; 
-                    });
-
-                    if (!featureFound) 
-                    {
-                        map.popupElement.popover("hide");
-                    }
-                });
-
-                $(map.getViewport()).on("mousemove", function(e) 
-                {
-                    var pixel = map.getEventPixel(e.originalEvent);
-                    var hit = map.forEachFeatureAtPixel(pixel, function(feature, layer) { return true; });
-                    map.getTarget().style.cursor = (hit)? "pointer" : "";
-                });
-            ');
-            $this->view->addStyle('
-                .popover { max-width: 400px; }
-                .popover-content { white-space: nowrap; }
-            ');
-        }
         $this->view->addScriptFile(MVCApplication::getInstance()->getBaseUrl() . "assets/openlayers-3.0/build/ol.js"); 
         $this->view->addStyleFile(MVCApplication::getInstance()->getBaseUrl() . "assets/openlayers-3.0/css/ol.css");
         $scriptTemplate = '
@@ -180,6 +194,8 @@ class MapOL extends HTMLComponent
         $layerScript = '';
         $layerScript .= 'new ol.layer.Vector(';
         $layerAttributes = array();
+        if (!empty($layer->name))
+            $layerAttributes[] = 'name: "' . $layer->name . '"';
         if (!empty($layer->source))
             $layerAttributes[] = 'source: ' . self::createSource($layer->source);
         if (!empty($layer->style))
