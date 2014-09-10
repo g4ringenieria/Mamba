@@ -37,7 +37,7 @@ class MapOL extends HTMLComponent
         return new Tag("div", $this->attributes, '');
     }
     
-    public function fitOnLayer ($layerName, $buffer=100)
+    public function fitOnLayer ($layerName, $buffer=200)
     {
         $this->addPostConfigScript('
             var layers = map.getLayers();
@@ -305,11 +305,11 @@ class MapOL extends HTMLComponent
         if (!empty($iconStyle->src))
             $attributes[] = 'src: "' . $iconStyle->src . '"';
         if (!empty($iconStyle->anchor))
+        {
             $attributes[] = 'anchor: [' . $iconStyle->anchor[0] . ',' . $iconStyle->anchor[1] . ']';
-        if (!empty($iconStyle->anchorXUnits))
-            $attributes[] = 'anchorXUnits: "' . $iconStyle->anchorXUnits . '"';
-        if (!empty($iconStyle->anchorYUnits))
-            $attributes[] = 'anchorYUnits: "' . $iconStyle->anchorYUnits . '"';
+            $attributes[] = 'anchorXUnits: "' . ((!empty($iconStyle->anchorXUnits))? $iconStyle->anchorXUnits : "pixels") . '"';
+            $attributes[] = 'anchorYUnits: "' . ((!empty($iconStyle->anchorYUnits))? $iconStyle->anchorYUnits : "pixels") . '"';
+        }
         if (!empty($iconStyle->opacity))
             $attributes[] = 'opacity: ' . $iconStyle->opacity;
         if (sizeof($attributes) > 0)
