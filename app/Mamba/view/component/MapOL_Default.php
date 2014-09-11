@@ -10,7 +10,7 @@ class MapOL_Default extends MapOL
     public function __construct(HTMLView $view, array $attributes = array())
     {
         parent::__construct($view, $attributes);
-        $this->addIconsSupport();
+        $this->addFeatureStylingSupport();
         $this->addPopupSupport();
         $this->addLayer((object)array("type"=>"tile", "source"=>(object)array("type"=>"mapQuest", "layerType"=>"osm")));
     }
@@ -30,34 +30,54 @@ class MapOL_Default extends MapOL
         ');
     }
     
-    public function addIconsSupport ($featureIconAttribute = "iconId")
+    public function addFeatureStylingSupport ()
     {
-        $this->view->addScript('
-            function getIconStyle (iconId)
+        $this->addPreConfigScript('
+            var createFeatureStyleFunction = function()
             {
-                if (!document.iconStyles)
-                    document.iconStyles = [];
-                if (!document.iconStyles[iconId])
+                var iconPointStyle = [];
+                var defaultPointStyle = new ol.style.Style(
                 {
-                    document.iconStyles[iconId] = new ol.style.Style(
+                    image: new ol.style.Circle(
                     {
-                        image: new ol.style.Icon(
+                        radius: 5,
+                        fill: new ol.style.Fill({color: "rgba(255, 0, 0, 0.1)"}),
+                        stroke: new ol.style.Stroke({color: "red", width: 2})
+                    })
+                });
+
+                return function(feature, resolution) 
+                {
+                    var style = null;
+                    if (feature.getGeometry().getType() == "Point")
+                    {
+                        var iconId = feature.get("iconId");
+                        var icon = null;
+                        if (iconId != null)
                         {
-                            src: "' . MVCApplication::getInstance()->getBaseUrl() . 'images/map/icons/" + iconId + ".png",
-                            anchor: [16, 36],
-                            anchorXUnits: "pixels",
-                            anchorYUnits: "pixels"
-                        })
-                    });
-                }
-                return document.iconStyles[iconId];
-            }
-            
-            var iconStyle = function(feature, resolution) 
-            {
-                var iconId = feature.get("' . $featureIconAttribute . '");
-                return [getIconStyle(iconId)];
-            }
+                            if (!iconPointStyle[iconId])
+                            {
+                                iconPointStyle[iconId] = new ol.style.Style(
+                                {
+                                    image: new ol.style.Icon(
+                                    {
+                                        src: "' . MVCApplication::getInstance()->getBaseUrl() . 'images/map/icons/" + iconId + ".png",
+                                        anchor: [16, 36],
+                                        anchorXUnits: "pixels",
+                                        anchorYUnits: "pixels"
+                                    })
+                                });
+                            }
+                            style = iconPointStyle[iconId];
+                        }
+                        else
+                        {
+                            style = defaultPointStyle;
+                        }
+                    }
+                    return [style];
+                };
+            };
         ');
     }
     
