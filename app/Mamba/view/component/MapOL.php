@@ -70,8 +70,9 @@ class MapOL extends HTMLComponent
                     });
                     map.addOverlay(map.popupOverlay);
                 }
+                map.popupElement.popover("destroy");
                 var featureFound = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) 
-                { 
+                {
                     var popupOffset = 0;
                     var style = feature.getStyle() || layer.getStyle();
                     if (style != null && (typeof style === "object"))
@@ -98,11 +99,6 @@ class MapOL extends HTMLComponent
                     map.popupElement.popover("show");
                     return true; 
                 });
-
-                if (!featureFound) 
-                {
-                    map.popupElement.popover("hide");
-                }
             });
 
             $(map.getViewport()).on("mousemove", function(e) 
@@ -257,14 +253,17 @@ class MapOL extends HTMLComponent
         $featureScript = '';
         $featureScript .= 'new ol.Feature(';
         $featureAttributes = array();
-        if (!empty($feature->geometry))
-            $featureAttributes[] = 'geometry: ' . self::createGeometry($feature->geometry);
-        if (!empty($feature->description))
+        foreach ($feature as $property=>$propertyValue)
         {
-            $description = $feature->description;
-            $description = str_replace("\n", "", $description);
-            $description = str_replace("\r", "", $description);
-            $featureAttributes[] = 'description: "' . $description . '"';
+            switch ($property)
+            {
+                case "geometry": 
+                    $featureAttributes[] = 'geometry: ' . self::createGeometry($feature->geometry);
+                    break;
+                default:
+                    $featureAttributes[] = $property . ': "' . $propertyValue . '"';
+                    break;
+            }
         }
         if (sizeof($featureAttributes) > 0)
             $featureScript .= '{' . implode(",", $featureAttributes) . '}';
@@ -286,6 +285,7 @@ class MapOL extends HTMLComponent
     
     public static function createStyle ($style)
     {
+        if (is_string($style)) return $style;
         $styleScript = '';
         $styleScript .= 'new ol.style.Style(';
         $attributes = array();
