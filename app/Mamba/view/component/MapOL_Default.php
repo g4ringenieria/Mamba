@@ -84,14 +84,22 @@ class MapOL_Default extends MapOL
                 {
                     var popupOffset = 0;
                     var style = feature.getStyle() || layer.getStyle();
-                    if (style != null && (typeof style === "object"))
+                    if (style != null)
                     {
-                        var image = style.getImage();
-                        if (image != null)
+                        if ((typeof style === "function"))
                         {
-                            var imageAnchor = image.getAnchor();
-                            if (imageAnchor != null)
-                                popupOffset = imageAnchor[1] + 2;
+                            style = style(feature);
+                            style = style[0];
+                        }
+                        if ((typeof style === "object"))
+                        {
+                            var image = style.getImage();
+                            if (image != null)
+                            {
+                                var imageAnchor = image.getAnchor();
+                                if (imageAnchor != null)
+                                    popupOffset = imageAnchor[1] + 2;
+                            }
                         }
                     }
                     map.popupElement.css("padding-bottom", popupOffset);
