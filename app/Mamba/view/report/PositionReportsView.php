@@ -7,7 +7,7 @@ use Mamba\util\GeoUtils;
 use Mamba\view\component\DatetimePicker;
 use Mamba\view\component\EntityTable;
 use Mamba\view\component\Form;
-use Mamba\view\component\Map;
+use Mamba\view\component\MapOL_Default;
 use Mamba\view\component\MultiButton;
 use Mamba\view\component\Panel;
 use Mamba\view\component\SelectField;
@@ -93,71 +93,33 @@ class PositionReportsView extends SidebarSiteView
     }
     
     protected function createReportsMap () 
-    {
-        $reportsData = array();
-        foreach ($this->reports as $report )
+    {   
+        $vectorSource = new stdClass();
+        $vectorSource->type = "vector";
+        $vectorSource->features = array();
+        foreach ($this->reports as $report)
         {
-            if (!isset($reportsData[$report->getHolder()->getId()]))
-                $reportsData[$report->getHolder()->getId()] = array();
-            $reportsData[$report->getHolder()->getId()][strtotime($report->getDate())] = $report;
+            $feature = new stdClass();
+            $feature->geometry = (object)array("type"=>"point", "coordinates"=>array($report->getLongitude(), $report->getLatitude())); //$geometry;
+            $feature->iconId = $report->getReportType()->getId();
+            $feature->description = '';
+            $feature->description .= '<b>Vehículo: </b>' . $report->getHolder();
+            $feature->description .= '<br><b>Equipo: </b>' . $report->getDevice()->getId();
+            $feature->description .= '<br><b>Reporte: </b>' . $report->getReportType()->getDescription();
+            $feature->description .= '<br><b>Fecha posición: </b>' . DateUtils::formatDate($report->getDate(), $this->getSession()->userDateFormat, $this->getSession()->userTimeZone);
+            $feature->description .= '<br><b>Velocidad: </b>' . $report->getSpeed();
+            $feature->description .= '<br><b>Curso: </b>' . GeoUtils::getCourseString($report->getCourse());
+            $vectorSource->features[] = $feature;
         }
+        $vectorLayer = new stdClass();
+        $vectorLayer->type = "vector";
+        $vectorLayer->name = "features";
+        $vectorLayer->source = $vectorSource;
+        $vectorLayer->style = "createFeatureStyleFunction()";
         
-        $paths = array();
-        $markers = array();
-        foreach ($reportsData as $holderReportData)
-        {
-            krsort($holderReportData);
-            $markerAdded = false;
-            $pathOverlay = new stdClass();
-            $pathOverlay->type = "polyline";    
-            $pathOverlay->points = array();
-            foreach ($holderReportData as $report)
-            {
-                $position = new stdClass();
-                $position->latitude = $report->getLatitude();
-                $position->longitude = $report->getLongitude();
-                if (!empty($position->latitude) && !empty($position->longitude))
-                {
-                    $pathOverlay->points[] = $position;
-                    if (!$markerAdded)
-                    {
-                        $overlay = new stdClass();
-                        $overlay->type = "marker";
-                        $overlay->latitude = $report->getLatitude();
-                        $overlay->longitude = $report->getLongitude();
-                        $overlay->description = '
-                            <b>Vehículo: </b>' . $report->getHolder() . '
-                            <br><b>Equipo: </b>' . $report->getDevice()->getId() . '
-                            <br><b>Evento: </b>' . $report->getReportType() . '
-                            <br><b>Fecha posición: </b>' . DateUtils::formatDate($report->getDate(), $this->getSession()->userDateFormat, $this->getSession()->userTimeZone) . '
-                            <br><b>Velocidad: </b>' . $report->getSpeed() . '
-                            <br><b>Curso: </b>' . GeoUtils::getCourseString($report->getCourse()) . '
-                            <br><b>Odómetro: </b>' . $report->getOdometer() . '
-                        ';
-                        $overlay->label = strval($report->getHolder());
-                        $overlay->labelConfig = new stdClass(); 
-                        $overlay->labelConfig->noHide = true;
-                        $markers[] = $overlay;
-                        $markerAdded = true;
-                    }
-                }
-            }
-            $paths[] = $pathOverlay;
-        }
-        $overlayLayer = new stdClass();
-        $overlayLayer->name = "Unidades";
-        $overlayLayer->type = "featureGroup";
-        $overlayLayer->overlays = array();  
-        $overlayLayer->fitToBounds = true;
-        foreach ($paths as $path)
-            $overlayLayer->overlays[] = $path;
-        foreach ($markers as $marker)
-            $overlayLayer->overlays[] = $marker;
-        
-        $map = new Map($this);
-        $map->setAttributes(array("style"=>"height:500px"));
-        $map->addDefaultBaseLayers();
-        $map->addOverlay($overlayLayer);
+        $map = new MapOL_Default($this, array("style"=>"height:500px;"));
+        $map->adjustViewOnLayer("features");
+        $map->addLayer($vectorLayer);
         return new Panel(array("title"=>"Histórico de Reportes (Mapa)", "content"=>$map));
     }
 }
