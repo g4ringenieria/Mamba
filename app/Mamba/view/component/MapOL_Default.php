@@ -35,47 +35,48 @@ class MapOL_Default extends MapOL
         $this->addPreConfigScript('
             var createFeatureStyleFunction = function()
             {
-                var iconPointStyle = [];
-                var defaultPointStyle = new ol.style.Style(
-                {
-                    image: new ol.style.Circle(
-                    {
-                        radius: 5,
-                        fill: new ol.style.Fill({color: "rgba(255, 0, 0, 0.1)"}),
-                        stroke: new ol.style.Stroke({color: "red", width: 2})
-                    })
-                });
-
                 return function(feature, resolution) 
                 {
-                    var style = null;
+                    var styleConfig = {};
                     if (feature.getGeometry().getType() == "Point")
                     {
                         var iconId = feature.get("iconId");
-                        var icon = null;
                         if (iconId != null)
                         {
-                            if (!iconPointStyle[iconId])
+                            styleConfig.image = new ol.style.Icon(
                             {
-                                iconPointStyle[iconId] = new ol.style.Style(
-                                {
-                                    image: new ol.style.Icon(
-                                    {
-                                        src: "' . MVCApplication::getInstance()->getBaseUrl() . 'images/map/icons/" + iconId + ".png",
-                                        anchor: [16, 36],
-                                        anchorXUnits: "pixels",
-                                        anchorYUnits: "pixels"
-                                    })
-                                });
-                            }
-                            style = iconPointStyle[iconId];
+                                src: "' . MVCApplication::getInstance()->getBaseUrl() . 'images/map/icons/" + iconId + ".png",
+                                anchor: [16, 36],
+                                anchorXUnits: "pixels",
+                                anchorYUnits: "pixels"
+                            });
                         }
                         else
                         {
-                            style = defaultPointStyle;
+                            styleConfig.image = new ol.style.Circle(
+                            {
+                                radius: 5,
+                                fill: new ol.style.Fill({color: "rgba(255, 0, 0, 0.1)"}),
+                                stroke: new ol.style.Stroke({color: "red", width: 2})
+                            });
+                        }
+                        
+                        var label = feature.get("label");
+                        if (label != null)
+                        {
+                            styleConfig.text = new ol.style.Text(
+                            {
+                                textAlign: "center",
+                                textBaseline: "top",
+                                text: label,
+                                font: "bold 12px Arial",
+                                fill: new ol.style.Fill({color: "#FFFFFF"}),
+                                offsetY: iconId != null? 2 : 10,
+                                stroke: new ol.style.Stroke({color: "#000000", width: 2})
+                            })
                         }
                     }
-                    return [style];
+                    return [new ol.style.Style(styleConfig)];
                 };
             };
         ');
