@@ -13,6 +13,8 @@ class MapOL_Default extends MapOL
         $this->addFeatureStylingSupport();
         $this->addPopupSupport();
         $this->addLayer((object)array("type"=>"tile", "source"=>(object)array("type"=>"mapQuest", "layerType"=>"osm")));
+        $this->addControl((object)array("type"=>"zoom"));
+        $this->addControl((object)array("type"=>"rotate"));
     }
     
     public function adjustViewOnLayer ($layerName, $buffer=200)

@@ -16,6 +16,7 @@ class MapOL extends HTMLComponent
     protected $attributes;
     protected $targetScript;
     protected $layerScripts;
+    protected $controlsScripts;
     protected $viewScript;
     protected $preConfigScripts;
     protected $postConfigScripts;
@@ -27,6 +28,7 @@ class MapOL extends HTMLComponent
         $this->attributes = array_merge(array("id"=>"map_" . ($idCounter++)), $attributes);
         $this->targetScript = 'document.getElementById("' . $this->attributes["id"] . '")';
         $this->layerScripts = array();
+        $this->controlsScripts = array();
         $this->viewScript = 'new ol.View({ center: [0, 0], zoom: 2 })';
         $this->preConfigScripts = array();
         $this->postConfigScripts = array();
@@ -49,16 +51,19 @@ class MapOL extends HTMLComponent
                 {
                     target: {target},
                     layers: {layers},
+                    controls: {controls},
                     view: {view}
                 });
                 {postConfig}
             })();
         ';
         $layersScript = '[' . implode(",\r\n", $this->layerScripts) . ']';
+        $controlsScript = '[' . implode(",\r\n", $this->controlsScripts) . ']';
         $preConfigScripts = implode("\r\n", $this->preConfigScripts);
         $postConfigScripts = implode("\r\n", $this->postConfigScripts);
         $scriptTemplate = str_replace('{target}', $this->targetScript, $scriptTemplate);
         $scriptTemplate = str_replace('{layers}', $layersScript, $scriptTemplate);
+        $scriptTemplate = str_replace('{controls}', $controlsScript, $scriptTemplate);
         $scriptTemplate = str_replace('{view}', $this->viewScript, $scriptTemplate);
         $scriptTemplate = str_replace('{preConfig}', $preConfigScripts, $scriptTemplate);
         $scriptTemplate = str_replace('{postConfig}', $postConfigScripts, $scriptTemplate);
@@ -78,6 +83,27 @@ class MapOL extends HTMLComponent
                 break;
         }
         $this->layerScripts[] = $layerScript;
+    }
+    
+    public function addControl ($control)
+    {
+        $controlScript = null;
+        switch ($control->type)
+        {
+            case "zoom":
+                $controlScript = "new ol.control.Zoom()";
+                break;
+            case "scaleline":
+                $controlScript = "new ol.control.ScaleLine()";
+                break;
+            case "rotate":
+                $controlScript = "new ol.control.Rotate()";
+                break;
+            case "fullscreen":
+                $controlScript = "new ol.control.FullScreen()";
+                break;
+        }
+        $this->controlsScripts[] = $controlScript;
     }
     
     public function setView ($view)
