@@ -2,7 +2,7 @@
 
 namespace Mamba\view;
 
-use Mamba\view\component\Button;
+use Mamba\component\Button;
 
 class PortalView extends BootstrapView
 {

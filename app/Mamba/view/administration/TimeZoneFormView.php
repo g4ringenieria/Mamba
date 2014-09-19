@@ -3,10 +3,10 @@
 namespace Mamba\view\administration;
 
 use Mamba\model\TimeZone;
-use Mamba\view\component\Button;
-use Mamba\view\component\Form;
-use Mamba\view\component\Panel;
-use Mamba\view\component\TextField;
+use Mamba\component\Button;
+use Mamba\component\Form;
+use Mamba\component\Panel;
+use Mamba\component\TextField;
 use Mamba\view\SiteView;
 use NeoPHP\web\html\Tag;
 

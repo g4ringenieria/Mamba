@@ -4,9 +4,9 @@ namespace Mamba\view;
 
 use Mamba\util\DateUtils;
 use Mamba\util\GeoUtils;
-use Mamba\view\component\EntityTable;
-use Mamba\view\component\MapOL_Default;
-use Mamba\view\component\Panel;
+use Mamba\component\EntityTable;
+use Mamba\component\MapOL_Default;
+use Mamba\component\Panel;
 use stdClass;
 
 class DashboardView extends SiteView

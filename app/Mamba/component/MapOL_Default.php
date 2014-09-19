@@ -1,6 +1,6 @@
 <?php
 
-namespace Mamba\view\component;
+namespace Mamba\component;
 
 use NeoPHP\mvc\MVCApplication;
 use NeoPHP\web\html\HTMLView;

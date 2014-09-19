@@ -5,14 +5,14 @@ namespace Mamba\view;
 use Mamba\model\Language;
 use Mamba\model\TimeZone;
 use Mamba\model\User;
-use Mamba\view\component\Alert;
-use Mamba\view\component\Button;
-use Mamba\view\component\DisplayField;
-use Mamba\view\component\Form;
-use Mamba\view\component\Panel;
-use Mamba\view\component\PasswordField;
-use Mamba\view\component\SelectField;
-use Mamba\view\component\TextField;
+use Mamba\component\Alert;
+use Mamba\component\Button;
+use Mamba\component\DisplayField;
+use Mamba\component\Form;
+use Mamba\component\Panel;
+use Mamba\component\PasswordField;
+use Mamba\component\SelectField;
+use Mamba\component\TextField;
 use NeoPHP\web\html\Tag;
 
 class AccountView extends SiteView

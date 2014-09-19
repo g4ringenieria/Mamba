@@ -1,6 +1,6 @@
 <?php
 
-namespace Mamba\view\component;
+namespace Mamba\component;
 
 use NeoPHP\util\IntrospectionUtils;
 use NeoPHP\web\html\HTMLComponent;

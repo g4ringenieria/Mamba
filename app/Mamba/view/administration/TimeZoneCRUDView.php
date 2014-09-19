@@ -2,9 +2,9 @@
 
 namespace Mamba\view\administration;
 
-use Mamba\view\component\Button;
-use Mamba\view\component\EntityTable;
-use Mamba\view\component\Panel;
+use Mamba\component\Button;
+use Mamba\component\EntityTable;
+use Mamba\component\Panel;
 use Mamba\view\SiteView;
 use NeoPHP\web\html\Tag;
 

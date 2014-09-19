@@ -3,14 +3,14 @@
 namespace Mamba\view\report;
 
 use Mamba\util\DateUtils;
-use Mamba\view\component\DatetimePicker;
-use Mamba\view\component\EntityTable;
-use Mamba\view\component\Form;
-use Mamba\view\component\MultiButton;
-use Mamba\view\component\Panel;
-use Mamba\view\component\SelectField;
-use Mamba\view\component\Highchart;
-use Mamba\view\component\HighchartSerie;
+use Mamba\component\DatetimePicker;
+use Mamba\component\EntityTable;
+use Mamba\component\Form;
+use Mamba\component\MultiButton;
+use Mamba\component\Panel;
+use Mamba\component\SelectField;
+use Mamba\component\Highchart;
+use Mamba\component\HighchartSerie;
 use Mamba\view\SidebarSiteView;
 use NeoPHP\web\http\Parameters;
 
