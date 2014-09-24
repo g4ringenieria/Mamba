@@ -8,48 +8,48 @@ use Mamba\component\Panel;
 use Mamba\view\SiteView;
 use NeoPHP\web\html\Tag;
 
-class TimeZoneCRUDView extends SiteView
+class LineCRUDView extends SiteView
 {
-    private $timezones = null;
+    private $lines = null;
     
-    public function setTimezones ($timezones)
+    public function setLines ($lines)
     {
-        $this->timezones = $timezones;
+        $this->lines = $lines;
     }
     
     protected function build()
     {
         parent::build();
         $this->addScript('
-            $("#timezonesTable tr").on(
+            $("#linesTable tr").on(
             {
                 click: function (e) 
                 {
-                    $("#timezonesTable tr").removeClass("info");
+                    $("#linesTable tr").removeClass("info");
                     $(this).addClass("info");
                     $("#updateButton").prop("disabled",false); 
                     $("#deleteButton").prop("disabled",false); 
                 },
                 dblclick: function (e)
                 {
-                    var id = $(this).attr("timezoneId");
-                    window.open("showTimeZoneForm?timezoneid=" + id, "_self");
+                    var id = $(this).attr("lineId");
+                    window.open("showLineForm?lineid=" + id, "_self");
                 }
             });
             $("#createButton").click(function (e) 
             {
-                window.open("showTimeZoneForm", "_self");
+                window.open("showLineForm", "_self");
             });
             $("#updateButton").click(function (e) 
             {
-                var id = $("#timezonesTable tr.info").attr("timezoneId");
-                window.open("showTimeZoneForm?timezoneid=" + id, "_self");
+                var id = $("#linesTable tr.info").attr("lineId");
+                window.open("showLineForm?lineid=" + id, "_self");
             });
             $("#deleteButton").click(function (e) 
             {
-                var id = $("#timezonesTable tr.info").attr("timezoneId");
+                var id = $("#linesTable tr.info").attr("lineId");
                 if (window.confirm("Esta seguro de eliminar la zone horaria " + id + " ?"))
-                    window.open("deleteTimeZone?timezoneid=" + id, "_self");
+                    window.open("deleteLine?lineid=" + id, "_self");
             });
         ');
     }
@@ -58,7 +58,7 @@ class TimeZoneCRUDView extends SiteView
     {
         $container = new Tag("div");
         $container->add ($this->createButtonToolbar());
-        $container->add ($this->createTimeZonesTable());        
+        $container->add ($this->createLinesTable());        
         $content->add (new Tag("div", array("class"=>"container"), new Panel(array("title"=>"Adm de Zonas Horarias", "content"=>$container))));
     }
     
@@ -71,14 +71,16 @@ class TimeZoneCRUDView extends SiteView
         return $toolbar;
     }
     
-    protected function createTimeZonesTable()
+    protected function createLinesTable()
     {
-        $table = new EntityTable(array("id"=>"timezonesTable"));
+        $table = new EntityTable(array("id"=>"linesTable"));
         $table->addColumn ("#", "id");
-        $table->addColumn ("Nombre", "description");
-        $table->addColumn ("Corrimiento horario", "timezone");
-        $table->setEntities($this->timezones);
-        $table->addEntityProperty("timezoneId", "id");
+        $table->addColumn ("Prestadora", "serviceProvider_description");
+        $table->addColumn ("Número", "number");
+        $table->addColumn ("Descripción", "description");
+        $table->addColumn ("Equipo", "device_id");
+        $table->setEntities($this->lines);
+        $table->addEntityProperty("lineId", "id");
         return $table;
     }
 }
